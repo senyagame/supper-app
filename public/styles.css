@@ -174,8 +174,8 @@ button {
 
 /* Стили для постов */
 .post {
-    margin-top: 50px;
-    padding: 20px;
+    margin-top: 60px;
+    padding: 50px;
     background-color: #282845;
     border-radius: 5px;
 }

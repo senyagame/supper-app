@@ -25,41 +25,47 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function addPost(nickname, title, description) {
-        const post = document.createElement("div");
-        post.className = "post";
-        post.innerHTML = `
-            <div class="nickname">${nickname}</div>
-            <div class="title">${title}</div>
-            <div class="description">${description}</div>
-        `;
-        postsContainer.appendChild(post);
-        savePost({ nickname, title, description });
-    }
-
-    function savePost(post) {
+        const post = {
+            nickname: nickname,
+            title: title,
+            description: description
+        };
         fetch('/save-post', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(post)
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            displayPost(post);
+        })
+        .catch(error => {
+            console.error("Ошибка при сохранении поста:", error);
         });
+    }
+
+    function displayPost(post) {
+        const postElement = document.createElement("div");
+        postElement.className = "post";
+        postElement.innerHTML = `
+            <div class="nickname">${post.nickname}</div>
+            <div class="title">${post.title}</div>
+            <div class="description">${post.description}</div>
+        `;
+        postsContainer.appendChild(postElement);
     }
 
     function loadPosts() {
         fetch('/load-posts')
             .then(response => response.json())
             .then(data => {
-                data.forEach(postData => {
-                    const post = document.createElement("div");
-                    post.className = "post";
-                    post.innerHTML = `
-                        <div class="nickname">${postData.nickname}</div>
-                        <div class="title">${postData.title}</div>
-                        <div class="description">${postData.description}</div>
-                    `;
-                    postsContainer.appendChild(post);
-                });
+                data.forEach(post => displayPost(post));
+            })
+            .catch(error => {
+                console.error("Ошибка при загрузке постов:", error);
             });
     }
 
