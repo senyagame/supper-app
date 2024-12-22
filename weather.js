@@ -1,4 +1,4 @@
-const API_KEY = "8176cdd345a6be81bb9361a182580d03"; // Вставьте свой API ключ OpenWeather
+const API_KEY = "8176cdd345a6be81bb9361a182580d03";
 
 // Функция для получения и отображения погоды
 function getWeather(lat, lon) {
