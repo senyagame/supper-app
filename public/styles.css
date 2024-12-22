@@ -264,3 +264,29 @@ button {
 #post-form button:hover {
     background-color: #3a3a5a;
 }
+
+/* Стили для постов */ 
+.post { 
+    margin-top: 60px; 
+    padding: 50px; 
+    background-color: #282845; 
+    border-radius: 5px; 
+    text-align: left; /* Выровнять по левому краю */
+} 
+.post .nickname { 
+    margin-bottom: 20px; 
+    font-weight: bold;
+} 
+.post .title { 
+    margin-bottom: 20px; 
+    font-size: 20px; 
+} 
+.post .description { 
+    color: rgb(180, 180, 180);
+    margin-bottom: 10px; 
+}
+.user-icon {
+    width: 40px;
+    height: 40px;
+    padding-bottom: 20px;
+}

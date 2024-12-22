@@ -42,48 +42,23 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch((error) => console.error("Ошибка:", error));
     }
-
-            // Обновленная функция для отображения постов
-            function displayPost(post) {
-                const postsContainer = document.getElementById("posts-container");
-                const postElement = document.createElement("div");
-                postElement.className = "post";
-                postElement.innerHTML = `
-                    <div class="nickname">${post.nickname}</div>
-                    <div class="title">${post.title}</div>
-                    <div class="description">${post.description}</div>
-                    <button class="delete-btn" onclick="deletePost(${post.id})">Удалить</button>
-                `;
-                postsContainer.appendChild(postElement);
-            }
     
-            // Функция для удаления поста
-            function deletePost(postId) {
-                fetch(`${API_URL}/delete-post/${postId}`, { method: "DELETE" })
-                    .then((response) => {
-                        if (!response.ok) throw new Error("Ошибка при удалении поста");
-                        return response.text();
-                    })
-                    .then((message) => {
-                        console.log(message);
-                        loadPosts(); // Обновление списка постов
-                    })
-                    .catch((error) => console.error("Ошибка:", error));
-            }
-    
-            // Загружаем посты при загрузке страницы
-            document.addEventListener("DOMContentLoaded", loadPosts);
-            
+    // Обновленная функция для отображения постов
     function displayPost(post) {
+        const postsContainer = document.getElementById("posts-container");
         const postElement = document.createElement("div");
         postElement.className = "post";
         postElement.innerHTML = `
-            <div class="nickname">${post.nickname}</div>
-            <div class="title">${post.title}</div>
+            <img src="./assets/user-icon.png" alt="Home" class="user-icon">
+            <div class="nickname">Никнейм: ${post.nickname}</div>
+            <div class="title">Тема: ${post.title}</div>
             <div class="description">${post.description}</div>
         `;
         postsContainer.appendChild(postElement);
     }
+
+    // Загружаем посты при загрузке страницы
+    document.addEventListener("DOMContentLoaded", loadPosts);
 
     function loadPosts() {
         fetch(`${API_URL}/load-posts`)
