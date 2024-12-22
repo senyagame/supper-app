@@ -31,15 +31,16 @@ function getWeather(lat, lon) {
 // Функция для перевода описания погоды
 function translateWeatherDescription(description) {
     const translations = {
-        "clear sky": "ясное небо",
-        "few clouds": "малооблачно",
-        "scattered clouds": "рассеянные облака",
-        "broken clouds": "облачно с прояснениями",
-        "shower rain": "ливень",
-        "rain": "дождь",
-        "thunderstorm": "гроза",
-        "snow": "снег",
-        "mist": "туман"
+        "clear sky": "ясное небо ☀️",
+        "few clouds": "малооблачно ☁️",
+        "scattered clouds": "облачно ☁️",
+        "broken clouds": "облачно с прояснениями ⛅",
+        "shower rain": "ливень ⛈️",
+        "rain": "дождь 🌧️",
+        "thunderstorm": "гроза 🌩️",
+        "snow": "снег ❄️",
+        "mist": "туман 🌫️",
+        "fog": "дымка 🌫️"
     };
     return translations[description] || description;
 }
