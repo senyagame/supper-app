@@ -11,6 +11,16 @@ header {
     padding: 20px;
     font-size: 24px;
     font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#info-icon {
+    width: 40px;
+    height: 40px;
+    margin-top: 10px;
+    cursor: pointer;
 }
 
 main {
@@ -55,7 +65,7 @@ button {
 
 #header-text {
     opacity: 0;
-    animation: fadeIn 1s forwards;
+    animation: fadeIn 2s forwards;
 }
 
 #news-text {
@@ -97,4 +107,42 @@ button {
     50% {
         transform: scale(1.2);
     }
+}
+
+/* Стили для модального окна */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 20;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #1a1a2e;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 300px;
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
 }
