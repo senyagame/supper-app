@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const newsText = document.getElementById("news-text");
     const comingSoonText = document.getElementById("coming-soon");
     const postForm = document.getElementById("post-form");
-    const postContent = document.getElementById("post-content");
     const postsContainer = document.getElementById("posts-container");
 
     headerText.addEventListener("animationend", function() {
@@ -18,26 +17,32 @@ document.addEventListener("DOMContentLoaded", function() {
 
     postForm.addEventListener("submit", function(event) {
         event.preventDefault();
-        const content = postContent.value;
-        addPost(content);
-        postContent.value = "";
+        const nickname = document.getElementById("nickname").value;
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+        addPost(nickname, title, description);
+        closePostModal();
     });
 
-    function addPost(content) {
+    function addPost(nickname, title, description) {
         const post = document.createElement("div");
         post.className = "post";
-        post.textContent = content;
+        post.innerHTML = `
+            <div class="nickname">${nickname}</div>
+            <div class="title">${title}</div>
+            <div class="description">${description}</div>
+        `;
         postsContainer.appendChild(post);
-        savePost(content);
+        savePost({ nickname, title, description });
     }
 
-    function savePost(content) {
+    function savePost(post) {
         fetch('/save-post', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ content: content })
+            body: JSON.stringify(post)
         });
     }
 
@@ -48,7 +53,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 data.forEach(postData => {
                     const post = document.createElement("div");
                     post.className = "post";
-                    post.textContent = postData.content;
+                    post.innerHTML = `
+                        <div class="nickname">${postData.nickname}</div>
+                        <div class="title">${postData.title}</div>
+                        <div class="description">${postData.description}</div>
+                    `;
                     postsContainer.appendChild(post);
                 });
             });
@@ -56,3 +65,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     loadPosts();
 });
+
+function openPostModal() {
+    document.getElementById("post-modal").style.display = "block";
+}
+
+function closePostModal() {
+    document.getElementById("post-modal").style.display = "none";
+}

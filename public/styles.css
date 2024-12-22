@@ -171,3 +171,25 @@ button {
     width: 40px;
     height: 40px;
 }
+
+/* Стили для постов */
+.post {
+    margin-top: 50px;
+    padding: 20px;
+    background-color: #282845;
+    border-radius: 5px;
+}
+
+.post .nickname {
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.post .title {
+    margin-bottom: 50px;
+    font-size: 20px;
+}
+
+.post .description {
+    margin-bottom: 30px;
+}

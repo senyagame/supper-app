@@ -9,19 +9,30 @@
 <body>
     <header>
         <a href="index.html" class="return-link">
-            <img src="./assets/path-to-your-image.png" alt="Home" class="home-icon">
+            <img src="./assets/path-to-your-image.png.png" alt="Home" class="home-icon">
         </a>
         <h1 id="header-text">POSTS APP</h1>
     </header>
     <main>
         <p id="news-text" style="display: none;">Делитесь впечатлениями с пользователями</p>
         <p id="coming-soon" style="display: none;">Coming Soon...</p>
-        <form id="post-form">
-            <input type="text" id="post-content" placeholder="Введите ваш пост" required>
-            <button type="submit">Добавить пост</button>
-        </form>
+        <button onclick="openPostModal()">Добавить пост</button>
         <div id="posts-container"></div>
     </main>
+    <div id="post-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePostModal()">&times;</span>
+            <form id="post-form">
+                <label for="nickname">Никнейм пользователя:</label>
+                <input type="text" id="nickname" required>
+                <label for="title">Тема поста:</label>
+                <input type="text" id="title" required>
+                <label for="description">Описание поста:</label>
+                <textarea id="description" required></textarea>
+                <button type="submit">Добавить</button>
+            </form>
+        </div>
+    </div>
     <script src="script.js"></script>
     <script src="posts.js"></script>
 </body>
