@@ -55,12 +55,26 @@ button {
     z-index: 10;
 }
 
-#heart {
+#cat-face {
     width: 50px;
     height: 50px;
     background-color: #ffffff;
-    clip-path: polygon(50% 100%, 100% 65%, 85% 0%, 50% 25%, 15% 0%, 0% 65%);
+    clip-path: polygon(50% 90%, 100% 65%, 85% 0%, 50% 25%, 15% 0%, 0% 65%);
     animation: pulse 1s infinite;
+    position: relative;
+    z-index: 1;
+}
+
+#cat-face::before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #000000;
+    clip-path: polygon(50% 80%, 0% 0%, 100% 0%);
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #header-text {
@@ -289,4 +303,8 @@ button {
     width: 40px;
     height: 40px;
     padding-bottom: 20px;
+}
+
+.developer {
+color: rgb(216, 97, 97);
 }
