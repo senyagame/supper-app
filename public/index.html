@@ -9,13 +9,17 @@
 <body>
     <div id="loading-screen">
         <div id="cat-face">
-            <div class="whiskers whiskers-left"></div>
-            <div class="whiskers whiskers-right"></div>
+            <div class="eye-left"></div>
+            <div class="eye-right"></div>
         </div>
     </div>
     
     <div id="app">
         <header>
+            <div id="cat-facenonload">
+                <div class="eye-left"></div>
+                <div class="eye-right"></div>
+            </div>
             <h1>SUPER APP</h1>
             <img src="./assets/information-icon.png" alt="Information Icon" id="info-icon" onclick="openModal()">
         </header>
@@ -23,6 +27,9 @@
             <button onclick="navigateTo('weather-app.html')">Weather App</button>
             <button onclick="navigateTo('music-app.html')">Music</button>
             <button onclick="navigateTo('posts-app.html')">Posts</button>
+            <div class="devi">
+                <a href="https://github.com/senyagame">💫by senyagame (кликабельно)💫</a>
+            </div>
         </main>
     </div>
     <div id="modal" class="modal">
