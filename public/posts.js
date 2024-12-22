@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000"; // Адрес сервера API
+const API_URL = "https://supper-app-two.vercel.app/posts-app.html"; // Адрес сервера API
 
 document.addEventListener("DOMContentLoaded", function () {
     const headerText = document.getElementById("header-text");
