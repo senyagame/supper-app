@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <a href="index.html" class="return-link">
+            <img src="./assets/path-to-your-image.png" alt="Home" class="home-icon">
+        </a>
+        <h1 id="header-text">POSTS APP</h1>
+    </header>
+    <main>
+        <p id="news-text" style="display: none;">Делитесь впечатлениями с пользователями</p>
+        <p id="coming-soon" style="display: none;">Coming Soon...</p>
+        <form id="post-form">
+            <input type="text" id="post-content" placeholder="Введите ваш пост" required>
+            <button type="submit">Добавить пост</button>
+        </form>
+        <div id="posts-container"></div>
+    </main>
+    <script src="script.js"></script>
+    <script src="posts.js"></script>
+</body>
+</html>
