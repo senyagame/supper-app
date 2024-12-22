@@ -2,7 +2,7 @@ window.onload = function () {
     const loadingScreen = document.getElementById('loading-screen');
     setTimeout(() => {
         loadingScreen.style.display = 'none';
-    }, 3000);
+    }, 1900);
 };
 
 function navigateTo(page) {
