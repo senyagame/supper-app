@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super App</title>
+    <title>Music App</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="loading-screen">
-        <div id="heart"></div>
-    </div>
-    <div id="app">
-        <header>
-            <img src="./assets/information-icon.png" alt="Information Icon" id="info-icon">
-            <h1>SUPER APP</h1>
-        </header>
-        <main>
-            <button onclick="navigateTo('weather-app')">Weather App</button>
-            <button onclick="navigateTo('music-app')">Music</button>
-            <button onclick="navigateTo('posts-app')">Posts</button>
-        </main>
-    </div>
+    <header>
+        <a href="index.html" class="return-link">
+            <img src="./assets/path-to-your-image.png.png" alt="Home" class="home-icon">
+        </a>
+        <h1 id="header-text">MUSIC APP</h1>
+    </header>
+    <main>
+        <p>💫🎧💫</p>
+        <p id="news-text" style="display: none;">Слушайте музыку от исполнителя scara-kru$her</p>
+        <p id="coming-soon" style="display: none;">Coming Soon...</p>
+    </main>
     <script src="script.js"></script>
+    <script src="music.js"></script>
 </body>
 </html>
