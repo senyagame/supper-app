@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Posts App</title>
+    <title>Notes App</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,11 +11,11 @@
         <a href="index.html" class="return-link">
             <img src="./assets/path-to-your-image.png" alt="Home" class="home-icon">
         </a>
-        <h1 id="header-text">POSTS APP</h1>
+        <h1 id="header-text">NOTES APP</h1>
         <img src="./assets/information-icon.png" alt="Information Icon" id="info-icon" onclick="openModal()">
     </header>
     <main>
-        <p id="news-text" style="display: none;">Создайте заметку на 1 день</p>
+        <p id="news-text" style="display: none;">Создайте быструю заметку и храните до очистки кэша</p>
         <button onclick="openPostModal()">Добавить заметку</button>
         <div id="posts-container"></div>
     </main>
@@ -34,8 +34,8 @@
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h3>Информация о приложении</h3>
-            <p>В Posts App, если у вас не получается добавить запись и вы не видите постов других пользователей, значит наш сервер на технических работах или временно отключён. 😴</p>
+            <h3>Информация о Notes App</h3>
+            <p>Notes App использует хранение с помощью кэша брауезра. Таким образом, вы можете хранить заметки в нашем приложении до тех пор, пока вы не очистите кэш вашего браузера. 😌</p>
             <a class="developer" href="https://github.com/senyagame">©️ Разработчик: senyagame (ссылка на GitHub)😺</a>
         </div>
     </div>

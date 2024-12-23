@@ -40,18 +40,26 @@ document.addEventListener("DOMContentLoaded", function () {
       postElement.innerHTML = `
           <div class="title">${post.title}</div>
           <div class="description">${post.description}</div>
-          <button class="delete-btn" onclick="deletePost('${post.title}')">Удалить</button>
+          <button class="delete-btn" onclick="confirmDelete('${post.title}')">Удалить</button>
       `;
       postsContainer.appendChild(postElement);
   }
 
+  // Функция подтверждения удаления поста
+  window.confirmDelete = function (title) {
+      const confirmAction = confirm("Вы уверены, что хотите удалить этот пост?");
+      if (confirmAction) {
+          deletePost(title);
+      }
+  };
+
   // Функция удаления поста
-  window.deletePost = function (title) {
+  function deletePost(title) {
       let posts = JSON.parse(localStorage.getItem("posts")) || [];
       posts = posts.filter(post => post.title !== title);
       localStorage.setItem("posts", JSON.stringify(posts));
       loadPosts();
-  };
+  }
 
   // Функция загрузки постов
   function loadPosts() {
