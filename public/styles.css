@@ -386,3 +386,59 @@ color: rgb(216, 97, 97);
     color: #fff;
     text-decoration: none;
 }
+
+.google-form a {
+    color: #96c5f1;
+    cursor: pointer;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    animation: fade-out 2s forwards;
+}
+
+@keyframes fade-out {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.email {
+    cursor: pointer;
+    color: #86c8ff; /* Цвет для выделения */
+    text-decoration: underline; /* Дополнительно подчеркивание */
+}
+
+.email:hover {
+    color: #38a9ff; /* Более темный оттенок при наведении */
+}
+
+/* Стиль кнопки "Удалить" */
+.delete-btn {
+    background-color: 0;
+    color: white;
+    border: 1px solid #888;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #ff8288; /* Темнее при наведении */
+}
+
+.delete-btn:active {
+    background-color: #ff000d; /* Темнее при клике */
+}
