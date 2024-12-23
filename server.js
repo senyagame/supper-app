@@ -1,3 +1,6 @@
+// В ДАННЫЙ МОМЕНТ ОТКАЗАЛСЯ ОТ СЕРВЕРА
+
+
 const express = require('express');
 const cors = require('cors'); // Подключаем CORS
 const sqlite3 = require('sqlite3').verbose();

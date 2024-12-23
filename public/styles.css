@@ -152,7 +152,7 @@ button {
 
 #header-text {
     opacity: 0;
-    animation: fadeIn 2s forwards;
+    animation: fadeIn 1s forwards;
 }
 
 #news-text {
@@ -160,7 +160,6 @@ button {
     font-size: 40px;
     opacity: 0;
     animation: fadeInNews 1s forwards;
-    animation-delay: 0.1s; /* Задержка анимации */
 }
 
 #coming-soon {

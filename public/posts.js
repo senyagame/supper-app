@@ -1,5 +1,3 @@
-const API_URL = "http://localhost:3000"; // Адрес сервера API
-
 document.addEventListener("DOMContentLoaded", function () {
   const headerText = document.getElementById("header-text");
   const newsText = document.getElementById("news-text");
@@ -7,81 +5,69 @@ document.addEventListener("DOMContentLoaded", function () {
   const postForm = document.getElementById("post-form");
   const postsContainer = document.getElementById("posts-container");
 
+  // Анимация заголовков
   headerText.addEventListener("animationend", function () {
-    newsText.style.display = "block";
-    newsText.style.animationPlayState = "running";
+      newsText.style.display = "block";
+      newsText.style.animationPlayState = "running";
   });
 
   newsText.addEventListener("animationend", function () {
-    comingSoonText.style.display = "block";
-    comingSoonText.style.animationPlayState = "running";
+      comingSoonText.style.display = "block";
+      comingSoonText.style.animationPlayState = "running";
   });
 
+  // Обработка формы добавления поста
   postForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    const nickname = document.getElementById("nickname").value;
-    const title = document.getElementById("title").value;
-    const description = document.getElementById("description").value;
-    addPost({ nickname, title, description });
-    closePostModal();
+      event.preventDefault();
+      const title = document.getElementById("title").value;
+      const description = document.getElementById("description").value;
+      addPost({ title, description });
+      closePostModal();
   });
 
+  // Функция добавления поста
   function addPost(post) {
-    fetch(`${API_URL}/save-post`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(post),
-    })
-    .then((response) => {
-      if (!response.ok) throw new Error("Ошибка при сохранении поста");
-      return response.text();
-    })
-    .then((data) => {
-      console.log(data);
+      const posts = JSON.parse(localStorage.getItem("posts")) || [];
+      posts.push(post);
+      localStorage.setItem("posts", JSON.stringify(posts));
       displayPost(post);
-    })
-    .catch((error) => console.error("Ошибка:", error));
   }
 
-  // Обновленная функция для отображения постов
+  // Функция отображения поста
   function displayPost(post) {
-    const postsContainer = document.getElementById("posts-container");
-    const postElement = document.createElement("div");
-    postElement.className = "post";
-    postElement.innerHTML = `
-      <img src="./assets/user-icon.png" alt="Home" class="user-icon">
-      <div class="nickname">Никнейм: ${post.nickname}</div>
-      <div class="title">Тема: ${post.title}</div>
-      <div class="description">${post.description}</div>
-    `;
-    postsContainer.appendChild(postElement);
+      const postElement = document.createElement("div");
+      postElement.className = "post";
+      postElement.innerHTML = `
+          <div class="title">${post.title}</div>
+          <div class="description">${post.description}</div>
+          <button class="delete-btn" onclick="deletePost('${post.title}')">Удалить</button>
+      `;
+      postsContainer.appendChild(postElement);
   }
 
-  // Загружаем посты при загрузке страницы
-  document.addEventListener("DOMContentLoaded", loadPosts);
+  // Функция удаления поста
+  window.deletePost = function (title) {
+      let posts = JSON.parse(localStorage.getItem("posts")) || [];
+      posts = posts.filter(post => post.title !== title);
+      localStorage.setItem("posts", JSON.stringify(posts));
+      loadPosts();
+  };
 
+  // Функция загрузки постов
   function loadPosts() {
-    fetch(`${API_URL}/load-posts`)
-    .then((response) => {
-      if (!response.ok) throw new Error("Ошибка при загрузке постов");
-      return response.json();
-    })
-    .then((posts) => {
       postsContainer.innerHTML = "";
-      posts.forEach((post) => displayPost(post));
-    })
-    .catch((error) => console.error("Ошибка:", error));
+      const posts = JSON.parse(localStorage.getItem("posts")) || [];
+      posts.forEach(post => displayPost(post));
   }
+
+  // Открытие и закрытие модального окна
+  window.openPostModal = function () {
+      document.getElementById("post-modal").style.display = "block";
+  };
+
+  window.closePostModal = function () {
+      document.getElementById("post-modal").style.display = "none";
+  };
 
   loadPosts();
 });
-
-function openPostModal() {
-  document.getElementById("post-modal").style.display = "block";
-}
-
-function closePostModal() {
-  document.getElementById("post-modal").style.display = "none";
-}
