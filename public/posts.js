@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Функция подтверждения удаления поста
   window.confirmDelete = function (title) {
-      const confirmAction = confirm("Вы уверены, что хотите удалить эту запись?");
+      const confirmAction = confirm("Вы уверены, что хотите удалить эту запись? Вы не сможете её восстановить!");
       if (confirmAction) {
           deletePost(title);
       }

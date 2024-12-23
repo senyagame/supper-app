@@ -442,3 +442,9 @@ color: rgb(216, 97, 97);
 .delete-btn:active {
     background-color: #ff000d; /* Темнее при клике */
 }
+
+.attention {
+    color: #ffa4a9;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+}
