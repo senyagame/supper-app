@@ -16,6 +16,7 @@
     </header>
     <main>
         <p id="news-text" style="display: none;">Создайте быструю заметку одной кнопкой!</p>
+        <p id="coming-soon">Если у вас есть вопросы, посмотрите вкладку <img src="./assets/information-icon.png" alt=""> на этой странице</p>
         <button onclick="openPostModal()">Добавить заметку</button>
         <div id="posts-container"></div>
     </main>
@@ -34,6 +35,10 @@
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
+            <div id="cat-facenonload">
+                <div class="eye-left"></div>
+                <div class="eye-right"></div>
+            </div>
             <h3>Информация о Notes App</h3>
             <p>Notes App использует хранение с помощью кэша брауезра. Таким образом, вы можете хранить заметки в нашем приложении до тех пор, пока вы не очистите кэш вашего браузера.</p>
             <p>Вы можете удалить заметку и через само приложение, нажав кнопку "Удалить" и подтвердив удаление нажав на "Ок".</p>

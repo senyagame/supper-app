@@ -168,6 +168,14 @@ button {
     animation-delay: 0.1s;
 }
 
+#coming-soon img {
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
 @keyframes fadeIn {
     to {
         opacity: 1;
@@ -237,7 +245,8 @@ button {
     display: inline-block;
     padding: 15px;
     font-size: 16px;
-    background-color: #282845;
+    background-color: #403b6d;
+    border: 1px solid #000000;
     color: #ffffff;
     text-decoration: none;
     border-radius: 5px;
@@ -250,7 +259,7 @@ button {
 }
 
 .return-link:hover {
-    background-color: #3a3a5a;
+    background-color: #868686;
 }
 
 .home-icon {
@@ -447,4 +456,75 @@ color: rgb(216, 97, 97);
     color: #ffa4a9;
     font-family: 'Courier New', Courier, monospace;
     font-size: 20px;
+}
+
+#music-players {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 100px;
+}
+
+.audio-player {
+    position: relative;
+    width: 300px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #333333;
+    border: 1px solid #09005a;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.hit-label {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgb(243, 130, 1);
+    color: black;
+    font-weight: bold;
+    font-size: 12px;
+    border-radius: 50%;
+    padding: 5px 10px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.play-btn {
+    font-size: 18px;
+    background-color: #000e8d;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.play-btn:hover {
+    background-color: #ffffff;
+}
+
+.progress-bar {
+    width: 100%;
+    cursor: pointer;
+    background-color: #1a0061;
+    border: none;
+    height: 5px;
+    border-radius: 5px;
 }

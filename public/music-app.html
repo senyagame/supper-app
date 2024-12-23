@@ -12,12 +12,48 @@
             <img src="./assets/path-to-your-image.png" alt="Home" class="home-icon">
         </a>
         <h1 id="header-text">MUSIC APP</h1>
+        <img src="./assets/information-icon.png" alt="Information Icon" id="info-icon" onclick="openModal()">
     </header>
     <main>
         <p>💫🎧💫</p>
         <p id="news-text" style="display: none;">Слушайте музыку от исполнителя scara-kru$her</p>
-        <p id="coming-soon" style="display: none;">Coming Soon...</p>
+        <p id="coming-soon">Если у вас есть вопросы, посмотрите вкладку <img src="./assets/information-icon.png" alt=""> на этой странице</p>
+        
+        <!-- Контейнер для плееров -->
+        <div id="music-players">
+            <div class="audio-player">
+                <audio id="player1" src="./assets/Final_Boss.wav"></audio>
+                <div class="hit-label">NEW!</div>
+                <div class="controls">
+                    <button class="play-btn" data-player="player1">▶</button>
+                    <input type="range" class="progress-bar" data-player="player1" value="0" step="1">
+                </div>
+            </div>
+            <div class="audio-player">
+                <audio id="player2" src="./assets/Adrenaline_night_funk.wav"></audio>
+                <div class="controls">
+                    <button class="play-btn" data-player="player2">▶</button>
+                    <input type="range" class="progress-bar" data-player="player2" value="0" step="1">
+                </div>
+            </div>
+        </div>
+        
     </main>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="cat-facenonload">
+                <div class="eye-left"></div>
+                <div class="eye-right"></div>
+            </div>
+            <h3>Информация о приложении</h3>
+            <p>В Music App мы используем музыку только от исполнителя scara-sku$her (на данный момент). Если хотите с нами сотрудничать, напишите нам на почту:
+                <span class="email" onclick="copyEmail()">senyaentertainment@yandex.ru</span>🤩</p>
+                <div id="notification" class="notification" style="display: none;">Почта скопирована!</div>
+            <p class="google-form">Остались вопросы? Заполните эту форму: <a href="https://forms.gle/K3ZE3YuNEK689UGY7">google form</a></p>
+            <a class="developer" href="https://github.com/senyagame">©️ Разработчик: senyagame (ссылка на GitHub)😺</a>
+        </div>
+    </div>
     <script src="script.js"></script>
     <script src="music.js"></script>
 </body>
