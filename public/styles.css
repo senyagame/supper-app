@@ -562,3 +562,89 @@ color: rgb(216, 97, 97);
     margin-top: 10px;
     cursor: pointer;
 }
+
+.search-section {
+    margin: 20px 0;
+    text-align: center;
+    position: relative;
+}
+
+#search-bar {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+}
+
+.search-results {
+    background: #1e1e2f;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.result-item {
+    padding: 5px;
+    font-size: 14px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.result-item:hover {
+    background: #444;
+    border-radius: 4px;
+}
+
+#maintenance-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #2c2c54;
+    color: #f7f7f7;
+}
+
+#maintenance-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #ff6b6b;
+}
+
+#maintenance-section p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+}
+
+.return-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px; /* Увеличиваем отступы для пропорционального размера */
+    background-color: #40407a;
+    color: #f7f7f7;
+    text-decoration: none;
+    border-radius: 8px; /* Закруглённые углы */
+    font-size: 1rem; /* Размер текста */
+    min-width: 200px; /* Устанавливаем минимальную ширину */
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Анимация */
+    border: 2px solid #706fd3; /* Добавляем рамку */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Тень для объёма */
+    white-space: nowrap; /* Запрещаем перенос текста */
+}
+
+.return-link:hover {
+    background-color: #706fd3; /* Цвет при наведении */
+    transform: scale(1.05); /* Лёгкое увеличение кнопки при наведении */
+}
+
+.return-link:active {
+    background-color: #574b90; /* Цвет при нажатии */
+    transform: scale(0.95); /* Уменьшение при нажатии */
+}

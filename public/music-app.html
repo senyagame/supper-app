@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,15 +19,22 @@
         <p>💫🎧💫</p>
         <p id="news-text" style="display: none;">🎵 Слушайте музыку от исполнителя scara-kru$her</p>
         <p id="coming-soon">Если у вас есть вопросы, посмотрите вкладку <img src="./assets/information-icon.png" alt="">на этой странице</p>
+    
         
-        <!-- Контейнер для плееров -->
+        <section id="search-section">
+            <h2>🔍 Поиск трека</h2>
+            <input type="text" id="search-bar" placeholder="Введите название трека...">
+            <p id="search-feedback" style="display: none;">Треки не найдены 😞</p>
+            <div id="search-results"></div>
+        </section>
+
+
         <div id="music-players">
-            <!-- Первый плеер -->
-            <div class="music-container">
+            
+            <div class="music-container" data-song="Final Boss">
                 <div class="song-title-container">
                     <hr>
-                        <p class="new-label">🌟 NEW! 🌟</p> <!-- отметка NEW -->
-                        <!--<p class="hit-label">🔥 HIT! 🔥</p>  отметка HIT -->
+                    <p class="new-label">🌟 NEW! 🌟</p>
                     <p class="song-title">Final Boss</p>
                     <p class="song-title-data">Дата выхода: 29.12.24</p>
                     <img class="song-title-img" src="./assets/FB-sp-001.jpg" alt="">
@@ -40,8 +48,8 @@
                 </div>
             </div>
             
-            <!-- Второй плеер -->
-            <div class="music-container">
+            
+            <div class="music-container" data-song="Adrenaline Night Funk">
                 <div class="song-title-container">
                     <hr>
                     <p class="song-title">Adrenaline Night Funk</p>
@@ -58,8 +66,7 @@
                 <hr>
             </div>
         </div>
-        
-    </main>
+    </main>    
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -78,4 +85,12 @@
     <script src="script.js"></script>
     <script src="music.js"></script>
 </body>
+</html>
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="refresh" content="0; URL='404-error.html'" />
+</head>
+<body></body>
 </html>
