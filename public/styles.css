@@ -631,12 +631,12 @@ color: rgb(216, 97, 97);
     text-decoration: none;
     border-radius: 8px; /* Закруглённые углы */
     font-size: 1rem; /* Размер текста */
-    min-width: 200px; /* Устанавливаем минимальную ширину */
+    min-width: 100px; /* Устанавливаем минимальную ширину */
     text-align: center;
     transition: background-color 0.3s ease, transform 0.2s ease; /* Анимация */
     border: 2px solid #706fd3; /* Добавляем рамку */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Тень для объёма */
-    white-space: nowrap; /* Запрещаем перенос текста */
+
 }
 
 .return-link:hover {
