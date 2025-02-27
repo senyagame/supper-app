@@ -19,9 +19,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const progressBars = document.querySelectorAll(".progress-bar");
 
     playButtons.forEach((button) => {
+        const audioId = button.dataset.player;
+        const plays = document.getElementById(`plays-${audioId}`);
+        let playCount = parseInt(localStorage.getItem(`plays-${audioId}`)) || 0;
+        plays.textContent = `Прослушиваний: ${playCount}`;
+
         button.addEventListener("click", function () {
-            const audioId = this.dataset.player;
             const audio = document.getElementById(audioId);
+            playCount = parseInt(localStorage.getItem(`plays-${audioId}`)) || 0;
 
             // Если аудио играет — ставим на паузу
             if (!audio.paused) {
@@ -35,6 +40,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Воспроизводим выбранный
                 audio.play();
                 this.textContent = "❚❚";
+                playCount++;
+                localStorage.setItem(`plays-${audioId}`, playCount);
+                plays.textContent = `Прослушиваний: ${playCount}`;
             }
         });
     });
@@ -42,6 +50,13 @@ document.addEventListener("DOMContentLoaded", function () {
     progressBars.forEach((progressBar) => {
         const audioId = progressBar.dataset.player;
         const audio = document.getElementById(audioId);
+        const durationEl = document.getElementById(`duration-${audioId}`);
+
+        audio.addEventListener("loadedmetadata", () => {
+            const minutes = Math.floor(audio.duration / 60);
+            const seconds = Math.floor(audio.duration % 60).toString().padStart(2, "0");
+            durationEl.textContent = `Длительность: ${minutes}:${seconds}`;
+        });
 
         // Обновление прогресс-бара в зависимости от времени аудио
         audio.addEventListener("timeupdate", () => {
