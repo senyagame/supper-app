@@ -1,1 +1,10 @@
-node_modules
+# Игнорируем конфиденциальные данные
+.env
+config.js
+firebaseConfig.js
+
+node_modules/
+
+# Игнорируем временные файлы
+*.log
+.DS_Store
