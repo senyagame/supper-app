@@ -110,8 +110,7 @@
             createUserWithEmailAndPassword, 
             signInWithEmailAndPassword, 
             GoogleAuthProvider, 
-            signInWithRedirect, 
-            getRedirectResult 
+            signInWithPopup 
         } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         const firebaseConfig = {
@@ -126,19 +125,8 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        auth.languageCode = 'ru';
         const provider = new GoogleAuthProvider();
-
-        // Обработка перенаправления после авторизации через Google
-        getRedirectResult(auth)
-            .then((result) => {
-                if (result) {
-                    window.location.href = "index.html";
-                }
-            })
-            .catch((error) => {
-                console.error("Ошибка авторизации:", error.message);
-                alert(error.message);
-            });
 
         window.toggleForm = function (form) {
             document.getElementById('login-form').style.display = form === 'login' ? 'block' : 'none';
@@ -167,9 +155,17 @@
                 .catch((error) => alert(error.message));
         }
 
-        window.loginWithGoogle = function () {
-            signInWithRedirect(auth, provider)  // Авторизация через редирект
-                .catch((error) => alert(error.message));
+        window.loginWithGoogle = async function () {
+            try {
+                await signInWithPopup(auth, provider);
+                window.location.href = "index.html";
+            } catch (error) {
+                if (error.code === "auth/popup-blocked") {
+                    alert("Браузер заблокировал всплывающее окно. Разрешите попапы и попробуйте снова.");
+                } else {
+                    alert(error.message);
+                }
+            }
         }
     </script>
 </body>
