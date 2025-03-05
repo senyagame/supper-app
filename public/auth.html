@@ -105,7 +105,14 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            GoogleAuthProvider, 
+            signInWithRedirect, 
+            getRedirectResult 
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBIF6s94-IuXl3accPXPQzVYWYciO5D5lg",
@@ -120,6 +127,18 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
+
+        // Обработка перенаправления после авторизации через Google
+        getRedirectResult(auth)
+            .then((result) => {
+                if (result) {
+                    window.location.href = "index.html";
+                }
+            })
+            .catch((error) => {
+                console.error("Ошибка авторизации:", error.message);
+                alert(error.message);
+            });
 
         window.toggleForm = function (form) {
             document.getElementById('login-form').style.display = form === 'login' ? 'block' : 'none';
@@ -149,7 +168,7 @@
         }
 
         window.loginWithGoogle = function () {
-            signInWithRedirect(auth, provider)  // Исправлено здесь
+            signInWithRedirect(auth, provider)  // Авторизация через редирект
                 .catch((error) => alert(error.message));
         }
     </script>
