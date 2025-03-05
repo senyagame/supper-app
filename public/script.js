@@ -26,21 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("search-feedback").style.display = found ? "none" : "block";
     });
 
-    // Модальное окно
-    window.openModal = function () {
-        document.getElementById("modal").style.display = "block";
-    };
-
-    window.closeModal = function () {
-        document.getElementById("modal").style.display = "none";
-    };
-
-    window.onclick = function (event) {
-        if (event.target === document.getElementById("modal")) {
-            closeModal();
-        }
-    };
-
     window.copyEmail = function () {
         const email = "senyaentertainment@yandex.ru";
         navigator.clipboard.writeText(email).then(() => {
@@ -50,3 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
 });
+
+function navigateTo(page) {
+    window.location.href = page;
+}

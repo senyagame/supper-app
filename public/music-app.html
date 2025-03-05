@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!--
     <header>
         <a href="index.html" class="return-link">
             <img src="./assets/path-to-your-image.png" alt="Home" class="home-icon">
@@ -16,6 +15,23 @@
         <img src="./assets/information-icon.png" alt="Information Icon" id="info-icon" onclick="openModal()">
     </header>
     <main>
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div id="cat-facenonload">
+                    <div class="eye-left"></div>
+                    <div class="eye-right"></div>
+                </div>
+                <h3>Информация о приложении Music app</h3>
+                <p>В Music App мы используем музыку только от исполнителя scara-kru$her и QuZ</p>
+                <p>Если хотите с нами сотрудничать, напишите нам на почту:
+                    <span class="email" onclick="copyEmail()">senyaentertainment@yandex.ru</span>📩
+                </p>
+                <p class="google-form">Остались вопросы? Заполните эту форму: <a href="https://forms.gle/K3ZE3YuNEK689UGY7">google form</a></p>
+                <a class="developer" href="https://github.com/senyagame">©️ Разработчик: senyagame (ссылка на GitHub)😺</a>
+            </div>
+        </div>
+
         <p id="news-text" style="display: none;">🎵 Слушайте музыку от исполнителя scara-kru$her и QuZ</p>
         <p id="coming-soon">Если у вас есть вопросы, посмотрите вкладку <img src="./assets/information-icon.png" alt=""> на этой странице</p>
     
@@ -86,7 +102,6 @@
     </main>
     <script type="module" src="script.js"></script>
     <script type="module" src="music.js"></script>
-    -->
-    <a href="./404-error.html"></a>
+    <script src="./modal-window.js"></script>
 </body>
 </html>
