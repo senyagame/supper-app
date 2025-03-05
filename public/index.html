@@ -1,11 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading...</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        #welcome-text {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            text-align: center;
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        #loading-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+    </style>
 </head>
+
 <body>
 
 <div id="loading-screen">
@@ -13,13 +32,21 @@
         <div class="eye-left"></div>
         <div class="eye-right"></div>
     </div>
+    <div id="welcome-text">Добро пожаловать в обновление 3.2</div>
 </div>
 
 <script>
-    // Таймер на 3 секунды, затем перенаправление на home-page.html
+    const welcomeText = document.getElementById('welcome-text');
+
+    // Показать текст после 3 секунд загрузки
+    setTimeout(() => {
+        welcomeText.style.opacity = 1;
+    }, 3000);
+
+    // Перенаправление на home-page.html через 6 секунд
     setTimeout(() => {
         window.location.href = "home-page.html";
-    }, 2000);
+    }, 5000);
 </script>
 
 </body>

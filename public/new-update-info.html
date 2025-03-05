@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Information</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color:#17174d;
+            font-family: Arial, sans-serif;
+        }
+
+        .update-info {
+            background-color: #0000006c;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .update-info h1 {
+            color: #ffffff;
+        }
+
+        .update-info ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .update-info li {
+            background-color: #000000;
+            color: #ffffff;
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .update-info p {
+            color: #e9e9e9;
+        }
+
+        button {
+            padding: 8px 16px;
+            margin-top: 15px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="update-info">
+        <img src="./assets/logo.png" alt="">
+        <h1>Обновление 3.2 уже доступно!</h1>
+        <p>Что мы изменили:</p>
+        <ul>
+            <li>Регистрация и Авторизация аккаунтов в нашей сети S-ID</li>
+            <li>Авторизация и регистрация в нашей сети S-ID с помощью Google</li>
+            <li>Исправлены баги с загрузге приложения</li>
+            <li>Обновлён телеграм бот, теперь вы можете связываться с поддержкой через него.</li>
+        </ul>
+        <p>Спасибо, что используете нас!</p>
+        <button onclick="navigateTo('home-page.html')">Вернуться на главную</button>
+    </div>
+    <script>
+        window.navigateTo = function (page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+
+</html>
