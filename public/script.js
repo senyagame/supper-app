@@ -1,52 +1,52 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const loadingScreen = document.getElementById('loading-screen');
-    if (loadingScreen) {
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-        }, 1900);
-    }
-});
+    // Функция поиска
+    const searchBar = document.getElementById("search-bar");
+    const searchResults = document.getElementById("search-results");
 
-// Функция для навигации между страницами
-function navigateTo(page) {
-    window.location.href = page;
-}
+    searchBar.addEventListener("input", function () {
+        const query = this.value.toLowerCase();
+        const tracks = document.querySelectorAll(".music-container");
 
-// Функция для открытия модального окна
-function openModal() {
-    document.getElementById("modal").style.display = "block";
-}
+        searchResults.innerHTML = "";
+        let found = false;
 
-// Функция для закрытия модального окна
-function closeModal() {
-    document.getElementById("modal").style.display = "none";
-}
+        tracks.forEach((track) => {
+            const songTitle = track.dataset.song.toLowerCase();
+            if (songTitle.includes(query)) {
+                found = true;
+                const resultItem = document.createElement("p");
+                resultItem.textContent = track.querySelector(".song-title").textContent;
+                resultItem.addEventListener("click", () => {
+                    track.scrollIntoView({ behavior: "smooth" });
+                });
+                searchResults.appendChild(resultItem);
+            }
+        });
 
-// Закрытие модального окна при клике вне его
-window.onclick = function (event) {
-    if (event.target == document.getElementById("modal")) {
-        closeModal();
-    }
-};
-
-// Функция для копирования почты в буфер обмена
-function copyEmail() {
-    const email = "senyaentertainment@yandex.ru";
-    navigator.clipboard.writeText(email).then(() => {
-        showNotification("Почта скопирована!");
-    }).catch((err) => {
-        console.error("Не удалось скопировать почту:", err);
+        document.getElementById("search-feedback").style.display = found ? "none" : "block";
     });
-}
 
-// Функция для отображения уведомления
-function showNotification(message) {
-    const notification = document.getElementById("notification");
-    notification.textContent = message;
-    notification.style.display = "block";
+    // Модальное окно
+    window.openModal = function () {
+        document.getElementById("modal").style.display = "block";
+    };
 
-    // Скрыть уведомление через 2 секунды
-    setTimeout(() => {
-        notification.style.display = "none";
-    }, 2000);
-}
+    window.closeModal = function () {
+        document.getElementById("modal").style.display = "none";
+    };
+
+    window.onclick = function (event) {
+        if (event.target === document.getElementById("modal")) {
+            closeModal();
+        }
+    };
+
+    window.copyEmail = function () {
+        const email = "senyaentertainment@yandex.ru";
+        navigator.clipboard.writeText(email).then(() => {
+            alert("Почта скопирована!");
+        }).catch((err) => {
+            console.error("Ошибка копирования:", err);
+        });
+    };
+});

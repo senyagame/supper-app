@@ -1,12 +1,12 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #1a1a2e;
+    background-color: #04003f;
     color: #ffffff;
     margin: 0;
 }
 
 header {
-    background-color: #101026;
+    background-color: #030030;
     text-align: center;
     padding: 10px;
     font-size: 24px;
@@ -38,7 +38,7 @@ button {
     cursor: pointer;
     transition: background 0.3s ease;
     margin: 10px 0;
-    width: 80%; /* Адаптивная ширина для мобильных */
+    width: 80%;
     max-width: 300px;
 }
 
@@ -253,7 +253,7 @@ button {
     cursor: pointer;
     transition: background 0.3s ease;
     margin: 10px 0;
-    width: 80%; /* Адаптивная ширина для мобильных */
+    width: 80%;
     max-width: 40px;
     text-align: center;
 }
@@ -335,7 +335,7 @@ button {
 #post-form button {
     display: block;
     width: 100%;
-    margin-bottom: 15px; /* Отступ после каждого поля ввода */
+    margin-bottom: 15px;
 }
 
 #post-form input,
@@ -368,7 +368,7 @@ button {
     padding: 50px; 
     background-color: #282845; 
     border-radius: 5px; 
-    text-align: left; /* Выровнять по левому краю */
+    text-align: left;
 } 
 .post .nickname { 
     margin-bottom: 20px; 
@@ -426,12 +426,12 @@ color: rgb(216, 97, 97);
 
 .email {
     cursor: pointer;
-    color: #86c8ff; /* Цвет для выделения */
-    text-decoration: underline; /* Дополнительно подчеркивание */
+    color: #86c8ff;
+    text-decoration: underline;
 }
 
 .email:hover {
-    color: #38a9ff; /* Более темный оттенок при наведении */
+    color: #38a9ff;
 }
 
 /* Стиль кнопки "Удалить" */
@@ -447,11 +447,11 @@ color: rgb(216, 97, 97);
 }
 
 .delete-btn:hover {
-    background-color: #ff8288; /* Темнее при наведении */
+    background-color: #ff8288;
 }
 
 .delete-btn:active {
-    background-color: #ff000d; /* Темнее при клике */
+    background-color: #ff000d;
 }
 
 .attention {
@@ -627,26 +627,76 @@ color: rgb(216, 97, 97);
 .return-link {
     display: inline-block;
     margin-top: 20px;
-    padding: 10px 20px; /* Увеличиваем отступы для пропорционального размера */
+    padding: 10px 20px;
     background-color: #40407a;
     color: #f7f7f7;
     text-decoration: none;
-    border-radius: 8px; /* Закруглённые углы */
-    font-size: 1rem; /* Размер текста */
-    min-width: 100px; /* Устанавливаем минимальную ширину */
+    border-radius: 8px;
+    font-size: 1rem;
+    min-width: 100px;
     text-align: center;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Анимация */
-    border: 2px solid #706fd3; /* Добавляем рамку */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Тень для объёма */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: 2px solid #706fd3;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 
 }
 
 .return-link:hover {
-    background-color: #706fd3; /* Цвет при наведении */
-    transform: scale(1.05); /* Лёгкое увеличение кнопки при наведении */
+    background-color: #706fd3;
+    transform: scale(1.05);
 }
 
 .return-link:active {
-    background-color: #574b90; /* Цвет при нажатии */
-    transform: scale(0.95); /* Уменьшение при нажатии */
+    background-color: #574b90;
+    transform: scale(0.95);
+}
+
+#auth-button{
+    background-color: #afafaf;
+    color: #000000;
+}
+
+.audio-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+audio {
+    display: none;
+}
+
+
+.audio-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #333;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.play-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.progress-bar {
+    width: 100%;
+    cursor: pointer;
 }

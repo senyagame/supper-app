@@ -6,16 +6,26 @@
     <title>Auth Page</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: radial-gradient(circle at 70% 70%, #0f0347, #3420ee);
+    background-size: 200% 200%;
+    animation: spotWave 2s ease-in-out infinite;
+}
+
+@keyframes spotWave {
+    0% { background-position: 30% 30%, 70% 70%; }
+    50% { background-position: 70% 70%, 30% 30%; }
+    100% { background-position: 30% 30%, 70% 70%; }
+}
+
         .container {
-            background-color: #fff;
+            color: #fff;
+            background-color: #05004e;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -51,7 +61,7 @@
             margin-top: 10px;
         }
         .toggle-link a {
-            color: #007BFF;
+            color: #cfe6ff;
             text-decoration: none;
         }
         .toggle-link a:hover {
@@ -62,27 +72,28 @@
 <body>
     <div class="container">
         <div id="login-form" class="form-group">
-            <h2>Login</h2>
+            <img src="./assets/logo.png" alt="">
+            <h2>Авторизация с S-ID</h2>
             <label for="login-email">Email:</label>
             <input type="email" id="login-email" required>
-            <label for="login-password">Password:</label>
+            <label for="login-password">Пароль:</label>
             <input type="password" id="login-password" required>
-            <button onclick="login()">Login</button>
-            <button onclick="loginWithGoogle()">Login with Google</button>
+            <button onclick="login()">Авторизация</button>
+            <button onclick="loginWithGoogle()"><img src="./assets/google-png.png" alt="google"></button>
             <div class="toggle-link">
-                <a href="#" onclick="toggleForm('register')">Don't have an account? Register</a>
+                <a href="#" onclick="toggleForm('register')">Нет S-ID? Зарегистрируйтесь тут!</a>
             </div>
         </div>
         <div id="register-form" class="form-group" style="display: none;">
-            <h2>Register</h2>
+            <h2>Регистрация S-ID</h2>
             <label for="register-email">Email:</label>
             <input type="email" id="register-email" required>
-            <label for="register-password">Password:</label>
+            <label for="register-password">Пароль:</label>
             <input type="password" id="register-password" required>
-            <button onclick="register()">Register</button>
-            <button onclick="loginWithGoogle()">Register with Google</button>
+            <button onclick="register()">Регистрация</button>
+            <button onclick="loginWithGoogle()"><img src="./assets/google-png.png" alt="google"></button>
             <div class="toggle-link">
-                <a href="#" onclick="toggleForm('login')">Already have an account? Login</a>
+                <a href="#" onclick="toggleForm('login')">Уже есть S-ID? Авторизируйтесь тут!</a>
             </div>
         </div>
     </div>

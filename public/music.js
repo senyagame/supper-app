@@ -1,112 +1,63 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // Анимация текста в заголовке
-    const headerText = document.getElementById("header-text");
-    const newsText = document.getElementById("news-text");
-    const comingSoonText = document.getElementById("coming-soon");
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
-    headerText.addEventListener("animationend", function () {
-        newsText.style.display = "block";
-        newsText.style.animationPlayState = "running";
-    });
+document.addEventListener("DOMContentLoaded", async function () {
+    const firebaseConfig = {
+        apiKey: "AIzaSyBIF6s94-IuXl3accPXPQzVYWYciO5D5lg",
+        authDomain: "super-app-1872b.firebaseapp.com",
+        projectId: "super-app-1872b",
+        storageBucket: "super-app-1872b.appspot.com",
+        messagingSenderId: "19947702298",
+        appId: "1:19947702298:web:6d962472fbb3a92b5c69a3",
+        measurementId: "G-5PMEEJFMDT"
+    };
 
-    newsText.addEventListener("animationend", function () {
-        comingSoonText.style.display = "block";
-        comingSoonText.style.animationPlayState = "running";
-    });
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    // Логика работы плееров
     const playButtons = document.querySelectorAll(".play-btn");
-    const progressBars = document.querySelectorAll(".progress-bar");
 
-    playButtons.forEach((button) => {
+    playButtons.forEach(async (button) => {
         const audioId = button.dataset.player;
-        const plays = document.getElementById(`plays-${audioId}`);
-        let playCount = parseInt(localStorage.getItem(`plays-${audioId}`)) || 0;
-        plays.textContent = `Прослушиваний: ${playCount}`;
+        const audio = document.getElementById(audioId);
+        const playsElement = document.getElementById(`plays-${audioId}`);
 
-        button.addEventListener("click", function () {
-            const audio = document.getElementById(audioId);
-            playCount = parseInt(localStorage.getItem(`plays-${audioId}`)) || 0;
+        if (!audio) return;
 
-            // Если аудио играет — ставим на паузу
+        const trackDoc = doc(db, "plays", audioId);
+        
+        try {
+            const trackSnap = await getDoc(trackDoc);
+            if (trackSnap.exists() && playsElement) {
+                playsElement.textContent = `Прослушиваний: ${trackSnap.data().count}`;
+            }
+        } catch (error) {
+            console.error("Ошибка загрузки данных:", error);
+        }
+
+        button.addEventListener("click", async function () {
             if (!audio.paused) {
                 audio.pause();
                 this.textContent = "▶";
             } else {
-                // Останавливаем все остальные аудиофайлы перед воспроизведением
                 document.querySelectorAll("audio").forEach((aud) => aud.pause());
                 document.querySelectorAll(".play-btn").forEach((btn) => (btn.textContent = "▶"));
 
-                // Воспроизводим выбранный
                 audio.play();
                 this.textContent = "❚❚";
-                playCount++;
-                localStorage.setItem(`plays-${audioId}`, playCount);
-                plays.textContent = `Прослушиваний: ${playCount}`;
+
+                try {
+                    const trackSnap = await getDoc(trackDoc);
+                    let newCount = trackSnap.exists() ? trackSnap.data().count + 1 : 1;
+                    await setDoc(trackDoc, { count: newCount }, { merge: true });
+
+                    if (playsElement) {
+                        playsElement.textContent = `Прослушиваний: ${newCount}`;
+                    }
+                } catch (error) {
+                    console.error("Ошибка обновления прослушиваний:", error);
+                }
             }
         });
-    });
-
-    progressBars.forEach((progressBar) => {
-        const audioId = progressBar.dataset.player;
-        const audio = document.getElementById(audioId);
-        const durationEl = document.getElementById(`duration-${audioId}`);
-
-        audio.addEventListener("loadedmetadata", () => {
-            const minutes = Math.floor(audio.duration / 60);
-            const seconds = Math.floor(audio.duration % 60).toString().padStart(2, "0");
-            durationEl.textContent = `Длительность: ${minutes}:${seconds}`;
-        });
-
-        // Обновление прогресс-бара в зависимости от времени аудио
-        audio.addEventListener("timeupdate", () => {
-            progressBar.value = (audio.currentTime / audio.duration) * 100 || 0;
-        });
-
-        // Изменение времени воспроизведения при перемещении ползунка
-        progressBar.addEventListener("input", () => {
-            audio.currentTime = (progressBar.value / 100) * audio.duration;
-        });
-    });
-
-    // Логика поиска песен
-    const searchBar = document.getElementById("search-bar");
-    const searchResults = document.getElementById("search-results");
-    const musicContainers = document.querySelectorAll(".music-container");
-
-    searchBar.addEventListener("input", function () {
-        const query = searchBar.value.toLowerCase().trim();
-        searchResults.innerHTML = ""; // Очищаем старые результаты
-
-        if (query === "") {
-            // Если поле пустое, показываем все треки
-            musicContainers.forEach((container) => {
-                container.style.display = "block";
-            });
-            searchResults.style.display = "none";
-            return;
-        }
-
-        // Ищем треки, подходящие под запрос
-        let hasResults = false;
-        musicContainers.forEach((container) => {
-            const songTitle = container.dataset.song.toLowerCase();
-            if (songTitle.includes(query)) {
-                const resultItem = document.createElement("p");
-                resultItem.textContent = container.dataset.song;
-                resultItem.classList.add("result-item");
-
-                // Клик по результату — скролл к треку
-                resultItem.addEventListener("click", () => {
-                    container.scrollIntoView({ behavior: "smooth", block: "center" });
-                });
-
-                searchResults.appendChild(resultItem);
-                hasResults = true;
-            }
-        });
-
-        // Показ результатов поиска
-        searchResults.style.display = hasResults ? "block" : "none";
     });
 });
