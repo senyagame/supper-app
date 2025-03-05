@@ -104,15 +104,11 @@
     </div>
 
     <script type="module">
+        // Импорт Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { 
-            getAuth, 
-            createUserWithEmailAndPassword, 
-            signInWithEmailAndPassword, 
-            GoogleAuthProvider, 
-            signInWithPopup 
-        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+        // Firebase конфигурация (твои данные)
         const firebaseConfig = {
             apiKey: "AIzaSyBIF6s94-IuXl3accPXPQzVYWYciO5D5lg",
             authDomain: "super-app-1872b.firebaseapp.com",
@@ -123,16 +119,25 @@
             measurementId: "G-5PMEEJFMDT"
         };
 
+        // Инициализация Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        auth.languageCode = 'ru';
         const provider = new GoogleAuthProvider();
 
+        // Обработка перенаправления после авторизации
+        getRedirectResult(auth).then((result) => {
+            if (result) {
+                window.location.href = "index.html";
+            }
+        }).catch((error) => console.error(error.message));
+
+        // Функция переключения формы (логин/регистрация)
         window.toggleForm = function (form) {
             document.getElementById('login-form').style.display = form === 'login' ? 'block' : 'none';
             document.getElementById('register-form').style.display = form === 'register' ? 'block' : 'none';
         }
 
+        // Функция регистрации
         window.register = function () {
             const email = document.getElementById("register-email").value;
             const password = document.getElementById("register-password").value;
@@ -144,6 +149,7 @@
                 .catch((error) => alert(error.message));
         }
 
+        // Функция авторизации
         window.login = function () {
             const email = document.getElementById("login-email").value;
             const password = document.getElementById("login-password").value;
@@ -155,17 +161,10 @@
                 .catch((error) => alert(error.message));
         }
 
-        window.loginWithGoogle = async function () {
-            try {
-                await signInWithPopup(auth, provider);
-                window.location.href = "index.html";
-            } catch (error) {
-                if (error.code === "auth/popup-blocked") {
-                    alert("Браузер заблокировал всплывающее окно. Разрешите попапы и попробуйте снова.");
-                } else {
-                    alert(error.message);
-                }
-            }
+        // Функция авторизации через Google (исправленная)
+        window.loginWithGoogle = function () {
+            signInWithRedirect(auth, provider)
+                .catch((error) => alert(error.message));
         }
     </script>
 </body>
