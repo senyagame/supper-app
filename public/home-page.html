@@ -98,14 +98,14 @@
             }
         });
 
+        // Обновлённая функция для перехода на auth.html
         window.handleAuth = function () {
             if (auth.currentUser) {
                 signOut(auth).then(() => {
                     alert("Вы вышли из аккаунта");
                 });
             } else {
-                // Вход через Google с редиректом
-                signInWithRedirect(auth, provider);
+                window.location.href = "auth.html"; // Переход на страницу auth.html
             }
         };
 
