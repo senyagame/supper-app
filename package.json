@@ -1,13 +1,13 @@
 {
   "dependencies": {
+    "better-sqlite3": "^11.8.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "firebase": "^11.1.0",
-    "sqlite3": "^5.1.7"
+    "firebase": "^11.1.0"
   },
-"scripts": {
-  "build": "react-scripts build"
+  "scripts": {
+  "build": "react-scripts build",
+  "postinstall": "apt-get update && apt-get install -y python3-distutils"
 }
-
 }
