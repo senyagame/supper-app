@@ -7,7 +7,7 @@
     "sqlite3": "^5.1.7"
   },
 "scripts": {
-  "build": "mkdir -p dist && cp -r public/* dist/"
+  "build": "react-scripts build"
 }
 
 }
