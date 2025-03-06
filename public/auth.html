@@ -6,22 +6,22 @@
     <title>Auth Page</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: radial-gradient(circle at 70% 70%, #0f0347, #3420ee);
-            background-size: 200% 200%;
-            animation: spotWave 2s ease-in-out infinite;
-        }
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: radial-gradient(circle at 70% 70%, #0f0347, #3420ee);
+    background-size: 200% 200%;
+    animation: spotWave 2s ease-in-out infinite;
+}
 
-        @keyframes spotWave {
-            0% { background-position: 30% 30%, 70% 70%; }
-            50% { background-position: 70% 70%, 30% 30%; }
-            100% { background-position: 30% 30%, 70% 70%; }
-        }
+@keyframes spotWave {
+    0% { background-position: 30% 30%, 70% 70%; }
+    50% { background-position: 70% 70%, 30% 30%; }
+    100% { background-position: 30% 30%, 70% 70%; }
+}
 
         .container {
             color: #fff;
@@ -79,9 +79,7 @@
             <label for="login-password">Пароль:</label>
             <input type="password" id="login-password" required>
             <button onclick="login()">Авторизация</button>
-            <button onclick="loginWithGoogle()">
-                <img src="./assets/google-png.png" alt="google">
-            </button>
+            <button onclick="loginWithGoogle()"><img src="./assets/google-png.png" alt="google"></button>
             <div class="toggle-link">
                 <a href="#" onclick="toggleForm('register')">Нет S-ID? Зарегистрируйтесь тут!</a>
             </div>
@@ -94,9 +92,7 @@
             <label for="register-password">Пароль:</label>
             <input type="password" id="register-password" required>
             <button onclick="register()">Регистрация</button>
-            <button onclick="loginWithGoogle()">
-                <img src="./assets/google-png.png" alt="google">
-            </button>
+            <button onclick="loginWithGoogle()"><img src="./assets/google-png.png" alt="google"></button>
             <div class="toggle-link">
                 <a href="#" onclick="toggleForm('login')">Уже есть S-ID? Авторизируйтесь тут!</a>
             </div>
@@ -106,7 +102,7 @@
     <script type="module">
         // Импорт Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         // Firebase конфигурация (твои данные)
         const firebaseConfig = {
@@ -124,48 +120,42 @@
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
-        // Обработка перенаправления после авторизации
-        getRedirectResult(auth).then((result) => {
-            if (result) {
-                window.location.href = "index.html";
-            }
-        }).catch((error) => console.error(error.message));
-
         // Функция переключения формы (логин/регистрация)
         window.toggleForm = function (form) {
             document.getElementById('login-form').style.display = form === 'login' ? 'block' : 'none';
             document.getElementById('register-form').style.display = form === 'register' ? 'block' : 'none';
         }
 
-        // Функция регистрации
         window.register = function () {
-            const email = document.getElementById("register-email").value;
-            const password = document.getElementById("register-password").value;
+    const email = document.getElementById("register-email").value;
+    const password = document.getElementById("register-password").value;
 
-            createUserWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    window.location.href = "index.html";
-                })
-                .catch((error) => alert(error.message));
-        }
+    createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+            window.location.href = "index.html"; // Перенаправление
+        })
+        .catch((error) => alert(error.message));
+}
 
-        // Функция авторизации
-        window.login = function () {
-            const email = document.getElementById("login-email").value;
-            const password = document.getElementById("login-password").value;
+window.login = function () {
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-password").value;
 
-            signInWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    window.location.href = "index.html";
-                })
-                .catch((error) => alert(error.message));
-        }
+    signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+            window.location.href = "index.html"; // Перенаправление
+        })
+        .catch((error) => alert(error.message));
+}
 
-        // Функция авторизации через Google (исправленная)
-        window.loginWithGoogle = function () {
-            signInWithRedirect(auth, provider)
-                .catch((error) => alert(error.message));
-        }
+window.loginWithGoogle = function () {
+    signInWithPopup(auth, provider)
+        .then(() => {
+            window.location.href = "index.html"; // Перенаправление
+        })
+        .catch((error) => alert(error.message));
+}
+
     </script>
 </body>
 </html>
