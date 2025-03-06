@@ -6,7 +6,8 @@
     "firebase": "^11.1.0",
     "sqlite3": "^5.1.7"
   },
-  "scripts": {
-  "build": "cp -r public/* dist/"
+"scripts": {
+  "build": "mkdir -p dist && cp -r public/* dist/"
 }
+
 }
