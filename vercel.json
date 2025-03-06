@@ -1,0 +1,9 @@
+{
+    "build": {
+      "env": {
+        "PYTHON_VERSION": "3.12.2"
+      },
+      "command": "bash .vercel/build.sh && npm install && npm run build"
+    }
+  }
+  
