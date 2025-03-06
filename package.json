@@ -7,7 +7,6 @@
     "firebase": "^11.1.0"
   },
   "scripts": {
-  "build": "react-scripts build",
-  "postinstall": "apt-get update && apt-get install -y python3-distutils"
+  "build": "react-scripts build"
 }
 }
