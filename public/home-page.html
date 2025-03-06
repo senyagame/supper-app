@@ -54,56 +54,64 @@
     </div>
 
     <script src="./script.js"></script>
-    <script type="module" src="./auth.html"></script>
     <script src="./modal-window.js"></script>
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-      import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-  
-      // Firebase конфигурация
-      const firebaseConfig = {
-          apiKey: "AIzaSyBIF6s94-IuXl3accPXPQzVYWYciO5D5lg",
-          authDomain: "super-app-1872b.firebaseapp.com",
-          projectId: "super-app-1872b",
-          storageBucket: "super-app-1872b.appspot.com",
-          messagingSenderId: "19947702298",
-          appId: "1:19947702298:web:6d962472fbb3a92b5c69a3",
-          measurementId: "G-5PMEEJFMDT"
-      };
-  
-      // Инициализация Firebase
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-  
-      const userInfo = document.getElementById("user-info");
-      const userEmail = document.getElementById("user-email");
-      const authButton = document.getElementById("auth-button");
-  
-      onAuthStateChanged(auth, (user) => {
-          if (user) {
-              userInfo.style.display = "block";
-              userEmail.textContent = user.email;
-              authButton.textContent = "Выйти";
-          } else {
-              userInfo.style.display = "none";
-              authButton.textContent = "Войти / Регистрация";
-          }
-      });
-  
-      window.handleAuth = function () {
-          if (auth.currentUser) {
-              signOut(auth).then(() => {
-                  alert("Вы вышли из аккаунта");
-              });
-          } else {
-              window.location.href = "auth.html";
-          }
-      };
-  </script>
-<script>
-    window.navigateTo = function(page) {
-    window.location.href = page;
-}
-</script>
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        // Firebase конфигурация
+        const firebaseConfig = {
+            apiKey: "AIzaSyBIF6s94-IuXl3accPXPQzVYWYciO5D5lg",
+            authDomain: "super-app-1872b.firebaseapp.com",
+            projectId: "super-app-1872b",
+            storageBucket: "super-app-1872b.appspot.com",
+            messagingSenderId: "19947702298",
+            appId: "1:19947702298:web:6d962472fbb3a92b5c69a3",
+            measurementId: "G-5PMEEJFMDT"
+        };
+
+        // Инициализация Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        const userInfo = document.getElementById("user-info");
+        const userEmail = document.getElementById("user-email");
+        const authButton = document.getElementById("auth-button");
+
+        // Проверка результата редиректа и логирование
+        getRedirectResult(auth).then((result) => {
+            console.log("Redirect Result:", result);
+            if (result) {
+                window.location.href = "index.html";
+            }
+        }).catch((error) => console.error("Redirect Error:", error.message));
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                userInfo.style.display = "block";
+                userEmail.textContent = user.email;
+                authButton.textContent = "Выйти";
+            } else {
+                userInfo.style.display = "none";
+                authButton.textContent = "Войти / Регистрация";
+            }
+        });
+
+        window.handleAuth = function () {
+            if (auth.currentUser) {
+                signOut(auth).then(() => {
+                    alert("Вы вышли из аккаунта");
+                });
+            } else {
+                // Вход через Google с редиректом
+                signInWithRedirect(auth, provider);
+            }
+        };
+
+        window.navigateTo = function(page) {
+            window.location.href = page;
+        };
+    </script>
 </body>
 </html>
