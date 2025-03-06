@@ -1,9 +1,16 @@
 {
-    "build": {
-      "env": {
-        "PYTHON_VERSION": "3.12.2"
-      },
-      "command": "bash .vercel/build.sh && npm install && npm run build"
-    }
+    "version": 2,
+    "builds": [
+      {
+        "src": "index.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "index.js"
+      }
+    ]
   }
   
