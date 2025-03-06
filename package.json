@@ -5,5 +5,9 @@
     "express": "^4.21.2",
     "firebase": "^11.1.0",
     "sqlite3": "^5.1.7"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "build": "echo 'Нет сборки, так как не настроен билд-скрипт!'"
   }
 }
