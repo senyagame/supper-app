@@ -7,7 +7,6 @@
     "sqlite3": "^5.1.7"
   },
   "scripts": {
-    "start": "node index.js",
-    "build": "echo 'Нет сборки, так как не настроен билд-скрипт!'"
-  }
+  "build": "cp -r public/* dist/"
+}
 }
