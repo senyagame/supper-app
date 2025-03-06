@@ -1,5 +1,11 @@
 {
   "rewrites": [
     { "source": "/(.*)", "destination": "/" }
-  ]
+  ],
+  "build": {
+    "env": {
+      "PYTHON_VERSION": "3.9.0",
+      "PYTHON_INSTALL_LAYOUT": "amended"
+    }
+  }
 }
