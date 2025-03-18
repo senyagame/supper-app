@@ -23,30 +23,41 @@
             height: 100vh;
         }
     </style>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
+
+<script>
+    // Ждём загрузки Telegram WebApp API
+    window.onload = function() {
+        if (window.Telegram?.WebApp?.platform === "tdesktop") {
+            document.body.innerHTML = "<h2 style='text-align:center; margin-top:20%;'>Приложение доступно только на мобильных устройствах.</h2>";
+            throw new Error("Запуск на ПК запрещен.");
+        }
+    };
+</script>
 
 <div id="loading-screen">
     <div id="cat-face">
         <div class="eye-left"></div>
         <div class="eye-right"></div>
     </div>
-    <div id="welcome-text">Добро пожаловать в обновление 3.2</div>
+    <div id="welcome-text">Загрузка...</div>
 </div>
 
 <script>
     const welcomeText = document.getElementById('welcome-text');
 
-    // Показать текст после 3 секунд загрузки
+    // Показать текст после 0.5 секунд
     setTimeout(() => {
         welcomeText.style.opacity = 1;
-    }, 3000);
+    }, 500);
 
-    // Перенаправление на home-page.html через 6 секунд
+    // Перенаправление на loading-page.html через 1.5 секунды
     setTimeout(() => {
-        window.location.href = "home-page.html";
-    }, 5000);
+        window.location.href = "loading-page.html";
+    }, 1500);
 </script>
 
 </body>

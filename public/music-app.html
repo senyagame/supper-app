@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <a href="index.html" class="return-link">
+        <a href="./home-page.html" class="return-link">
             <img src="./assets/path-to-your-image.png" alt="Home" class="home-icon">
         </a>
         <h1 id="header-text">MUSIC APP</h1>
@@ -54,7 +54,8 @@
                     <img class="song-title-img" src="./assets/no-music-icon.png" alt="">
                 </div>                
                 <div class="audio-player">
-                    <audio id="player3" src="./assets/Microwave_type_beat.mp3" controls></audio>
+                    <div class="s-music-label">Плеер S Music</div>
+                    <audio  id="player3" src="./assets/Microwave_type_beat.mp3" controls></audio>
                     <div class="controls">
                         <button class="play-btn" data-player="player3">▶</button>
                         <input type="range" class="progress-bar" data-player="player3" value="0" step="1">
@@ -68,38 +69,39 @@
                     <p class="song-title">Final Boss</p>
                     <p class="song-title-data">Дата выхода: 29.12.24</p>
                     <p class="song-duration">Длительность: 1:20</p>
-                    <p class="song-plays" id="plays-player2">Прослушиваний: 0</p>
                     <img class="song-title-img" src="./assets/FB-sp-001.jpg" alt="">
                 </div>
-                <div class="audio-player">
-                    <audio id="player2" src="./assets/Final_Boss.wav" controls></audio>
-                    <div class="controls">
-                        <button class="play-btn" data-player="player2">▶</button>
-                        <input type="range" class="progress-bar" data-player="player2" value="0" step="1">
-                    </div>
-                </div>
             </div>
-
+            <iframe frameborder="0" allow="clipboard-write" style="border:none;width:300px;height:130px;" width="300" height="130" src="https://music.yandex.ru/iframe/album/35659381/track/136733632">Слушайте <a href="https://music.yandex.ru/album/35659381/track/136733632">Final Boss</a> — <a href="https://music.yandex.ru/artist/22230674">scara-kru$her</a> на Яндекс Музыке</iframe>
             <div class="music-container" data-song="Adrenaline Night Funk">
                 <div class="song-title-container">
                     <hr>
                     <p class="song-title">Adrenaline Night Funk</p>
                     <p class="song-title-data">Дата выхода: 20.07.24</p>
                     <p class="song-duration">Длительность: 2:30</p>
-                    <p class="song-plays" id="plays-player1">Прослушиваний: 0</p>
                     <img class="song-title-img" src="./assets/ANF-sp-002.jpg" alt="">
                 </div>
-                <div class="audio-player">
-                    <audio id="player1" src="./assets/Adrenaline_night_funk.wav" controls></audio>
-                    <div class="controls">
-                        <button class="play-btn" data-player="player1">▶</button>
-                        <input type="range" class="progress-bar" data-player="player1" value="0" step="1">
+                <iframe frameborder="0" allow="clipboard-write" style="border:none;width:300px;height:130px;" width="300" height="130" src="https://music.yandex.ru/iframe/album/32207638/track/128397158">Слушайте <a href="https://music.yandex.ru/album/32207638/track/128397158">Adrenaline Night Funk</a> — <a href="https://music.yandex.ru/artist/22230674">scara-kru$her</a> на Яндекс Музыке</iframe>
+                <hr>
+                <div class="music-container" data-song="Final Boss">
+                    <div class="song-title-container">
+                        <hr>
+                        <p class="song-title">Legendary Dombra</p>
+                        <p class="song-title-data">Дата выхода: 07.03.24</p>
+                        <p class="song-duration">Длительность: 1:20</p>
+                        <img class="song-title-img" src="./assets/LD-sp-003.jpg" alt="">
                     </div>
                 </div>
+                <iframe frameborder="0" allow="clipboard-write" style="border:none;width:300px;height:130px;" width="300" height="130" src="https://music.yandex.ru/iframe/album/31931296/track/127729662">Слушайте <a href="https://music.yandex.ru/album/31931296/track/127729662">Legendary Dombra</a> — <a href="https://music.yandex.ru/artist/22230674">scara-kru$her</a> на Яндекс Музыке</iframe>
+                <div class="music-container" data-song="legendary dombra">
                 <hr>
             </div>
         </div>
     </main>
+    <footer class="footer">
+        <h5>music players (Яндекс музыка) powered by:</h5>
+        <a href="https://yandex.kz/"><img src="./assets/Yandex-logo.png" alt="yandex" class="footer-logo"></a> 
+    </footer>
     <script type="module" src="script.js"></script>
     <script type="module" src="music.js"></script>
     <script src="./modal-window.js"></script>

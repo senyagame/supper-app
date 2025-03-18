@@ -700,3 +700,53 @@ audio {
     width: 100%;
     cursor: pointer;
 }
+
+.footer {
+    margin-top: 100px;
+    background-color: black;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+  }
+  
+  .footer a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+  }
+
+.footer-logo{
+    width: 50px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .footer a{
+    display: inline-block;
+    color: #ffffff;
+    text-decoration: none;
+  }
+  
+.audio-player {
+    position: relative;
+    display: inline-block;
+    padding-top: 20px; /* Чтобы текст не накладывался на элементы плеера */
+}
+
+.s-music-label {
+    position: absolute;
+    top: 0;
+    left: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(15, 0, 153);
+    text-shadow: -1px -1px 0 rgb(255, 255, 255),  
+                 1px -1px 0 rgb(255, 255, 255),  
+                 -1px 1px 0 rgb(255, 255, 255),  
+                 1px 1px 0 rgb(255, 255, 255); /* Обводка */
+    pointer-events: none;
+}

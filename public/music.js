@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
     const firebaseConfig = {
@@ -21,11 +21,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         const audioId = button.dataset.player;
         const audio = document.getElementById(audioId);
         const playsElement = document.getElementById(`plays-${audioId}`);
+        const progressBar = document.querySelector(`.progress-bar[data-player="${audioId}"]`);
 
-        if (!audio) return;
+        if (!audio || !progressBar) return;
 
         const trackDoc = doc(db, "plays", audioId);
-        
+
         try {
             const trackSnap = await getDoc(trackDoc);
             if (trackSnap.exists() && playsElement) {
@@ -35,6 +36,21 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.error("Ошибка загрузки данных:", error);
         }
 
+        // Обновление ползунка во время проигрывания
+        audio.addEventListener("timeupdate", () => {
+            if (!isNaN(audio.duration)) {
+                progressBar.value = (audio.currentTime / audio.duration) * 100;
+            }
+        });
+
+        // Перемотка трека
+        progressBar.addEventListener("input", () => {
+            if (!isNaN(audio.duration)) {
+                audio.currentTime = (progressBar.value / 100) * audio.duration;
+            }
+        });
+
+        // Кнопка Play/Pause
         button.addEventListener("click", async function () {
             if (!audio.paused) {
                 audio.pause();
