@@ -6,58 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading...</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        #welcome-text {
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            text-align: center;
-            font-size: 24px;
-            margin-top: 20px;
-        }
-
-        #loading-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-    </style>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
 
 <script>
-    // Ждём загрузки Telegram WebApp API
     window.onload = function() {
+        // Проверяем платформу через Telegram WebApp API
         if (window.Telegram?.WebApp?.platform === "tdesktop") {
-            document.body.innerHTML = "<h2 style='text-align:center; margin-top:20%;'>Приложение доступно только на мобильных устройствах.</h2>";
-            throw new Error("Запуск на ПК запрещен.");
+            window.location.href = "denied.html"; // Если Telegram открыт на ПК
+        } else {
+            window.location.href = "loading-page.html"; // Если на телефоне
         }
     };
-</script>
-
-<div id="loading-screen">
-    <div id="cat-face">
-        <div class="eye-left"></div>
-        <div class="eye-right"></div>
-    </div>
-    <div id="welcome-text">Загрузка...</div>
-</div>
-
-<script>
-    const welcomeText = document.getElementById('welcome-text');
-
-    // Показать текст после 0.5 секунд
-    setTimeout(() => {
-        welcomeText.style.opacity = 1;
-    }, 500);
-
-    // Перенаправление на loading-page.html через 1.5 секунды
-    setTimeout(() => {
-        window.location.href = "loading-page.html";
-    }, 1500);
 </script>
 
 </body>
