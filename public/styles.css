@@ -718,6 +718,13 @@ audio {
     text-decoration: underline;
   }
 
+.logo-Yandex_music {
+    width: 150px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
 .footer-logo{
     width: 50px;
     height: auto;
