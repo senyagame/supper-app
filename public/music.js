@@ -36,21 +36,18 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.error("Ошибка загрузки данных:", error);
         }
 
-        // Обновление ползунка во время проигрывания
         audio.addEventListener("timeupdate", () => {
             if (!isNaN(audio.duration)) {
                 progressBar.value = (audio.currentTime / audio.duration) * 100;
             }
         });
 
-        // Перемотка трека
         progressBar.addEventListener("input", () => {
             if (!isNaN(audio.duration)) {
                 audio.currentTime = (progressBar.value / 100) * audio.duration;
             }
         });
 
-        // Кнопка Play/Pause
         button.addEventListener("click", async function () {
             if (!audio.paused) {
                 audio.pause();
@@ -75,5 +72,15 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
             }
         });
+    });
+
+// Функция переключения плееров (первый плеер виден, остальные скрыты)
+    document.querySelectorAll(".audio-player").forEach((el, index) => {
+        if (index !== 0) el.style.display = "none";
+    });
+// Функция переключения плееров
+    document.getElementById("toggle-players").addEventListener("click", function () {
+        document.querySelectorAll("iframe").forEach((el) => el.style.display = "none");
+        document.querySelectorAll(".audio-player").forEach((el) => el.style.display = "block");
     });
 });
