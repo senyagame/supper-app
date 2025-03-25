@@ -6,7 +6,20 @@
     "express": "^4.21.2",
     "firebase": "^11.1.0"
   },
-  "scripts": {
+"scripts": {
+  "start": "electron .",
   "build": "react-scripts build"
+},
+  "name": "supper-app-fo-tg",
+  "version": "1.0.0",
+  "main": "main.js",
+  "devDependencies": {
+    "electron": "^35.0.3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
-}
+
+
