@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-image: url('./assets/auth_mountains.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-container {
+            max-width: 600px;
+            padding: 20px;
+            color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            background-color: rgba(0, 0, 0, 0.5); /* Добавим полупрозрачный фон для контейнера, чтобы текст был лучше виден */
+        }
+
+        .avatar-selection {
+            margin-bottom: 20px;
+        }
+
+        .avatar-selection p {
+            margin-bottom: 10px;
+        }
+
+        .avatar-selection img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            margin-right: 10px;
+            border: 2px solid transparent;
+        }
+
+        .avatar-selection img.selected {
+            border-color: #007BFF;
+        }
+
+        .profile-avatar-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 20px auto;
+            border: 2px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type=text] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background-color: #0f0347;
+            color: #fff;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+    .back-button {
+        display: block;
+        margin-top: 30px;
+        padding: 15px 30px;
+        color: #fff;
+        text-decoration: none;
+        background-color: #000000;
+        border-radius: 8px;
+        font-size: 1.2em;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+        text-align: center;
+    }
+
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h2 class="gradient-sid">S-ID</h2>
+        <h2>Настройки личного кабинета</h2>
+        <p id="user-info" style="margin-bottom: 15px; font-size: 0.9em;">S-ID привязан к почте: <span id="user-email"></span></p>
+        <div class="avatar-selection">
+            <p>Выберите аватар:</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; justify-content: center;">
+                <img src="./assets/default-avatar.jpg" alt="Аватар по умолчанию" data-avatar-url="./assets/default-avatar.jpg">
+                <img src="./assets/avatar1.jpg" alt="Аватар 1" data-avatar-url="./assets/avatar1.jpg">
+                <img src="./assets/avatar2.jpg" alt="Аватар 2" data-avatar-url="./assets/avatar2.jpg">
+                <img src="./assets/avatar3.jpg" alt="Аватар 3" data-avatar-url="./assets/avatar3.jpg">
+                <img src="./assets/avatar4.jpg" alt="Аватар 4" data-avatar-url="./assets/avatar4.jpg">
+                <img src="./assets/avatar5.jpg" alt="Аватар 5" data-avatar-url="./assets/avatar5.jpg">
+            </div>
+        </div>
+        <img id="profile-avatar-preview" class="profile-avatar-preview" src="./assets/default-avatar.jpg" alt="Текущий аватар">
+        <div class="form-group">
+            <label for="username">Имя пользователя:</label>
+            <input type="text" id="username" placeholder="Введите имя пользователя">
+        </div>
+        <div class="form-group">
+            <button onclick="saveProfile()">Сохранить изменения</button>
+        </div>
+        <div class="form-group">
+            <button onclick="logout()">Выйти из аккаунта</button>
+        </div>
+        <a href="home-page.html" class="back-button">Назад на главную</a>
+        <div id="notification-container"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Firebase конфигурация (из config.js)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBIF6s94-IuXl3accPXPQzVYWYciO5D5lg",
+            authDomain: "super-app-1872b.firebaseapp.com",
+            projectId: "super-app-1872b",
+            storageBucket: "super-app-1872b.appspot.com",
+            messagingSenderId: "19947702298",
+            appId: "1:19947702298:web:6d962472fbb3a92b5c69a3",
+            measurementId: "G-5PMEEJFMDT"
+        };
+
+        // Инициализация Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const userInfo = document.getElementById("user-info");
+        const userEmail = document.getElementById("user-email");
+        const avatarImages = document.querySelectorAll('.avatar-selection img');
+        const profileAvatarPreview = document.getElementById('profile-avatar-preview');
+        const usernameInput = document.getElementById("username");
+        const notificationContainer = document.getElementById('notification-container'); // Хотя мы его не используем, лучше оставить, чтобы не было ошибок
+        const defaultAvatarUrl = "./assets/default-avatar.jpg"; // Определяем URL дефолтного аватара
+
+        let currentUser;
+        let selectedAvatarUrl = defaultAvatarUrl; // Изначально выбран дефолтный аватар
+
+        // Находим элемент дефолтного аватара и добавляем класс 'selected'
+        avatarImages.forEach(img => {
+            if (img.dataset.avatarUrl === defaultAvatarUrl) {
+                img.classList.add('selected');
+            }
+            img.addEventListener('click', function() {
+                selectedAvatarUrl = this.dataset.avatarUrl;
+                profileAvatarPreview.src = selectedAvatarUrl;
+                // Убираем класс 'selected' у всех аватаров
+                avatarImages.forEach(i => i.classList.remove('selected'));
+                // Добавляем класс 'selected' к выбранному аватару
+                this.classList.add('selected');
+            });
+        });
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                userInfo.style.display = "block"; // Показываем блок с информацией
+                userEmail.textContent = user.email; // Отображаем email
+
+                const userRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(userRef);
+
+                // Всегда показываем дефолтный аватар при загрузке
+                profileAvatarPreview.src = defaultAvatarUrl;
+                selectedAvatarUrl = defaultAvatarUrl;
+
+                if (docSnap.exists()) {
+                    const userData = docSnap.data();
+                    usernameInput.value = userData.username || "";
+                    // Обновляем selectedAvatarUrl, только если в Firestore есть сохраненный аватар
+                    if (userData.avatarUrl) {
+                        selectedAvatarUrl = userData.avatarUrl;
+                        profileAvatarPreview.src = userData.avatarUrl;
+                    }
+                    // Отмечаем выбранный аватар при загрузке
+                    avatarImages.forEach(img => {
+                        if (img.dataset.avatarUrl === selectedAvatarUrl) {
+                            img.classList.add('selected');
+                        } else {
+                            img.classList.remove('selected');
+                        }
+                    });
+                } else {
+                    console.log("Документ пользователя не найден:", user.uid);
+                    // Убеждаемся, что дефолтный аватар выделен, даже если нет данных пользователя
+                    avatarImages.forEach(img => {
+                        if (img.dataset.avatarUrl === defaultAvatarUrl) {
+                            img.classList.add('selected');
+                        } else {
+                            img.classList.remove('selected');
+                        }
+                    });
+                }
+            } else {
+                window.location.href = "auth.html";
+            }
+        });
+
+        window.saveProfile = async function() {
+            if (currentUser) {
+                const username = usernameInput.value;
+                const userRef = doc(db, "users", currentUser.uid);
+
+                try {
+                    await updateDoc(userRef, { username: username, avatarUrl: selectedAvatarUrl });
+                    alert('Изменения сохранены'); // Уведомление через alert
+
+                } catch (error) {
+                    console.error("Ошибка при обновлении профиля:", error);
+                    alert("Произошла ошибка при обновлении профиля: " + error.message);
+                }
+            } else {
+                alert("Пожалуйста, авторизуйтесь.");
+                window.location.href = "auth.html";
+            }
+        };
+
+        window.logout = function() {
+            signOut(auth).then(() => {
+                alert("Вы вышли из аккаунта");
+                window.location.href = "home-page.html"; // Перенаправляем на главную после выхода
+            }).catch((error) => {
+                console.error("Ошибка при выходе:", error);
+                alert("Произошла ошибка при выходе.");
+            });
+        };
+    </script>
+</body>
+</html>

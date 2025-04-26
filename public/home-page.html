@@ -5,6 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Super App</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Добавляем стили для фиксированного футера */
+        .fixed-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #05004e;
+            color: #fff;
+            padding: 50px 0; /* Увеличиваем вертикальный padding */
+            text-align: center;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+    
+        /* Остальные стили остаются без изменений */
+        .profile-button {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #fff;
+        }
+    
+        .avatar-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-bottom: 5px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -24,16 +65,20 @@
             <button onclick="navigateTo('posts-app.html')">Notes</button>
 
             <div id="auth-section">
-                <p id="user-info" style="display: none;">Вы авторизованы как <span id="user-email"></span></p>
-                <button id="auth-button" onclick="handleAuth()">Войти / Регистрация</button>
-            </div>
+                </div>
 
             <div class="devi">
                 <a href="https://github.com/senyagame">💫 ©️ by senyagame (кликабельно)💫</a>
             </div>
         </main>
+
+        <div class="fixed-footer">
+            <button id="profile-link" class="profile-button" onclick="goToProfile()">
+                Личный кабинет
+            </button>
+        </div>
     </div>
-    
+
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -47,7 +92,7 @@
             <p>Для удобста, мы создали 2 вида плееров. S Music (наш оргинальный) и Плеер Яндекс Музыки</p>
             <p>Для чего 2 плеера? Это нужно, что-бы вы знали, какие треки можно добавить в вашу библиотеку на площадках, а какие можно прослушать только в Music App. S Music - только наши треки, а Яндекс музыка - треки которые есть на deezer, spotify, Yandex Music и Apple music.</p>
             <p>3. Notes App использует хранение с помощью кэша браузера, поэтому доступ у вас есть только локально.</p>
-            <p>4. С жалобами на работу приложения или ваших предложений, пишите на нашу почту: 
+            <p>4. С жалобами на работу приложения или ваших предложений, пишите на нашу почту:
                 <span class="email" onclick="copyEmail()">senyaentertainment@yandex.ru</span>📩
             </p>
             <p class="google-form">5. Остались вопросы? Заполните эту форму: <a href="https://forms.gle/K3ZE3YuNEK689UGY7">google form</a></p>
@@ -60,8 +105,10 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-        // Firebase конфигурация
+        // Firebase конфигурация (из config.js)
         const firebaseConfig = {
             apiKey: "AIzaSyBIF6s94-IuXl3accPXPQzVYWYciO5D5lg",
             authDomain: "super-app-1872b.firebaseapp.com",
@@ -75,44 +122,63 @@
         // Инициализация Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
         const provider = new GoogleAuthProvider();
 
         const userInfo = document.getElementById("user-info");
         const userEmail = document.getElementById("user-email");
-        const authButton = document.getElementById("auth-button");
+        const profileLink = document.getElementById("profile-link");
+        const authSection = document.getElementById("auth-section"); // Получаем ссылку на div с кнопкой авторизации
 
-        // Проверка результата редиректа и логирование
-        getRedirectResult(auth).then((result) => {
-            console.log("Redirect Result:", result);
-            if (result) {
-                window.location.href = "index.html";
+        // Функция для обновления кнопки профиля (аватар или текст)
+        function updateProfileButton(user) {
+            const profileLink = document.getElementById("profile-link");
+            profileLink.innerHTML = ''; // Очищаем содержимое кнопки
+
+            if (user) {
+                const userRef = doc(db, "users", user.uid);
+                getDoc(userRef).then((docSnap) => {
+                    if (docSnap.exists() && docSnap.data().avatarUrl) {
+                        const avatarUrl = docSnap.data().avatarUrl;
+                        const avatarImg = document.createElement('img');
+                        avatarImg.src = avatarUrl;
+                        avatarImg.alt = 'Аватар';
+                        avatarImg.classList.add('avatar-small');
+                        profileLink.appendChild(avatarImg);
+                        const label = document.createTextNode("Личный кабинет");
+                        profileLink.appendChild(label);
+                    } else {
+                        profileLink.textContent = "Личный кабинет";
+                    }
+                });
+            } else {
+                profileLink.textContent = "Личный кабинет";
             }
-        }).catch((error) => console.error("Redirect Error:", error.message));
+        }
 
+        // Проверка состояния авторизации при загрузке страницы
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 userInfo.style.display = "block";
                 userEmail.textContent = user.email;
-                authButton.textContent = "Выйти";
+                updateProfileButton(user);
             } else {
                 userInfo.style.display = "none";
-                authButton.textContent = "Войти / Регистрация";
+                updateProfileButton(null);
             }
         });
 
-        // Обновлённая функция для перехода на auth.html
-        window.handleAuth = function () {
-            if (auth.currentUser) {
-                signOut(auth).then(() => {
-                    alert("Вы вышли из аккаунта");
-                });
-            } else {
-                window.location.href = "auth.html"; // Переход на страницу auth.html
-            }
-        };
-
         window.navigateTo = function(page) {
             window.location.href = page;
+        };
+
+        window.goToProfile = function() {
+            if (auth.currentUser) {
+                window.location.href = "profile.html";
+            } else {
+                window.location.href = "auth.html";
+            }
         };
     </script>
 </body>

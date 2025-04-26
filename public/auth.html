@@ -3,34 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auth Page</title>
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background: radial-gradient(circle at 70% 70%, #0f0347, #3420ee);
-    background-size: 200% 200%;
-    animation: spotWave 2s ease-in-out infinite;
-}
-
-@keyframes spotWave {
-    0% { background-position: 30% 30%, 70% 70%; }
-    50% { background-position: 70% 70%, 30% 30%; }
-    100% { background-position: 30% 30%, 70% 70%; }
-}
-
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('./assets/auth_mountains.jpg');
+            background-size: cover; /* Растягиваем изображение на весь фон */
+            background-position: center; /* Центрируем изображение */
+            background-repeat: no-repeat; /* Запрещаем повторение изображения */
+        }
+    
         .container {
             color: #fff;
-            background-color: #05004e;
+            background-color: rgba(5, 0, 78, 0.8);
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             width: 300px;
             text-align: center;
+            margin: 0; 
         }
         .form-group {
             margin-bottom: 15px;
@@ -43,6 +40,10 @@
             width: 100%;
             padding: 8px;
             box-sizing: border-box;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background-color: #0f0347;
+            color: #fff;
         }
         .form-group button {
             width: 100%;
@@ -67,24 +68,39 @@
         .toggle-link a:hover {
             text-decoration: underline;
         }
+        .back-to-profile {
+            display: block;
+            margin-top: 20px;
+            color: #cfe6ff;
+            text-decoration: none;
+        }
+        .back-to-profile:hover {
+            text-decoration: underline;
+        }
+        .error-message {
+            color: #ff4d4d;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div id="login-form" class="form-group">
+            <h2 class="gradient-sid">S-ID</h2>
             <img src="./assets/logo.png" alt="">
-            <h2>Авторизация с S-ID</h2>
+            <h2>Авторизация</h2>
             <label for="login-email">Email:</label>
             <input type="email" id="login-email" required>
             <label for="login-password">Пароль:</label>
             <input type="password" id="login-password" required>
             <button onclick="login()">Авторизация</button>
-            <button onclick="loginWithGoogle()"><img src="./assets/google-png.png" alt="google"></button>
             <div class="toggle-link">
                 <a href="#" onclick="toggleForm('register')">Нет S-ID? Зарегистрируйтесь тут!</a>
             </div>
+            <p id="login-error" class="error-message"></p>
         </div>
         <div id="register-form" class="form-group" style="display: none;">
+            <h2 class="gradient-sid">S-ID</h2>
             <img src="./assets/logo.png" alt="">
             <h2>Регистрация S-ID</h2>
             <label for="register-email">Email:</label>
@@ -92,19 +108,20 @@
             <label for="register-password">Пароль:</label>
             <input type="password" id="register-password" required>
             <button onclick="register()">Регистрация</button>
-            <button onclick="loginWithGoogle()"><img src="./assets/google-png.png" alt="google"></button>
             <div class="toggle-link">
                 <a href="#" onclick="toggleForm('login')">Уже есть S-ID? Авторизируйтесь тут!</a>
             </div>
+            <p id="register-error" class="error-message"></p>
         </div>
+        <a href="profile.html" class="back-to-profile">Вернуться в личный кабинет</a>
     </div>
 
     <script type="module">
-        // Импорт Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"; // Import setDoc
 
-        // Firebase конфигурация (твои данные)
+        // Firebase конфигурация (из config.js)
         const firebaseConfig = {
             apiKey: "AIzaSyBIF6s94-IuXl3accPXPQzVYWYciO5D5lg",
             authDomain: "super-app-1872b.firebaseapp.com",
@@ -118,44 +135,80 @@
         // Инициализация Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
+        const db = getFirestore(app); // Получаем доступ к Firestore
+
+        const loginError = document.getElementById('login-error');
+        const registerError = document.getElementById('register-error');
 
         // Функция переключения формы (логин/регистрация)
         window.toggleForm = function (form) {
             document.getElementById('login-form').style.display = form === 'login' ? 'block' : 'none';
             document.getElementById('register-form').style.display = form === 'register' ? 'block' : 'none';
+            loginError.textContent = ''; // Очищаем сообщения об ошибках при переключении формы
+            registerError.textContent = '';
         }
 
         window.register = function () {
-    const email = document.getElementById("register-email").value;
-    const password = document.getElementById("register-password").value;
+            const email = document.getElementById("register-email").value;
+            const password = document.getElementById("register-password").value;
 
-    createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-            window.location.href = "home-page.html"; // Перенаправление
-        })
-        .catch((error) => alert(error.message));
-}
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    const userRef = doc(db, "users", user.uid);
+                    return setDoc(userRef, {
+                        username: "", // Можно установить значения по умолчанию
+                        avatarUrl: ""
+                    });
+                })
+                .then(() => {
+                    window.location.href = "profile.html"; // Перенаправление в личный кабинет после регистрации и создания документа
+                })
+                .catch((error) => {
+                    console.error("Ошибка регистрации:", error.code, error.message);
+                    switch (error.code) {
+                        case 'auth/email-already-in-use':
+                            registerError.textContent = 'Этот адрес электронной почты уже используется.';
+                            break;
+                        case 'auth/invalid-email':
+                            registerError.textContent = 'Неверный формат адреса электронной почты.';
+                            break;
+                        case 'auth/weak-password':
+                            registerError.textContent = 'Пароль слишком слабый (минимум 6 символов).';
+                            break;
+                        default:
+                            registerError.textContent = 'Произошла ошибка при регистрации.';
+                            break;
+                    }
+                });
+        }
 
-window.login = function () {
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-password").value;
+        window.login = function () {
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
 
-    signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-            window.location.href = "home-page.html"; // Перенаправление
-        })
-        .catch((error) => alert(error.message));
-}
-
-window.loginWithGoogle = function () {
-    signInWithPopup(auth, provider)
-        .then(() => {
-            window.location.href = "home-page.html"; // Перенаправление
-        })
-        .catch((error) => alert(error.message));
-}
-
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    window.location.href = "profile.html"; // Перенаправление в личный кабинет после входа
+                })
+                .catch((error) => {
+                    console.error("Ошибка входа:", error.code, error.message);
+                    switch (error.code) {
+                        case 'auth/user-not-found':
+                            loginError.textContent = 'Пользователь с таким адресом электронной почты не найден.';
+                            break;
+                        case 'auth/wrong-password':
+                            loginError.textContent = 'Неверный пароль.';
+                            break;
+                        case 'auth/invalid-email':
+                            loginError.textContent = 'Неверный формат адреса электронной почты.';
+                            break;
+                        default:
+                            loginError.textContent = 'Произошла ошибка при входе.';
+                            break;
+                    }
+                });
+        }
     </script>
 </body>
 </html>

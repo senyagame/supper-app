@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +20,28 @@
         } else {
             window.location.href = "loading-page.html"; // Если на телефоне
         }
+    };
+</script>
+
+</body>
+</html>
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+
+<body>
+
+<script>
+    window.onload = function() {
+        window.location.href = "loading-page.html"; // Перенаправление на loading-page.html
     };
 </script>
 
