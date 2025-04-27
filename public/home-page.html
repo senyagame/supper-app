@@ -6,7 +6,6 @@
     <title>Super App</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Добавляем стили для фиксированного футера */
         .fixed-footer {
             position: fixed;
             bottom: 0;
@@ -14,7 +13,7 @@
             width: 100%;
             background-color: #05004e;
             color: #fff;
-            padding: 50px 0; /* Увеличиваем вертикальный padding */
+            padding: 27px 0;
             text-align: center;
             display: flex;
             justify-content: space-around;
@@ -22,7 +21,6 @@
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
         }
     
-        /* Остальные стили остаются без изменений */
         .profile-button {
             background: none;
             border: none;
@@ -32,17 +30,18 @@
             border-radius: 5px;
             text-decoration: none;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
             justify-content: center;
             border: 2px solid #fff;
+            gap: 15px; /* Увеличиваем отступ между элементами */
         }
     
         .avatar-small {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            margin-bottom: 5px;
+            margin-bottom: 0;
             object-fit: cover;
         }
     </style>
@@ -65,7 +64,9 @@
             <button onclick="navigateTo('posts-app.html')">Notes</button>
 
             <div id="auth-section">
+                <div id="user-info" style="display: none;"> S-ID привязан к почте: <span id="user-email"></span>
                 </div>
+            </div>
 
             <div class="devi">
                 <a href="https://github.com/senyagame">💫 ©️ by senyagame (кликабельно)💫</a>
@@ -133,39 +134,55 @@
 
         // Функция для обновления кнопки профиля (аватар или текст)
         function updateProfileButton(user) {
-            const profileLink = document.getElementById("profile-link");
-            profileLink.innerHTML = ''; // Очищаем содержимое кнопки
+            const profileLinkElement = document.getElementById("profile-link");
+            if (profileLinkElement) {
+                profileLinkElement.innerHTML = ''; // Очищаем содержимое кнопки
 
-            if (user) {
-                const userRef = doc(db, "users", user.uid);
-                getDoc(userRef).then((docSnap) => {
-                    if (docSnap.exists() && docSnap.data().avatarUrl) {
-                        const avatarUrl = docSnap.data().avatarUrl;
-                        const avatarImg = document.createElement('img');
-                        avatarImg.src = avatarUrl;
-                        avatarImg.alt = 'Аватар';
-                        avatarImg.classList.add('avatar-small');
-                        profileLink.appendChild(avatarImg);
-                        const label = document.createTextNode("Личный кабинет");
-                        profileLink.appendChild(label);
-                    } else {
-                        profileLink.textContent = "Личный кабинет";
-                    }
-                });
+                if (user) {
+                    const userRef = doc(db, "users", user.uid);
+                    getDoc(userRef).then((docSnap) => {
+                        if (docSnap.exists() && docSnap.data().avatarUrl) {
+                            const avatarUrl = docSnap.data().avatarUrl;
+                            const avatarImg = document.createElement('img');
+                            avatarImg.src = avatarUrl;
+                            avatarImg.alt = 'Аватар';
+                            avatarImg.classList.add('avatar-small');
+                            profileLinkElement.appendChild(avatarImg);
+                            const label = document.createTextNode("Личный кабинет");
+                            profileLinkElement.appendChild(label);
+                        } else {
+                            profileLinkElement.textContent = "Личный кабинет";
+                        }
+                    }).catch(error => {
+                        console.error("Ошибка при получении данных пользователя:", error);
+                        profileLinkElement.textContent = "Личный кабинет";
+                    });
+                } else {
+                    profileLinkElement.textContent = "Личный кабинет";
+                }
             } else {
-                profileLink.textContent = "Личный кабинет";
+                console.error("Элемент 'profile-link' не найден.");
             }
         }
 
         // Проверка состояния авторизации при загрузке страницы
         onAuthStateChanged(auth, (user) => {
-            if (user) {
-                userInfo.style.display = "block";
-                userEmail.textContent = user.email;
-                updateProfileButton(user);
+            const userInfoElement = document.getElementById("user-info");
+            const userEmailElement = document.getElementById("user-email");
+
+            if (userInfoElement) {
+                if (user) {
+                    userInfoElement.style.display = "block";
+                    if (userEmailElement) {
+                        userEmailElement.textContent = user.email;
+                    }
+                    updateProfileButton(user);
+                } else {
+                    userInfoElement.style.display = "none";
+                    updateProfileButton(null);
+                }
             } else {
-                userInfo.style.display = "none";
-                updateProfileButton(null);
+                console.error("Элемент 'userInfo' не найден.");
             }
         });
 
