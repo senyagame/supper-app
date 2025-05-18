@@ -11,7 +11,7 @@
         <a href="./home-page.html" class="return-link">
             <img src="./assets/path-to-your-image.png" alt="Home" class="home-icon">
         </a>
-        <h1 id="header-text">MUSIC APP</h1>
+        <h1 id="header-text">NEXUS MUSIC APP</h1>
         <img src="./assets/information-icon.png" alt="Information Icon" id="info-icon" onclick="openModal()">
     </header>
     <main>
@@ -23,9 +23,9 @@
                     <div class="eye-right"></div>
                 </div>
                 <h3>Информация о приложении Music app</h3>
-                <p>В Music App мы используем музыку только от исполнителя scara-kru$her и QuZ</p>
-                <p>Для удобста, мы создали 2 вида плееров. S Music (наш оргинальный) и Плеер Яндекс Музыки</p>
-                <p>Для чего 2 плеера? Это нужно, что-бы вы знали, какие треки можно добавить в вашу библиотеку на площадках, а какие можно прослушать только в Music App. S Music - только наши треки, а Яндекс музыка - треки которые есть на deezer, spotify, Yandex Music и Apple music.</p>
+                <p>В Music App мы используем музыку только от исполнителя scara-kru$her</p>
+                <p style="color: red;">Уведомление: Сотрудничество с испольнителем "Wesper" прекращено.</p>
+                <p>Наше приложение использует API сервисов Яндекс, поэтому данное приложение доступно только для стран у которых есть Яндекс (Yandex)</p>
                 <a href="https://music.yandex.kz/"><img src="./assets/Yandex_Music_logo.png" alt="yandex music" class="logo-Yandex_music"></a>
                 <p>Если хотите с нами сотрудничать, напишите нам на почту:
                     <span class="email" onclick="copyEmail()">senyaentertainment@yandex.ru</span>📩
@@ -36,9 +36,6 @@
         </div>
         <p id="news-text" style="display: none;">🎵 Слушайте музыку от исполнителя scara-kru$her и Wesper</p>
         <p id="coming-soon">Если у вас есть вопросы, посмотрите вкладку <img src="./assets/information-icon.png" alt=""> на этой странице</p>
-        <p id="coming-soon">Если в вашей стране не поддерживается Яндекс, то нажмите на кнопку ниже</p>
-        <button style="color: black; background-color: yellow; font-size: 19px;" id="toggle-players">В моей стране нет Яндекса</button>
-    
         <section id="search-section">
             <h2>🔍 Поиск трека</h2>
             <input type="text" id="search-bar" placeholder="Введите название трека...">
@@ -47,26 +44,6 @@
         </section>
 
         <div id="music-players">
-            <div class="music-container" data-song="Microwave type beat">
-                <div class="song-title-container">
-                    <hr>
-                    <p class="song-title">Microwave type beat</p>
-                    <p class="song-title-data">Дата выхода: none</p>
-                    <p class="song-title-data">Исполнитель: Wesper</p>
-                    <p class="song-duration">Длительность: 2:00</p>
-                    <p class="song-plays" id="plays-player3">Прослушиваний: 0</p>
-                    <img class="song-title-img" src="./assets/no-music-icon.png" alt="">
-                </div>                
-                <div class="audio-player">
-                    <div class="s-music-label">Плеер S Music</div>
-                    <audio  id="player4" src="./assets/Microwave_type_beat.mp3" controls></audio>
-                    <div class="controls">
-                        <button class="play-btn" data-player="player4">▶</button>
-                        <input type="range" class="progress-bar" data-player="player4" value="0" step="1">
-                    </div>
-                </div>
-            </div>
-
             <div class="music-container" data-song="Final Boss">
                 <div class="song-title-container">
                     <hr>
@@ -77,14 +54,6 @@
                 </div>
             </div>
             <iframe frameborder="0" allow="clipboard-write" style="border:none;width:300px;height:130px;" width="300" height="130" src="https://music.yandex.ru/iframe/album/35659381/track/136733632">Слушайте <a href="https://music.yandex.ru/album/35659381/track/136733632">Final Boss</a> — <a href="https://music.yandex.ru/artist/22230674">scara-kru$her</a> на Яндекс Музыке</iframe>
-            <div class="audio-player">
-                <div class="s-music-label">Плеер S Music</div>
-                <audio  id="player3" src="./assets/Final_Boss.wav" controls></audio>
-                <div class="controls">
-                    <button class="play-btn" data-player="player3">▶</button>
-                    <input type="range" class="progress-bar" data-player="player3" value="0" step="1">
-                </div>
-            </div>
             <div class="music-container" data-song="Adrenaline Night Funk">
                 <div class="song-title-container">
                     <hr>
@@ -94,14 +63,6 @@
                     <img class="song-title-img" src="./assets/ANF-sp-002.jpg" alt="">
                 </div>
                 <iframe frameborder="0" allow="clipboard-write" style="border:none;width:300px;height:130px;" width="300" height="130" src="https://music.yandex.ru/iframe/album/32207638/track/128397158">Слушайте <a href="https://music.yandex.ru/album/32207638/track/128397158">Adrenaline Night Funk</a> — <a href="https://music.yandex.ru/artist/22230674">scara-kru$her</a> на Яндекс Музыке</iframe>
-                <div class="audio-player">
-                    <div class="s-music-label">Плеер S Music</div>
-                    <audio  id="player2" src="./assets/Adrenaline_night_funk.wav" controls></audio>
-                    <div class="controls">
-                        <button class="play-btn" data-player="player2">▶</button>
-                        <input type="range" class="progress-bar" data-player="player2" value="0" step="1">
-                    </div>
-                </div>
                 <div class="music-container" data-song="Final Boss">
                     <div class="song-title-container">
                         <hr>
@@ -112,14 +73,6 @@
                     </div>
                 </div>
                 <iframe frameborder="0" allow="clipboard-write" style="border:none;width:300px;height:130px;" width="300" height="130" src="https://music.yandex.ru/iframe/album/31931296/track/127729662">Слушайте <a href="https://music.yandex.ru/album/31931296/track/127729662">Legendary Dombra</a> — <a href="https://music.yandex.ru/artist/22230674">scara-kru$her</a> на Яндекс Музыке</iframe>
-                <div class="audio-player">
-                    <div class="s-music-label">Плеер S Music</div>
-                    <audio  id="player1" src="./assets/Legendary_Dombra.mp3" controls></audio>
-                    <div class="controls">
-                        <button class="play-btn" data-player="player1">▶</button>
-                        <input type="range" class="progress-bar" data-player="player1" value="0" step="1">
-                    </div>
-                </div>
                 <div class="music-container" data-song="legendary dombra">
                 <hr>
             </div>

@@ -1,22 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+    <title>Приложение "Погода"</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <a href="home-page.html" class="return-link">
-            <img src="./assets/path-to-your-image.png" alt="Home" class="home-icon">
+            <img src="./assets/path-to-your-image.png" alt="Домой" class="home-icon">
         </a>
-        <h1 id="header-text">WEATER APP</h1>
+        <h3 id="header-text">NEXUS WEATHER APP</h1>
         <p id="coming-soon">Узнайте погоду в вашем регионе</p>
     </header>
     <main>
         <h2 id="city-name">Поиск...</h2>
-        <div id="weather-info"></div>
+        <div id="weather-info">
+            <h2 id="temperature"></h2>
+            <p id="feels-like"></p>
+            <p id="description"></p>
+            </div>
     </main>
     <script src="weather.js"></script>
 </body>

@@ -770,3 +770,131 @@ audio {
     border-image: linear-gradient(135deg, #64c6ff 20%, #5e69ff 70%);
     border-image-slice: 1;
   }
+
+  /* Стили для погоды */
+  #weather-info {
+    background: linear-gradient(135deg, #e0f2f7, #b3e5fc); /* Градиентный фон */
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    color: #212121;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    position: relative; /* Для позиционирования облаков и текста */
+    overflow: hidden; /* Скрываем выходящие за границы облака */
+    z-index: 1; /* Устанавливаем базовый z-index */
+}
+
+#weather-info > * { /* Применяем ко всем прямым потомкам (тексту) */
+    position: relative; /* Создаем новый контекст наложения */
+    z-index: 2; /* Поднимаем текст выше облаков */
+}
+
+#weather-info:hover {
+    transform: scale(1.02);
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+#weather-info h2#temperature {
+    font-size: 3em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#weather-info p#feels-like {
+    font-size: 1.1em;
+    margin-top: 8px;
+    color: #546e7a;
+}
+
+#weather-info p#description {
+    font-size: 1.2em;
+    margin-top: 10px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Эффект облаков */
+#weather-info::before,
+#weather-info::after,
+#weather-info span {
+    content: '';
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.3); /* Белые полупрозрачные облака */
+    border-radius: 50%;
+    opacity: 0;
+    animation: moveClouds 15s linear infinite alternate;
+    z-index: 0; /* Помещаем облака под текст */
+}
+
+#weather-info::before {
+    width: 150px;
+    height: 150px;
+    top: -50px;
+    left: 20px;
+    animation-duration: 20s;
+}
+
+#weather-info::after {
+    width: 100px;
+    height: 100px;
+    bottom: -30px;
+    right: 40px;
+    animation-delay: 5s;
+}
+
+#weather-info span:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    top: 10px;
+    left: 50%;
+    animation-delay: 2s;
+}
+
+#weather-info span:nth-child(2) {
+    width: 120px;
+    height: 120px;
+    bottom: 10px;
+    left: 10px;
+    animation-duration: 18s;
+    opacity: 0.5;
+}
+
+@keyframes moveClouds {
+    from {
+        transform: translateX(-30px) translateY(-20px) scale(1);
+        opacity: 0.6;
+    }
+    to {
+        transform: translateX(30px) translateY(20px) scale(1.1);
+        opacity: 1;
+    }
+}
+
+/* Стили для разных погодных условий (только цвета) */
+.weather-info.clear {
+    background: linear-gradient(135deg, #87ceeb, #e0f7fa); /* Светло-голубой */
+}
+
+.weather-info.rain {
+    background: linear-gradient(135deg, #6495ed, #b0c4de); /* Синеватый */
+    color: #fff;
+}
+
+.weather-info.snow {
+    background: linear-gradient(135deg, #f0f8ff, #e6e6fa); /* Бело-серый */
+    color: #333;
+}
+
+.weather-info.clouds {
+    background: linear-gradient(135deg, #d3d3d3, #f5f5f5); /* Светло-серый */
+}
+
+.weather-info.thunderstorm {
+    background: linear-gradient(135deg, #464646, #696969); /* Темно-серый */
+    color: #fff;
+}
+
+.weather-info.mist {
+    background: linear-gradient(135deg, #e0e0e0, #f8f8f8); /* Сероватый */
+}

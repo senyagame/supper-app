@@ -38,18 +38,6 @@
             opacity: 0;
         }
 
-        /* Текст приветствия */
-        #welcome-text {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 24px;
-            color: white;
-            opacity: 0;
-            transition: opacity 2s ease-in;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -59,13 +47,10 @@
             Ваш браузер не поддерживает видео.
         </video>
     </div>
-
-    <div id="welcome-text">Добро пожаловать в SUPER APP!</div>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const videoOverlay = document.getElementById("video-overlay");
             const video = document.getElementById("loading-video");
-            const welcomeText = document.getElementById("welcome-text");
             const body = document.body;
 
             video.onended = () => {
@@ -73,15 +58,11 @@
                 setTimeout(() => {
                     videoOverlay.style.display = "none";
                     welcomeText.style.opacity = "1";
-                }, 2000);
-
-                setTimeout(() => {
-                    body.style.backgroundColor = "#04003f";
                 }, 1000);
 
                 setTimeout(() => {
                     window.location.href = "home-page.html";
-                }, 5000);
+                }, 1000);
             };
         });
     </script>

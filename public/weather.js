@@ -4,9 +4,12 @@ const API_KEY = "8176cdd345a6be81bb9361a182580d03";
 function getWeather(lat, lon) {
     const weatherInfo = document.getElementById("weather-info");
     const cityName = document.getElementById("city-name");
+    const temperatureElement = document.getElementById("temperature");
+    const feelsLikeElement = document.getElementById("feels-like");
+    const descriptionElement = document.getElementById("description");
 
     // URL для запроса погоды
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}&lang=ru`;
 
     fetch(url)
         .then((response) => response.json())
@@ -14,11 +17,29 @@ function getWeather(lat, lon) {
             if (data.cod === 200) {
                 const { name, main, weather } = data;
                 cityName.textContent = name;
-                weatherInfo.innerHTML = `
-                    <p>Температура: ${main.temp}°C</p>
-                    <p>По ощущениям как: ${main.feels_like}°C</p>
-                    <p>Погода: ${translateWeatherDescription(weather[0].description)}</p>
-                `;
+                temperatureElement.textContent = `${Math.round(main.temp)}°C`;
+                feelsLikeElement.textContent = `По ощущениям: ${Math.round(main.feels_like)}°C`;
+                descriptionElement.textContent = weather[0].description;
+
+                // Очищаем предыдущие классы
+                weatherInfo.className = '';
+                weatherInfo.classList.add('weather-info'); // Добавляем основной класс
+
+                // Добавляем класс в зависимости от основной погоды
+                if (weather[0].main === 'Clear') {
+                    weatherInfo.classList.add('clear');
+                } else if (weather[0].main === 'Rain' || weather[0].main === 'Drizzle') {
+                    weatherInfo.classList.add('rain');
+                } else if (weather[0].main === 'Thunderstorm') {
+                    weatherInfo.classList.add('thunderstorm');
+                } else if (weather[0].main === 'Snow') {
+                    weatherInfo.classList.add('snow');
+                } else if (weather[0].main === 'Clouds') {
+                    weatherInfo.classList.add('clouds');
+                } else if (weather[0].main === 'Mist' || weather[0].main === 'Fog' || weather[0].main === 'Haze') {
+                    weatherInfo.classList.add('mist');
+                }
+                // Добавьте условия else if для других погодных условий и соответствующие классы
             } else {
                 weatherInfo.textContent = "Не удалось получить данные о погоде.";
             }
@@ -26,23 +47,6 @@ function getWeather(lat, lon) {
         .catch(() => {
             weatherInfo.textContent = "Ошибка при получении данных о погоде.";
         });
-}
-
-// Функция для перевода описания погоды
-function translateWeatherDescription(description) {
-    const translations = {
-        "clear sky": "ясное небо ☀️",
-        "few clouds": "малооблачно ☁️",
-        "scattered clouds": "облачно ☁️",
-        "broken clouds": "облачно с прояснениями ⛅",
-        "shower rain": "ливень ⛈️",
-        "rain": "дождь 🌧️",
-        "thunderstorm": "гроза 🌩️",
-        "snow": "снег ❄️",
-        "mist": "туман 🌫️",
-        "fog": "дымка 🌫️"
-    };
-    return translations[description] || description;
 }
 
 // Запрос геолокации пользователя
