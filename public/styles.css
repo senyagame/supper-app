@@ -1114,146 +1114,415 @@ header h1 {
     vertical-align: middle;
 }
 
-/* ========================================================= */
-/* Стили для Favorites Page (favorites.html) */
-/* ========================================================= */
-
-body.favorites-page { /* Добавим класс к body favorites.html */
-    background: linear-gradient(to bottom right, #260052, #32006b); /* Переливающийся фон */
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding-top: 20px;
-}
-
-.favorites-header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    box-sizing: border-box;
-    background-color: rgba(0, 0, 0, 0.4); /* Полупрозрачный фон для шапки избранного */
-    border-bottom: 1px solid #000e5c;
-    margin-bottom: 30px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.favorites-header h1 {
+/* Общие стили для Music App и Favorites Page */
+body {
     margin: 0;
-    font-size: 2.2em;
-    color: #e6e6e6;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+    font-family: 'Arial', sans-serif;
+    color: #e0e0e0; /* Светлый текст для темного фона */
+    background-color: #0b0049; /* Темно-синий фон по умолчанию */
 }
 
-.return-to-music-btn {
-    background-color: rgb(7, 0, 105); /* Синий */
+/* Стили для header на music-app.html */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Распределяет элементы по краям */
+    padding: 15px 30px;
+    background-color: #05002e; /* Очень темный фон для шапки */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header .return-link img.home-icon {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+    color: #e6e6e6; /* Более светлый заголовок */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.header-right-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Промежуток между кнопкой и иконкой */
+}
+
+#info-icon {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    filter: invert(100%); /* Делаем иконку белой на темном фоне */
+}
+
+/* Стили для кнопки "Понравившиеся" на music-app.html */
+.favorites-button {
+    background-color: #190170; /* Приятный синий */
     color: white;
-    padding: 12px 22px;
+    padding: 10px 18px;
     border: none;
-    border-radius: 25px;
+    border-radius: 25px; /* Закругленные углы */
     cursor: pointer;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.return-to-music-btn:hover {
-    background-color: #000570; /* Более темный синий при наведении */
+.favorites-button:hover {
+    background-color: #0003ad; /* Более темный синий при наведении */
     transform: translateY(-2px);
+}
+
+/* Стили для кнопки "Добавить в понравившиеся" на music-app.html */
+.add-to-favorites-btn {
+    background-color: #28a745; /* Зеленый */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 20px; /* Закругленные углы */
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 15px; /* Отступ от плеера */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.add-to-favorites-btn:hover:not(:disabled) {
+    background-color: #218838;
+    transform: translateY(-1px);
+}
+
+.add-to-favorites-btn:disabled,
+.add-to-favorites-btn.added-to-favorites {
+    background-color: #6c757d; /* Серый цвет для неактивной/добавленной кнопки */
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.8;
+}
+
+/* Стили для секции поиска на music-app.html */
+#search-section {
+    padding: 30px 20px;
+    background-color: #05004b; /* Чуть светлее, чем основной фон */
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 800px;
+    text-align: center;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#search-bar {
+    width: 80%;
+    padding: 12px;
+    border: 1px solid #0016d8;
+    border-radius: 8px;
+    background-color: #12007a;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+#search-bar::placeholder {
+    color: #bbb;
+}
+
+#search-results {
+    margin-top: 20px;
+    /* Дополнительные стили для результатов поиска */
+}
+
+/* Стили для музыкальных контейнеров на music-app.html */
+#music-players {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 30px;
+}
+
+.music-container {
+    background-color: #00116e; /* Основной фон для карточек */
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    width: 320px; /* Фиксированная ширина для карточек */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.music-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.song-title-container {
+    margin-bottom: 20px;
+}
+
+.song-title-container hr {
+    border: none;
+    border-top: 1px solid #10004b;
+    margin: 10px 0;
+}
+
+.song-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #a0f0ed; /* Яркий акцентный цвет */
+    margin: 10px 0 5px;
+}
+
+.song-title-data, .song-duration {
+    font-size: 0.9em;
+    color: #c0c0c0;
+    margin: 3px 0;
+}
+
+.song-title-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Стили для футера */
+.footer {
+    background-color: #0d001a;
+    padding: 20px;
+    text-align: center;
+    margin-top: 50px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.footer h5 {
+    margin: 10px 0;
+    color: #e0e0e0;
+}
+
+.footer-logo { /* Этот класс только для стандартных логотипов, если есть */
+    width: 60px;
+    height: auto;
+    margin: 0 10px;
+    vertical-align: middle;
+}
+
+.logo-Yandex_music { /* Отдельный стиль для логотипа Yandex Music */
+    width: 100px; /* Увеличено до 100px */
+    height: auto;
+    margin: 0 10px;
+    vertical-align: middle;
+}
+
+/* ========================================================= */
+/* Стили для Favorites Page (favorites.html) */
+/* ========================================================= */
+
+body.favorites-page {
+    /* Более глубокий и насыщенный градиент с анимацией */
+    background: linear-gradient(135deg, #0d001a, #1a0033, #0d001a);
+    background-size: 400% 400%; /* Для плавного эффекта движения градиента */
+    animation: gradientShift 15s ease infinite; /* Анимация для фона */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрирует дочерние элементы body по горизонтали */
+    justify-content: flex-start; /* Начинает размещение сверху */
+    padding-top: 30px; /* Увеличим отступ сверху */
+    overflow-x: hidden; /* Предотвращаем горизонтальный скролл */
+    color: #e0e0e0; /* Общий цвет текста для страницы */
+    font-family: 'Arial', sans-serif;
+    box-sizing: border-box; /* Важно для предотвращения горизонтального скролла с padding */
+}
+
+/* Анимация для градиента фона */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.favorites-header {
+    width: 100%; /* Шапка должна занимать всю ширину */
+    max-width: 1300px; /* Ограничиваем максимальную ширину для центрирования на больших экранах */
+    display: flex;
+    justify-content: center; /* Центрируем заголовок */
+    align-items: center;
+    padding: 20px 40px; /* Увеличим отступы */
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.5); /* Чуть более темный и прозрачный фон */
+    border-bottom: 2px solid #000e5c; /* Более выраженная граница */
+    margin-bottom: 40px; /* Увеличим отступ */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6); /* Более сильная тень */
+    position: relative;
+    z-index: 10;
+}
+
+.favorites-header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    color: #e6e6e6;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.9);
+    letter-spacing: 1px;
+}
+
+.return-to-music-btn {
+    background-color: rgb(7, 0, 105);
+    color: white;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.5px;
+    margin-left: auto; /* Это переместит кнопку вправо */
+}
+
+.return-to-music-btn:hover {
+    background-color: #000570;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
 }
 
 #favorites-list {
     margin-top: 30px;
     display: flex;
     flex-wrap: wrap;
-    gap: 30px; /* Увеличим отступы */
-    justify-content: center;
-    padding: 0 20px; /* Отступы по бокам для лучшего вида */
-    max-width: 1200px; /* Ограничим ширину контейнера */
-    width: 100%;
+    gap: 35px;
+    justify-content: center; /* Центрирует карточки внутри контейнера */
+    padding: 0 25px; /* Отступы по бокам, чтобы контент не прилипал к краям */
+    max-width: 1300px; /* Ограничиваем ширину для центрирования */
+    width: 100%; /* Занимает всю доступную ширину до max-width */
+    z-index: 5;
+    box-sizing: border-box; /* Убедимся, что padding включен в width */
 }
 
 .favorite-track-card {
-    background-color: rgba(0, 0, 0, 0.6); /* Темно-полупрозрачный фон */
-    padding: 25px;
-    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 30px;
+    border-radius: 20px;
     text-align: center;
-    width: 280px; /* Немного увеличим ширину карточек */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Более выраженная тень */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #0f0046; /* Тонкая рамка */
+    width: 300px; /* Фиксированная ширина */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    border: 2px solid #0f0046;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    box-sizing: border-box; /* Важно для правильного расчета ширины с padding */
+}
+
+.favorite-track-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(160, 240, 237, 0.1), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.favorite-track-card:hover::before {
+    opacity: 1;
 }
 
 .favorite-track-card:hover {
-    transform: translateY(-7px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9);
+    border-color: #a0f0ed;
 }
 
 .favorite-track-card img {
-    width: 120px; /* Больше размер изображения */
-    height: 120px;
-    border-radius: 10px;
-    margin-bottom: 15px;
+    width: 150px;
+    height: 150px;
+    border-radius: 15px;
+    margin-bottom: 20px;
     object-fit: cover;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
 }
 
 .favorite-track-card h3 {
     margin-top: 0;
-    margin-bottom: 8px;
-    color: #a0f0ed; /* Яркий акцентный цвет */
-    font-size: 1.6em;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    margin-bottom: 10px;
+    color: #a0f0ed;
+    font-size: 1.8em;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    word-wrap: break-word;
 }
 
 .favorite-track-card p {
-    margin: 5px 0;
-    font-size: 0.95em;
+    margin: 6px 0;
+    font-size: 1em;
     color: #d0d0d0;
+    word-wrap: break-word;
 }
 
 .favorite-track-card iframe {
-    margin-top: 20px;
+    margin-top: 25px;
     width: 100%;
     height: 130px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
 }
 
 .remove-favorite-btn {
-    background-color: #dc3545; /* Красный */
+    background-color: #dc3545;
     color: white;
-    padding: 10px 18px;
+    padding: 12px 22px;
     border: none;
-    border-radius: 20px;
+    border-radius: 25px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
-    margin-top: 20px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    margin-top: 25px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .remove-favorite-btn:hover {
     background-color: #c82333;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
 }
 
 .no-favorites-message {
-    margin-top: 50px;
-    font-size: 1.4em; /* Больше размер */
-    color: #ffb3b3; /* Более мягкий красный */
+    margin-top: 60px;
+    font-size: 1.6em;
+    color: #ffb3b3;
     text-align: center;
     font-weight: bold;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    max-width: 600px; /* Ограничиваем ширину сообщения для центрирования */
+    width: 90%; /* Позволяем ему быть отзывчивым */
+    line-height: 1.5;
+    z-index: 5;
+    box-sizing: border-box; /* Убедимся, что padding включен в width */
+    justify-content: center;
 }
 
 /* Медиа-запросы для адаптивности */
@@ -1272,15 +1541,46 @@ body.favorites-page { /* Добавим класс к body favorites.html */
     #search-bar {
         width: 95%;
     }
-    .music-container, .favorite-track-card {
+    .music-container {
         width: 90%;
     }
     .favorites-header {
-        flex-direction: column;
-        text-align: center;
+        flex-direction: column; /* Шапка избранного: заголовок и кнопка друг под другом */
+        padding: 15px 20px;
+        margin-bottom: 25px;
+        max-width: 100%; /* Убираем max-width для мобилок */
+    }
+    .favorites-header h1 {
+        font-size: 1.8em;
+        margin-bottom: 15px; /* Отступ между заголовком и кнопкой на мобилках */
     }
     .return-to-music-btn {
-        margin-bottom: 15px;
+        padding: 10px 20px;
+        font-size: 15px;
+        margin-left: 0; /* Убираем margin-left: auto на мобилках */
+    }
+    #favorites-list {
+        padding: 0 15px;
+        gap: 25px;
+        max-width: 100%; /* Убираем max-width для мобилок */
+    }
+    .favorite-track-card {
+        width: 90%; /* Почти полная ширина для карточек */
+        padding: 20px;
+    }
+    .favorite-track-card img {
+        width: 100px;
+        height: 100px;
+    }
+    .favorite-track-card h3 {
+        font-size: 1.4em;
+    }
+    .no-favorites-message {
+        font-size: 1.2em;
+        padding: 20px;
+        margin-top: 40px;
+        width: 90%; /* Уменьшаем ширину сообщения для мобилок */
+        justify-content: center;
     }
 }
 
@@ -1303,5 +1603,19 @@ body.favorites-page { /* Добавим класс к body favorites.html */
     }
     .favorite-track-card h3 {
         font-size: 1.4em;
+    }
+    .favorite-track-card p {
+        font-size: 0.9em;
+    }
+    .remove-favorite-btn {
+        padding: 8px 15px;
+        font-size: 13px;
+    }
+    .no-favorites-message {
+        font-size: 1em;
+        padding: 15px;
+        margin-top: 30px;
+        width: 95%;
+        justify-content: center;
     }
 }
