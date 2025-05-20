@@ -4,28 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music App</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
+    <link rel="stylesheet" href="styles.css"> </head>
 <body>
     <header>
         <a href="./home-page.html" class="return-link">
             <img src="./assets/path-to-your-image.png" alt="Home" class="home-icon">
         </a>
-        <h1 id="header-text">NEXUS MUSIC APP</h1>
-        <img src="./assets/information-icon.png" alt="Information Icon" id="info-icon" onclick="openModal()">
+        <h3 id="header-text">NEXUS 🎵 MUSIC APP</h3>
+        <div class="header-right-actions">
+            <img src="./assets/information-icon.png" alt="Information Icon" id="info-icon" onclick="openModal()">
+        </div>
     </header>
     <main>
-        <div id="modal" class="modal">
+        <div id="modal" class="modal" style="padding-top: 140px;">
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
                 <div id="cat-facenonload">
                     <div class="eye-left"></div>
                     <div class="eye-right"></div>
                 </div>
-                <h3>Информация о приложении Music app</h3>
+                <h3>Информация о приложении Music app 🎵</h3>
                 <p>В Music App мы используем музыку только от исполнителя scara-kru$her</p>
-                <p style="color: red;">Уведомление: Сотрудничество с испольнителем "Wesper" прекращено.</p>
                 <p>Наше приложение использует API сервисов Яндекс, поэтому данное приложение доступно только для стран у которых есть Яндекс (Yandex)</p>
+                <p>В приложении есть возможность поиска треков, но только тех, которые были добавлены! Вы можете спокойно добавить любую песню в любимые в нашем приложении или на Яндекс музыке.</p>
+                <p>Перейти на сайт Яндекс Музыки вы можете по кнопке ниже.</p>
                 <a href="https://music.yandex.kz/"><img src="./assets/Yandex_Music_logo.png" alt="yandex music" class="logo-Yandex_music"></a>
                 <p>Если хотите с нами сотрудничать, напишите нам на почту:
                     <span class="email" onclick="copyEmail()">senyaentertainment@yandex.ru</span>📩
@@ -34,7 +36,7 @@
                 <a class="developer" href="https://github.com/senyagame">©️ Разработчик: senyagame (ссылка на GitHub)😺</a>
             </div>
         </div>
-        <p id="news-text" style="display: none;">🎵 Слушайте музыку от исполнителя scara-kru$her и Wesper</p>
+        <a href="favorites.html" class="favorites-button">Понравившиеся (NEXUS)</a>
         <p id="coming-soon">Если у вас есть вопросы, посмотрите вкладку <img src="./assets/information-icon.png" alt=""> на этой странице</p>
         <section id="search-section">
             <h2>🔍 Поиск трека</h2>
@@ -44,7 +46,7 @@
         </section>
 
         <div id="music-players">
-            <div class="music-container" data-song="Final Boss">
+            <div class="music-container" data-song="Final Boss" data-artist="scara-kru$her" data-date="29.12.24" data-duration="1:20" data-img="./assets/FB-sp-001.jpg" data-yandex-link="https://music.yandex.ru/iframe/album/35659381/track/136733632">
                 <div class="song-title-container">
                     <hr>
                     <p class="song-title">Final Boss</p>
@@ -52,9 +54,10 @@
                     <p class="song-duration">Длительность: 1:20</p>
                     <img class="song-title-img" src="./assets/FB-sp-001.jpg" alt="">
                 </div>
+                <iframe frameborder="0" allow="clipboard-write" style="border:none;width:300px;height:130px;" width="300" height="130" src="https://music.yandex.ru/iframe/album/35659381/track/136733632">Слушайте <a href="https://music.yandex.ru/album/35659381/track/136733632">Final Boss</a> — <a href="https://music.yandex.ru/artist/22230674">scara-kru$her</a> на Яндекс Музыке</iframe>
+                <button class="add-to-favorites-btn">Добавить в понравившиеся (NEXUS)</button>
             </div>
-            <iframe frameborder="0" allow="clipboard-write" style="border:none;width:300px;height:130px;" width="300" height="130" src="https://music.yandex.ru/iframe/album/35659381/track/136733632">Слушайте <a href="https://music.yandex.ru/album/35659381/track/136733632">Final Boss</a> — <a href="https://music.yandex.ru/artist/22230674">scara-kru$her</a> на Яндекс Музыке</iframe>
-            <div class="music-container" data-song="Adrenaline Night Funk">
+            <div class="music-container" data-song="Adrenaline Night Funk" data-artist="scara-kru$her" data-date="20.07.24" data-duration="2:30" data-img="./assets/ANF-sp-002.jpg" data-yandex-link="https://music.yandex.ru/iframe/album/32207638/track/128397158">
                 <div class="song-title-container">
                     <hr>
                     <p class="song-title">Adrenaline Night Funk</p>
@@ -63,18 +66,18 @@
                     <img class="song-title-img" src="./assets/ANF-sp-002.jpg" alt="">
                 </div>
                 <iframe frameborder="0" allow="clipboard-write" style="border:none;width:300px;height:130px;" width="300" height="130" src="https://music.yandex.ru/iframe/album/32207638/track/128397158">Слушайте <a href="https://music.yandex.ru/album/32207638/track/128397158">Adrenaline Night Funk</a> — <a href="https://music.yandex.ru/artist/22230674">scara-kru$her</a> на Яндекс Музыке</iframe>
-                <div class="music-container" data-song="Final Boss">
-                    <div class="song-title-container">
-                        <hr>
-                        <p class="song-title">Legendary Dombra</p>
-                        <p class="song-title-data">Дата выхода: 07.03.24</p>
-                        <p class="song-duration">Длительность: 1:20</p>
-                        <img class="song-title-img" src="./assets/LD-sp-003.jpg" alt="">
-                    </div>
+                <button class="add-to-favorites-btn">Добавить в понравившиеся (NEXUS)</button>
+            </div>
+            <div class="music-container" data-song="Legendary Dombra" data-artist="scara-kru$her" data-date="07.03.24" data-duration="1:20" data-img="./assets/LD-sp-003.jpg" data-yandex-link="https://music.yandex.ru/iframe/album/31931296/track/127729662">
+                <div class="song-title-container">
+                    <hr>
+                    <p class="song-title">Legendary Dombra</p>
+                    <p class="song-title-data">Дата выхода: 07.03.24</p>
+                    <p class="song-duration">Длительность: 1:20</p>
+                    <img class="song-title-img" src="./assets/LD-sp-003.jpg" alt="">
                 </div>
                 <iframe frameborder="0" allow="clipboard-write" style="border:none;width:300px;height:130px;" width="300" height="130" src="https://music.yandex.ru/iframe/album/31931296/track/127729662">Слушайте <a href="https://music.yandex.ru/album/31931296/track/127729662">Legendary Dombra</a> — <a href="https://music.yandex.ru/artist/22230674">scara-kru$her</a> на Яндекс Музыке</iframe>
-                <div class="music-container" data-song="legendary dombra">
-                <hr>
+                <button class="add-to-favorites-btn">Добавить в понравившиеся (NEXUS)</button>
             </div>
         </div>
     </main>
