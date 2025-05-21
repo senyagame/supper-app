@@ -4,7 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music App</title>
-    <link rel="stylesheet" href="styles.css"> </head>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Добавьте эти стили в ваш styles.css */
+        .favorite-heart-btn {
+            background: none;
+            border: none;
+            font-size: 24px; /* Размер сердечка */
+            cursor: pointer;
+            outline: none;
+            padding: 5px;
+            margin-left: 10px; /* Отступ от других элементов */
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .favorite-heart-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Цвет сердечка по умолчанию (белое или пустое) */
+        .favorite-heart-btn.is-favorite {
+            color: red; /* Красное сердечко для избранного */
+        }
+        .favorite-heart-btn:not(.is-favorite) {
+            color: #ccc; /* Светло-серое для не-избранного, имитирует пустое сердечко */
+            /* Или используйте символ пустого сердечка, если он есть в шрифте */
+        }
+
+        /* Добавьте это, если хотите, чтобы сердечко было рядом с кнопками управления */
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Отступ между элементами управления */
+        }
+        
+        /* Убедитесь, что .nexus-player-title не перекрывает сердечко, если оно рядом */
+        .nexus-player-title {
+            margin-right: auto; /* Оттолкнет кнопку вправо, если она в том же flex-контейнере */
+        }
+
+        /* Если вы хотите, чтобы сердечко было в отдельной строке или в другом месте, отрегулируйте flex/grid контейнеры */
+
+    </style>
+</head>
 <body>
     <header>
         <a href="./home-page.html" class="return-link">
@@ -36,7 +78,6 @@
                 <a class="developer" href="https://github.com/senyagame">©️ Разработчик: senyagame (ссылка на GitHub)😺</a>
             </div>
         </div>
-        <a href="favorites.html" class="favorites-button">Понравившиеся (NEXUS)</a>
         <p id="coming-soon">Если у вас есть вопросы, посмотрите вкладку <img src="./assets/information-icon.png" alt=""> на этой странице</p>
         <section id="search-section">
             <h2>🔍 Поиск трека</h2>
@@ -45,151 +86,146 @@
             <div id="search-results"></div>
         </section>
 
-       <div id="music-players">
-    <div class="music-container" data-song="Intro" data-artist="Dreamtale, Hans Zimmer" data-date="29.12.24" data-duration="4:06" data-img="./assets/Intro_005.jpg" data-yandex-link="https://music.yandex.kz/album/4418483/track/35431736">
-        <div class="song-title-container">
-            <hr>
-            <p class="song-title">Intro</p>
-            <p class="song-duration">Длительность: 4:06</p>
-            <p class="song-duration">Исполнитель: Dreamtale, Hans Zimmer</p>
-            <img class="song-title-img" src="./assets/Intro_005.jpg" alt="">
-        </div>
-        <p class="nexus-player-title">Nexus music</p>
-        <div class="custom-player" data-player-id="player-1">
-            <div class="player-controls">
-                <button class="play-pause-btn" data-track-id="track1">▶</button>
-                <div class="progress-container">
-                    <input type="range" class="custom-progress-bar" value="0" min="0" max="100">
-                    <span class="current-time">0:00</span> / <span class="total-duration">4:06</span>
+        <div id="music-players">
+            <div class="music-container" data-song="Intro" data-artist="Dreamtale, Hans Zimmer" data-date="29.12.24" data-duration="4:06" data-img="./assets/Intro_005.jpg" data-yandex-link="https://music.yandex.kz/album/4418483/track/35431736" data-audio-src="./assets/music/intro.wav">
+                <div class="song-title-container">
+                    <hr>
+                    <p class="song-title">Intro</p>
+                    <p class="song-duration">Длительность: 4:06</p>
+                    <p class="song-duration">Исполнитель: Dreamtale, Hans Zimmer</p>
+                    <img class="song-title-img" src="./assets/Intro_005.jpg" alt="">
                 </div>
-            </div>
-            <audio id="audio-player-1" src="./assets/Intro.mp3"></audio> 
-            
-            <iframe class="yandex-iframe-hidden" frameborder="0" allow="clipboard-write" style="border:none;width:100%;height:130px; display: none;" width="100%" height="130" src="https://music.yandex.kz/iframe/album/4418483/track/35431736"></iframe>
-            <a href="https://music.yandex.kz/album/4418483/track/35431736" target="_blank" class="goto-yandex-btn">
-                Альбом на Яндекс Музыке
-            </a>
-        </div>
-        <button class="add-to-favorites-btn">Добавить в понравившиеся (NEXUS)</button>
-    </div>
+                <p class="nexus-player-title">Nexus music</p>
+                <div class="custom-player" data-player-id="player-1">
+                    <div class="player-controls">
+                        <button class="play-pause-btn" data-track-id="track1">▶</button>
+                        <div class="progress-container">
+                            <input type="range" class="custom-progress-bar" value="0" min="0" max="100">
+                            <span class="current-time">0:00</span> / <span class="total-duration">4:06</span>
+                        </div>
+                        <button class="favorite-heart-btn" title="Добавить в избранное">🤍</button>
+                    </div>
+                    <audio id="audio-player-1" src="./assets/Intro.wav"></audio>
 
-    <div class="music-container" data-song="Horns 2.0" data-artist="Groove Delight, Evoxx" data-date="29.12.24" data-duration="2:29" data-img="./assets/Horns_004.jpg" data-yandex-link="https://music.yandex.kz/album/8039282/track/55212174">
-        <div class="song-title-container">
-            <hr>
-            <p class="song-title">Horns 2.0</p>
-            <p class="song-duration">Длительность: 2:29</p>
-            <p class="song-duration">Исполнитель: Groove Delight, Evoxx</p>
-            <img class="song-title-img" src="./assets/Horns_004.jpg" alt="">
-        </div>
-        <p class="nexus-player-title">Nexus music</p>
-        <div class="custom-player" data-player-id="player-2">
-            <div class="player-controls">
-                <button class="play-pause-btn" data-track-id="track2">▶</button>
-                <div class="progress-container">
-                    <input type="range" class="custom-progress-bar" value="0" min="0" max="100">
-                    <span class="current-time">0:00</span> / <span class="total-duration">2:29</span>
+                    <a href="https://music.yandex.kz/album/4418483/track/35431736" target="_blank" class="goto-yandex-btn">
+                        Альбом на Яндекс Музыке
+                    </a>
                 </div>
-            </div>
-            <audio id="audio-player-2" src="./assets/Horns_2.0.mp3"></audio>
-
-            <iframe class="yandex-iframe-hidden" frameborder="0" allow="clipboard-write" style="border:none;width:100%;height:130px; display: none;" width="100%" height="130" src="https://music.yandex.kz/iframe/album/8039282/track/55212174"></iframe>
-            <a href="https://music.yandex.kz/album/8039282/track/55212174" target="_blank" class="goto-yandex-btn">
-                Альбом на Яндекс Музыке
-            </a>
-        </div>
-        <button class="add-to-favorites-btn">Добавить в понравившиеся (NEXUS)</button>
-    </div>
-
-    <div class="music-container" data-song="Final Boss" data-artist="scara-kru$her" data-date="29.12.24" data-duration="1:20" data-img="./assets/FB-sp-001.jpg" data-yandex-link="https://music.yandex.ru/album/35659381/track/136733632">
-        <div class="song-title-container">
-            <hr>
-            <p class="song-title">Final Boss</p>
-            <p class="song-title-data">Дата выхода: 29.12.24</p>
-            <p class="song-duration">Длительность: 1:20</p>
-            <p class="song-duration">Исполнитель: scara-kru$her</p>
-            <img class="song-title-img" src="./assets/FB-sp-001.jpg" alt="">
-        </div>
-        <p class="nexus-player-title">Nexus music</p>
-        <div class="custom-player" data-player-id="player-4">
-            <div class="player-controls">
-                <button class="play-pause-btn" data-track-id="track4">▶</button>
-                <div class="progress-container">
-                    <input type="range" class="custom-progress-bar" value="0" min="0" max="100">
-                    <span class="current-time">0:00</span> / <span class="total-duration">1:20</span>
                 </div>
-            </div>
-            <audio id="audio-player-4" src="./assets/final_boss.wav"></audio>
 
-            <iframe class="yandex-iframe-hidden" frameborder="0" allow="clipboard-write" style="border:none;width:100%;height:130px; display: none;" width="100%" height="130" src="https://music.yandex.ru/iframe/album/35659381/track/136733632"></iframe>
-            <a href="https://music.yandex.ru/album/35659381/track/136733632" target="_blank" class="goto-yandex-btn">
-                Альбом на Яндекс Музыке
-            </a>
-        </div>
-        <button class="add-to-favorites-btn">Добавить в понравившиеся (NEXUS)</button>
-    </div>
-
-    <div class="music-container" data-song="Adrenaline Night Funk" data-artist="scara-kru$her" data-date="20.07.24" data-duration="2:30" data-img="./assets/ANF-sp-002.jpg" data-yandex-link="https://music.yandex.ru/album/32207638/track/128397158">
-        <div class="song-title-container">
-            <hr>
-            <p class="song-title">Adrenaline Night Funk</p>
-            <p class="song-title-data">Дата выхода: 20.07.24</p>
-            <p class="song-duration">Длительность: 2:30</p>
-            <p class="song-duration">Исполнитель: scara-kru$her</p>
-            <img class="song-title-img" src="./assets/ANF-sp-002.jpg" alt="">
-        </div>
-        <p class="nexus-player-title">Nexus music</p>
-        <div class="custom-player" data-player-id="player-5">
-            <div class="player-controls">
-                <button class="play-pause-btn" data-track-id="track5">▶</button>
-                <div class="progress-container">
-                    <input type="range" class="custom-progress-bar" value="0" min="0" max="100">
-                    <span class="current-time">0:00</span> / <span class="total-duration">2:30</span>
+            <div class="music-container" data-song="Horns 2.0" data-artist="Groove Delight, Evoxx" data-date="29.12.24" data-duration="2:29" data-img="./assets/Horns_004.jpg" data-yandex-link="https://music.yandex.kz/album/8039282/track/55212174" data-audio-src="./assets/Horns_2.0.mp3">
+                <div class="song-title-container">
+                    <hr>
+                    <p class="song-title">Horns 2.0</p>
+                    <p class="song-duration">Длительность: 2:29</p>
+                    <p class="song-duration">Исполнитель: Groove Delight, Evoxx</p>
+                    <img class="song-title-img" src="./assets/Horns_004.jpg" alt="">
                 </div>
-            </div>
-            <audio id="audio-player-5" src="./assets/Adrenaline_night_funk.wav"></audio>
+                <p class="nexus-player-title">Nexus music</p>
+                <div class="custom-player" data-player-id="player-2">
+                    <div class="player-controls">
+                        <button class="play-pause-btn" data-track-id="track2">▶</button>
+                        <div class="progress-container">
+                            <input type="range" class="custom-progress-bar" value="0" min="0" max="100">
+                            <span class="current-time">0:00</span> / <span class="total-duration">2:29</span>
+                        </div>
+                        <button class="favorite-heart-btn" title="Добавить в избранное">🤍</button>
+                    </div>
+                    <audio id="audio-player-2" src="./assets/Horns_2.0.mp3"></audio>
 
-            <iframe class="yandex-iframe-hidden" frameborder="0" allow="clipboard-write" style="border:none;width:100%;height:130px; display: none;" width="100%" height="130" src="https://music.yandex.ru/iframe/album/32207638/track/128397158"></iframe>
-            <a href="https://music.yandex.ru/album/32207638/track/128397158" target="_blank" class="goto-yandex-btn">
-                Альбом на Яндекс Музыке
-            </a>
-        </div>
-        <button class="add-to-favorites-btn">Добавить в понравившиеся (NEXUS)</button>
-    </div>
-
-    <div class="music-container" data-song="Legendary Dombra" data-artist="scara-kru$her" data-date="07.03.24" data-duration="1:20" data-img="./assets/LD-sp-003.jpg" data-yandex-link="https://music.yandex.ru/album/31931296/track/127729662">
-        <div class="song-title-container">
-            <hr>
-            <p class="song-title">Legendary Dombra</p>
-            <p class="song-title-data">Дата выхода: 07.03.24</p>
-            <p class="song-duration">Длительность: 1:20</p>
-            <p class="song-duration">Исполнитель: scara-kru$her</p>
-            <img class="song-title-img" src="./assets/LD-sp-003.jpg" alt="">
-        </div>
-        <p class="nexus-player-title">Nexus music</p>
-        <div class="custom-player" data-player-id="player-6">
-            <div class="player-controls">
-                <button class="play-pause-btn" data-track-id="track6">▶</button>
-                <div class="progress-container">
-                    <input type="range" class="custom-progress-bar" value="0" min="0" max="100">
-                    <span class="current-time">0:00</span> / <span class="total-duration">1:20</span>
+                    <a href="https://music.yandex.kz/album/8039282/track/55212174" target="_blank" class="goto-yandex-btn">
+                        Альбом на Яндекс Музыке
+                    </a>
                 </div>
-            </div>
-            <audio id="audio-player-6" src="./assets/Legendary_Dombra.mp3"></audio>
+                </div>
 
-            <iframe class="yandex-iframe-hidden" frameborder="0" allow="clipboard-write" style="border:none;width:100%;height:130px; display: none;" width="100%" height="130" src="https://music.yandex.ru/iframe/album/31931296/track/127729662"></iframe>
-            <a href="https://music.yandex.ru/album/31931296/track/127729662" target="_blank" class="goto-yandex-btn">
-                Альбом на Яндекс Музыке
-            </a>
+            <div class="music-container" data-song="Final Boss" data-artist="scara-kru$her" data-date="29.12.24" data-duration="1:20" data-img="./assets/FB-sp-001.jpg" data-yandex-link="https://music.yandex.ru/album/35659381/track/136733632" data-audio-src="./assets/final_boss.wav">
+                <div class="song-title-container">
+                    <hr>
+                    <p class="song-title">Final Boss</p>
+                    <p class="song-title-data">Дата выхода: 29.12.24</p>
+                    <p class="song-duration">Длительность: 1:20</p>
+                    <p class="song-duration">Исполнитель: scara-kru$her</p>
+                    <img class="song-title-img" src="./assets/FB-sp-001.jpg" alt="">
+                </div>
+                <p class="nexus-player-title">Nexus music</p>
+                <div class="custom-player" data-player-id="player-4">
+                    <div class="player-controls">
+                        <button class="play-pause-btn" data-track-id="track4">▶</button>
+                        <div class="progress-container">
+                            <input type="range" class="custom-progress-bar" value="0" min="0" max="100">
+                            <span class="current-time">0:00</span> / <span class="total-duration">1:20</span>
+                        </div>
+                        <button class="favorite-heart-btn" title="Добавить в избранное">🤍</button>
+                    </div>
+                    <audio id="audio-player-4" src="./assets/final_boss.wav"></audio>
+
+                    <a href="https://music.yandex.ru/album/35659381/track/136733632" target="_blank" class="goto-yandex-btn">
+                        Альбом на Яндекс Музыке
+                    </a>
+                </div>
+                </div>
+
+            <div class="music-container" data-song="Adrenaline Night Funk" data-artist="scara-kru$her" data-date="20.07.24" data-duration="2:30" data-img="./assets/ANF-sp-002.jpg" data-yandex-link="https://music.yandex.ru/album/32207638/track/128397158" data-audio-src="./assets/Adrenaline_night_funk.wav">
+                <div class="song-title-container">
+                    <hr>
+                    <p class="song-title">Adrenaline Night Funk</p>
+                    <p class="song-title-data">Дата выхода: 20.07.24</p>
+                    <p class="song-duration">Длительность: 2:30</p>
+                    <p class="song-duration">Исполнитель: scara-kru$her</p>
+                    <img class="song-title-img" src="./assets/ANF-sp-002.jpg" alt="">
+                </div>
+                <p class="nexus-player-title">Nexus music</p>
+                <div class="custom-player" data-player-id="player-5">
+                    <div class="player-controls">
+                        <button class="play-pause-btn" data-track-id="track5">▶</button>
+                        <div class="progress-container">
+                            <input type="range" class="custom-progress-bar" value="0" min="0" max="100">
+                            <span class="current-time">0:00</span> / <span class="total-duration">2:30</span>
+                        </div>
+                        <button class="favorite-heart-btn" title="Добавить в избранное">🤍</button>
+                    </div>
+                    <audio id="audio-player-5" src="./assets/Adrenaline_night_funk.wav"></audio>
+
+                    <a href="https://music.yandex.ru/album/32207638/track/128397158" target="_blank" class="goto-yandex-btn">
+                        Альбом на Яндекс Музыке
+                    </a>
+                </div>
+                </div>
+
+            <div class="music-container" data-song="Legendary Dombra" data-artist="scara-kru$her" data-date="07.03.24" data-duration="1:20" data-img="./assets/LD-sp-003.jpg" data-yandex-link="https://music.yandex.ru/album/31931296/track/127729662" data-audio-src="./assets/Legendary_Dombra.mp3">
+                <div class="song-title-container">
+                    <hr>
+                    <p class="song-title">Legendary Dombra</p>
+                    <p class="song-title-data">Дата выхода: 07.03.24</p>
+                    <p class="song-duration">Длительность: 1:20</p>
+                    <p class="song-duration">Исполнитель: scara-kru$her</p>
+                    <img class="song-title-img" src="./assets/LD-sp-003.jpg" alt="">
+                </div>
+                <p class="nexus-player-title">Nexus music</p>
+                <div class="custom-player" data-player-id="player-6">
+                    <div class="player-controls">
+                        <button class="play-pause-btn" data-track-id="track6">▶</button>
+                        <div class="progress-container">
+                            <input type="range" class="custom-progress-bar" value="0" min="0" max="100">
+                            <span class="current-time">0:00</span> / <span class="total-duration">1:20</span>
+                        </div>
+                        <button class="favorite-heart-btn" title="Добавить в избранное">🤍</button>
+                    </div>
+                    <audio id="audio-player-6" src="./assets/Legendary_Dombra.mp3"></audio>
+
+                    <a href="https://music.yandex.ru/album/31931296/track/127729662" target="_blank" class="goto-yandex-btn">
+                        Альбом на Яндекс Музыке
+                    </a>
+                </div>
+                </div>
         </div>
-        <button class="add-to-favorites-btn">Добавить в понравившиеся (NEXUS)</button>
-    </div>
-</div>
     </main>
     <footer class="footer">
         <h5>Музыкальные плееры (Яндекс музыка) заряжены:</h5>
-            <a href="https://yandex.kz/"><img src="./assets/Yandex-logo.png" alt="yandex" class="footer-logo"></a>
+        <a href="https://yandex.kz/"><img src="./assets/Yandex-logo.png" alt="yandex" class="footer-logo"></a>
         <h5>и</h5>
-            <a href="https://music.yandex.kz/"><img src="./assets/Yandex_Music_logo.png" alt="yandex music" class="logo-Yandex_music"></a>
+        <a href="https://music.yandex.kz/"><img src="./assets/Yandex_Music_logo.png" alt="yandex music" class="logo-Yandex_music"></a>
     </footer>
     <script type="module" src="script.js"></script>
     <script type="module" src="music.js"></script>
