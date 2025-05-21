@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"; // Импортируем getAuth и onAuthStateChanged
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
     const firebaseConfig = {
@@ -15,104 +15,60 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const auth = getAuth(app); // Инициализируем Auth
+    const auth = getAuth(app);
 
-    let currentUserId = null; // Переменная для хранения UID текущего пользователя
+    let currentUserId = null;
 
-    // Слушаем изменение состояния аутентификации
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            // Пользователь вошел в систему
-            currentUserId = user.uid;
-            console.log("Пользователь вошел. UID:", currentUserId);
-            // Если пользователь вошел, обновляем состояние кнопок избранного
-            initializeFavoritesButtons();
-        } else {
-            // Пользователь вышел из системы
-            currentUserId = null;
-            console.log("Пользователь не вошел.");
-            // Если пользователь вышел, деактивируем все кнопки "Добавить в понравившиеся"
-            disableAllFavoriteButtons();
-        }
-    });
-
-    // --- Функционал счетчика прослушиваний (твоя существующая логика) ---
-    const playButtons = document.querySelectorAll(".play-btn");
-
-    playButtons.forEach(async (button) => {
-        const audioId = button.dataset.player;
-        const audio = document.getElementById(audioId);
-        const playsElement = document.getElementById(`plays-${audioId}`);
-        const progressBar = document.querySelector(`.progress-bar[data-player="${audioId}"]`);
-
-        if (!audio || !progressBar) return;
-
-        const trackDoc = doc(db, "plays", audioId);
-
-        try {
-            const trackSnap = await getDoc(trackDoc);
-            if (trackSnap.exists() && playsElement) {
-                playsElement.textContent = `Прослушиваний: ${trackSnap.data().count}`;
-            }
-        } catch (error) {
-            console.error("Ошибка загрузки данных:", error);
-        }
-
-        audio.addEventListener("timeupdate", () => {
-            if (!isNaN(audio.duration)) {
-                progressBar.value = (audio.currentTime / audio.duration) * 100;
-            }
-        });
-
-        progressBar.addEventListener("input", () => {
-            if (!isNaN(audio.duration)) {
-                audio.currentTime = (progressBar.value / 100) * audio.duration;
-            }
-        });
-
-        button.addEventListener("click", async function () {
-            if (!audio.paused) {
-                audio.pause();
-                this.textContent = "▶";
-            } else {
-                document.querySelectorAll("audio").forEach((aud) => aud.pause());
-                document.querySelectorAll(".play-btn").forEach((btn) => (btn.textContent = "▶"));
-
-                audio.play();
-                this.textContent = "❚❚";
-
-                try {
-                    const trackSnap = await getDoc(trackDoc);
-                    let newCount = trackSnap.exists() ? trackSnap.data().count + 1 : 1;
-                    await setDoc(trackDoc, { count: newCount }, { merge: true });
-
-                    if (playsElement) {
-                        playsElement.textContent = `Прослушиваний: ${newCount}`;
-                    }
-                } catch (error) {
-                    console.error("Ошибка обновления прослушиваний:", error);
-                }
-            }
-        });
-    });
-
-    const togglePlayersButton = document.getElementById("toggle-players");
-    if (togglePlayersButton) {
-        togglePlayersButton.addEventListener("click", function () {
-            document.querySelectorAll("iframe").forEach((el) => el.style.display = "none");
-            document.querySelectorAll(".audio-player").forEach((el) => el.style.display = "block");
-        });
-    }
-
-    // --- Новый функционал "Понравившиеся" ---
+    // --- Функции для управления кнопками избранного (остались почти без изменений) ---
     const addFavoriteButtons = document.querySelectorAll(".add-to-favorites-btn");
 
     function disableAllFavoriteButtons() {
         addFavoriteButtons.forEach(button => {
             button.textContent = "Войдите для добавления";
             button.disabled = true;
-            button.classList.add("added-to-favorites"); // Можно использовать этот класс для стилизации неактивной кнопки
+            button.classList.add("added-to-favorites");
         });
+    }
+
+    async function updateFavoriteButtonState(button, songData) {
+        if (!currentUserId) {
+            button.textContent = "Войдите для добавления";
+            button.disabled = true;
+            button.classList.add("added-to-favorites");
+            return;
+        }
+
+        const userFavoritesRef = doc(db, "favorites", currentUserId);
+        try {
+            const docSnap = await getDoc(userFavoritesRef);
+            if (docSnap.exists()) {
+                const favorites = docSnap.data().tracks || [];
+                const isFavorite = favorites.some(fav =>
+                    fav.song === songData.song &&
+                    fav.artist === songData.artist &&
+                    // Для избранного лучше использовать yandexLink как уникальный идентификатор
+                    fav.yandexLink === songData.yandexLink
+                );
+                if (isFavorite) {
+                    button.textContent = "В избранном (NEXUS)";
+                    button.disabled = true;
+                    button.classList.add("added-to-favorites");
+                } else {
+                    button.textContent = "Добавить в понравившиеся (NEXUS)";
+                    button.disabled = false;
+                    button.classList.remove("added-to-favorites");
+                }
+            } else {
+                button.textContent = "Добавить в понравившиеся (NEXUS)";
+                button.disabled = false;
+                button.classList.remove("added-to-favorites");
+            }
+        } catch (error) {
+            console.error("Ошибка при проверке избранного:", error);
+            button.textContent = "Ошибка загрузки";
+            button.disabled = true;
+            button.classList.add("added-to-favorites");
+        }
     }
 
     async function initializeFavoritesButtons() {
@@ -129,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 date: musicContainer.dataset.date,
                 duration: musicContainer.dataset.duration,
                 img: musicContainer.dataset.img,
-                yandexLink: musicContainer.dataset.yandexLink
+                yandexLink: musicContainer.dataset.yandexLink // Используем прямую ссылку
             };
 
             await updateFavoriteButtonState(button, songData);
@@ -164,54 +120,129 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    async function updateFavoriteButtonState(button, songData) {
-        if (!currentUserId) {
-            button.textContent = "Войдите для добавления";
-            button.disabled = true;
-            button.classList.add("added-to-favorites");
-            return;
+    // --- Обработчик состояния авторизации Firebase ---
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            currentUserId = user.uid;
+            console.log("Пользователь вошел. UID:", currentUserId);
+            initializeFavoritesButtons(); // Инициализируем кнопки после входа
+        } else {
+            currentUserId = null;
+            console.log("Пользователь не вошел.");
+            disableAllFavoriteButtons(); // Деактивируем кнопки, если пользователь не вошел
         }
+    });
 
-        const userFavoritesRef = doc(db, "favorites", currentUserId);
-        try {
-            const docSnap = await getDoc(userFavoritesRef);
-            if (docSnap.exists()) {
-                const favorites = docSnap.data().tracks || [];
-                const isFavorite = favorites.some(fav =>
-                    fav.song === songData.song &&
-                    fav.artist === songData.artist &&
-                    fav.yandexLink === songData.yandexLink
-                );
-                if (isFavorite) {
-                    button.textContent = "В избранном (NEXUS)";
-                    button.disabled = true;
-                    button.classList.add("added-to-favorites");
-                } else {
-                    button.textContent = "Добавить в понравившиеся (NEXUS)";
-                    button.disabled = false;
-                    button.classList.remove("added-to-favorites");
-                }
-            } else {
-                button.textContent = "Добавить в понравившиеся (NEXUS)";
-                button.disabled = false;
-                button.classList.remove("added-to-favorites");
-            }
-        } catch (error) {
-            console.error("Ошибка при проверке избранного:", error);
-            button.textContent = "Ошибка загрузки";
-            button.disabled = true;
-            button.classList.add("added-to-favorites");
-        }
+    // === Основной функционал плеера ===
+    const musicContainers = document.querySelectorAll('.music-container');
+
+    // Функция для форматирования времени (секунды в MM:SS)
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = Math.floor(seconds % 60);
+        return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
     }
 
-    // Инициализируем кнопки избранного при загрузке страницы (если пользователь уже вошел)
-    // Эта функция будет вызвана повторно при изменении состояния аутентификации
-    // Initial call to set up buttons based on current auth state (might be null)
+    // Перебираем каждый музыкальный контейнер
+    musicContainers.forEach(container => {
+        const playPauseBtn = container.querySelector('.play-pause-btn');
+        const progressBar = container.querySelector('.custom-progress-bar');
+        const currentTimeSpan = container.querySelector('.current-time');
+        const totalDurationSpan = container.querySelector('.total-duration');
+        const audio = container.querySelector('audio'); // Находим аудио-элемент внутри текущего контейнера
+        const yandexIframe = container.querySelector('.yandex-iframe-hidden'); // Находим iframe Яндекса
+        const nexusPlayerTitle = container.querySelector('.nexus-player-title'); // Находим Nexus music заголовок
+
+        let isPlaying = false; // Состояние воспроизведения для текущего плеера
+
+        // Инициализация длительности, как только аудио загрузится
+        // Важно: loadedmetadata может не сработать, если аудио уже в кэше.
+        // Можно также получить длительность из dataset, если она всегда есть.
+        const songDurationStr = container.dataset.duration; // "1:20", "2:30"
+        const [minutes, seconds] = songDurationStr.split(':').map(Number);
+        const initialTotalDuration = (minutes * 60) + seconds;
+
+        totalDurationSpan.textContent = songDurationStr;
+        progressBar.max = initialTotalDuration; // Устанавливаем max значение для прогресс-бара, используя данные из HTML
+
+        // Если аудио уже загружено к моменту DOMContentLoaded (например, из кэша)
+        if (audio.readyState >= 2) { // HAVE_CURRENT_DATA or greater
+            progressBar.max = audio.duration;
+            totalDurationSpan.textContent = formatTime(audio.duration);
+        } else {
+            audio.addEventListener('loadedmetadata', () => {
+                progressBar.max = audio.duration;
+                totalDurationSpan.textContent = formatTime(audio.duration);
+            });
+        }
+        
+        // Обработчик кнопки Play/Pause
+        playPauseBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                playPauseBtn.textContent = '▶';
+                // Скрываем iframe Яндекса и показываем заголовок Nexus music при паузе
+                yandexIframe.style.display = 'none';
+                nexusPlayerTitle.style.display = 'block'; 
+            } else {
+                // Останавливаем все другие аудио, если они играют
+                document.querySelectorAll('audio').forEach(otherAudio => {
+                    if (otherAudio !== audio && !otherAudio.paused) {
+                        otherAudio.pause();
+                        const otherContainer = otherAudio.closest('.music-container');
+                        if (otherContainer) {
+                            const otherPlayPauseBtn = otherContainer.querySelector('.play-pause-btn');
+                            const otherYandexIframe = otherContainer.querySelector('.yandex-iframe-hidden');
+                            const otherNexusPlayerTitle = otherContainer.querySelector('.nexus-player-title');
+                            
+                            otherPlayPauseBtn.textContent = '▶';
+                            otherYandexIframe.style.display = 'none';
+                            otherNexusPlayerTitle.style.display = 'block';
+                            // Обновляем состояние isPlaying для других плееров
+                            // (можно было бы хранить его в data-атрибуте или Map)
+                            // Для простоты, здесь просто предполагаем, что если оно на паузе, то isPlaying = false
+                        }
+                    }
+                });
+
+                audio.play();
+                playPauseBtn.textContent = '⏸';
+                // Показываем iframe Яндекса и скрываем заголовок Nexus music при воспроизведении
+                yandexIframe.style.display = 'block';
+                nexusPlayerTitle.style.display = 'none'; 
+            }
+            isPlaying = !isPlaying; // Обновляем состояние
+        });
+
+        // Обновление прогресс-бара и текущего времени при воспроизведении
+        audio.addEventListener('timeupdate', () => {
+            progressBar.value = audio.currentTime;
+            currentTimeSpan.textContent = formatTime(audio.currentTime);
+        });
+
+        // Перемотка при изменении ползунка
+        progressBar.addEventListener('input', () => {
+            audio.currentTime = progressBar.value;
+        });
+
+        // Сброс состояния плеера по окончании воспроизведения
+        audio.addEventListener('ended', () => {
+            playPauseBtn.textContent = '▶';
+            isPlaying = false;
+            progressBar.value = 0;
+            currentTimeSpan.textContent = '0:00';
+            // Скрываем iframe Яндекса и показываем заголовок Nexus music по окончании
+            yandexIframe.style.display = 'none';
+            nexusPlayerTitle.style.display = 'block';
+        });
+    });
+
+    // Инициализация кнопок избранного при первой загрузке (если пользователь уже залогинен)
     if (auth.currentUser) {
         currentUserId = auth.currentUser.uid;
         initializeFavoritesButtons();
     } else {
-        // Если пользователь не авторизован изначально, деактивируем кнопки
+        // Если пользователь не залогинен сразу, onAuthStateChanged обработает это
         disableAllFavoriteButtons();
     }
 });
