@@ -1,0 +1,430 @@
+/* Общие стили для body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #04003f; /* Цвет по умолчанию, если градиент не применится */
+    color: #ffffff;
+    margin: 0;
+    overflow-x: hidden;
+    min-height: 100vh; /* Гарантируем, что body занимает всю высоту экрана */
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Для позиционирования фоновых элементов */
+}
+
+/* Контейнер для фоновых облаков и градиента */
+#background-clouds {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #403b6d, #04003f); /* Базовый градиент */
+    z-index: -1; /* Помещаем фон под всем контентом */
+    transition: background 0.8s ease-in-out; /* Плавный переход для фона */
+    overflow: hidden; /* Обрезаем облака, если они выходят за границы */
+}
+
+/* Стили для анимированных облаков */
+.cloud-effect {
+    content: '';
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.2); /* Полупрозрачные белые облака */
+    border-radius: 50%;
+    opacity: 0;
+    animation: moveClouds 20s linear infinite alternate; /* Медленнее и плавнее */
+    z-index: 0; /* Под основным контентом, но над фоном */
+    filter: blur(8px); /* Добавим легкое размытие для реалистичности */
+}
+
+.cloud-effect.c1 { /* Первое облако */
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    left: 15%;
+    animation-duration: 25s;
+    animation-delay: 0s;
+    opacity: 0.6;
+}
+
+.cloud-effect.c2 { /* Второе облако */
+    width: 150px;
+    height: 150px;
+    top: 50%;
+    left: 70%;
+    animation-duration: 30s;
+    animation-delay: 5s;
+    opacity: 0.4;
+}
+
+.cloud-effect.c3 { /* Третье облако */
+    width: 180px;
+    height: 180px;
+    bottom: 15%;
+    right: 20%;
+    animation-duration: 22s;
+    animation-delay: 10s;
+    opacity: 0.5;
+}
+
+@keyframes moveClouds {
+    0% {
+        transform: translateX(-50px) translateY(-30px) scale(0.9);
+        opacity: 0.4;
+    }
+    50% {
+        transform: translateX(50px) translateY(30px) scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateX(-50px) translateY(-30px) scale(0.9);
+        opacity: 0.4;
+    }
+}
+
+
+/* Стили для основного хедера */
+#main-header {
+    background-color: rgba(3, 0, 48, 0.8); /* Полупрозрачный хедер */
+    padding: 10px 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center; /* Выравниваем элементы по центру по вертикали */
+    justify-content: space-between; /* Распределяем элементы по краям */
+    position: fixed; /* Хедер всегда закреплен */
+    top: 0;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: all 0.3s ease-in-out;
+    z-index: 1000; /* Хедер всегда поверх всего */
+    height: 55px;
+    box-sizing: border-box;
+}
+
+/* Название в хедере */
+#header-text {
+    margin: 0; /* Убираем auto, чтобы не конфликтовал с flex-grow */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1; /* Позволяем заголовку занимать доступное пространство */
+    text-align: center; /* Центрируем текст внутри flex-элемента */
+    font-size: 1.3em;
+}
+
+/* Стили для кнопки возврата */
+.return-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 2em; /* Размер стрелки */
+    flex-shrink: 0; /* Не сжимается */
+    margin-right: 15px; /* Отступ справа от заголовка */
+    transition: transform 0.2s ease-in-out;
+}
+
+.return-link:hover {
+    transform: translateX(-3px); /* Небольшое смещение при наведении */
+}
+
+/* Стили для контейнера с иконкой информации */
+.header-right-actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin-left: 15px; /* Отступ слева от заголовка */
+}
+
+#info-icon {
+    width: 32px; /* Размер иконки информации */
+    height: 32px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+#info-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Отступ для основного контента, чтобы он не перекрывался хедером */
+main {
+    padding: 20px;
+    text-align: center;
+    padding-top: 80px; /* Отступ, учитывающий высоту хедера */
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-grow: 1; /* Позволяет main занимать все доступное пространство */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Начинаем сверху */
+    position: relative; /* Для Z-index */
+    z-index: 10; /* Чтобы контент был поверх облаков и фона */
+}
+
+/* Стили для поиска города (h2#city-name) */
+#city-name {
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+    z-index: 11;
+}
+
+/* Стили для карточки погоды */
+#weather-info {
+    background: rgba(255, 255, 255, 0.15); /* Полупрозрачный белый фон */
+    backdrop-filter: blur(5px); /* Эффект матового стекла */
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    color: #ffffff; /* Белый текст для контраста с прозрачным фоном */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out, background-color 0.3s ease, border-color 0.3s ease;
+    width: 90%;
+    max-width: 450px;
+    box-sizing: border-box;
+    z-index: 11;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Легкая рамка */
+}
+
+#weather-info > * {
+    position: relative;
+    z-index: 2;
+}
+
+#weather-info:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+#weather-info h2#temperature {
+    font-size: 3em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#weather-info p#feels-like {
+    font-size: 1.1em;
+    margin-top: 8px;
+    color: #e0e0e0;
+}
+
+#weather-info p#description {
+    font-size: 1.2em;
+    margin-top: 10px;
+    color: #f0f0f0;
+    font-weight: bold;
+}
+
+
+/* Динамическая смена фона в зависимости от погоды */
+/* Эти классы должны добавляться к body с помощью JavaScript! */
+body.weather-clear #background-clouds {
+    background: linear-gradient(135deg, #87ceeb, #e0f7fa); /* Светло-голубой */
+}
+body.weather-clear #weather-info {
+    color: #212121;
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+body.weather-clear #weather-info p#feels-like, body.weather-clear #weather-info p#description {
+    color: #546e7a;
+}
+
+body.weather-rain #background-clouds {
+    background: linear-gradient(135deg, #6495ed, #b0c4de); /* Синеватый */
+}
+body.weather-rain #weather-info {
+    color: #fff;
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+body.weather-rain #weather-info p#feels-like, body.weather-rain #weather-rain p#description {
+    color: #f0f8ff;
+}
+
+
+body.weather-snow #background-clouds {
+    background: linear-gradient(135deg, #f0f8ff, #e6e6fa); /* Бело-серый */
+}
+body.weather-snow #weather-info {
+    color: #333;
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+body.weather-snow #weather-info p#feels-like, body.weather-snow #weather-info p#description {
+    color: #546e7a;
+}
+
+body.weather-clouds #background-clouds {
+    background: linear-gradient(135deg, #d3d3d3, #f5f5f5); /* Светло-серый */
+}
+body.weather-clouds #weather-info {
+    color: #333;
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+body.weather-clouds #weather-info p#feels-like, body.weather-clouds #weather-info p#description {
+    color: #546e7a;
+}
+
+body.weather-thunderstorm #background-clouds {
+    background: linear-gradient(135deg, #464646, #696969); /* Темно-серый */
+}
+body.weather-thunderstorm #weather-info {
+    color: #fff;
+    background: rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+body.weather-thunderstorm #weather-info p#feels-like, body.weather-thunderstorm #weather-info p#description {
+    color: #f0f8ff;
+}
+
+body.weather-mist #background-clouds {
+    background: linear-gradient(135deg, #e0e0e0, #f8f8f8); /* Сероватый */
+}
+body.weather-mist #weather-info {
+    color: #333;
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+body.weather-mist #weather-info p#feels-like, body.weather-mist #weather-info p#description {
+    color: #546e7a;
+}
+
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 768px) {
+    #main-header { /* Используем ID */
+        height: 50px;
+        padding: 8px 10px;
+    }
+
+    #header-text {
+        font-size: 1.1em;
+    }
+
+    .return-link {
+        font-size: 1.8em;
+        margin-right: 10px;
+    }
+
+    #info-icon {
+        width: 28px;
+        height: 28px;
+        margin-left: 10px;
+    }
+
+    main {
+        padding-top: 70px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    #city-name {
+        font-size: 1.8em;
+        margin-bottom: 15px;
+    }
+
+    #weather-info {
+        width: 100%;
+        padding: 20px;
+    }
+
+    #weather-info h2#temperature {
+        font-size: 2.5em;
+    }
+
+    #weather-info p#feels-like {
+        font-size: 1em;
+    }
+
+    #weather-info p#description {
+        font-size: 1.1em;
+    }
+
+    .cloud-effect.c1 {
+        width: 150px;
+        height: 150px;
+    }
+    .cloud-effect.c2 {
+        width: 100px;
+        height: 100px;
+    }
+    .cloud-effect.c3 {
+        width: 130px;
+        height: 130px;
+    }
+}
+
+@media (max-width: 480px) {
+    #main-header { /* Используем ID */
+        height: 45px;
+        padding: 6px 8px;
+    }
+
+    #header-text {
+        font-size: 1em;
+    }
+
+    .return-link {
+        font-size: 1.5em;
+        margin-right: 8px;
+    }
+
+    #info-icon {
+        width: 24px;
+        height: 24px;
+        margin-left: 8px;
+    }
+
+    main {
+        padding-top: 60px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    #city-name {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+
+    #weather-info {
+        padding: 15px;
+    }
+
+    #weather-info h2#temperature {
+        font-size: 2em;
+    }
+
+    #weather-info p#feels-like {
+        font-size: 0.9em;
+    }
+
+    #weather-info p#description {
+        font-size: 1em;
+    }
+
+    .cloud-effect.c1 {
+        width: 120px;
+        height: 120px;
+    }
+    .cloud-effect.c2 {
+        width: 80px;
+        height: 80px;
+    }
+    .cloud-effect.c3 {
+        width: 100px;
+        height: 100px;
+    }
+}

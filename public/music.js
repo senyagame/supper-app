@@ -1,17 +1,13 @@
-// music.js
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-// --- Функция для форматирования времени (секунды в MM:SS) ---
 export function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
 }
 
-// --- Функция для инициализации одного кастомного плеера ---
 export function initializeCustomPlayer(container) {
     const playPauseBtn = container.querySelector('.play-pause-btn');
     const progressBar = container.querySelector('.custom-progress-bar');
@@ -19,11 +15,10 @@ export function initializeCustomPlayer(container) {
     const totalDurationSpan = container.querySelector('.total-duration');
     const audio = container.querySelector('audio');
     const nexusPlayerTitle = container.querySelector('.nexus-player-title');
-    const favoriteHeartBtn = container.querySelector('.favorite-heart-btn'); // НАШЕ СЕРДЕЧКО
+    const favoriteHeartBtn = container.querySelector('.favorite-heart-btn');
 
     let isPlaying = false;
 
-    // Инициализация длительности
     const songDurationStr = container.dataset.duration;
     if (songDurationStr) {
         const [minutes, seconds] = songDurationStr.split(':').map(Number);
@@ -111,7 +106,6 @@ export function initializeCustomPlayer(container) {
     }
 }
 
-// --- Основной обработчик DOMContentLoaded для music.js ---
 document.addEventListener("DOMContentLoaded", async function () {
     const firebaseConfig = {
         apiKey: "AIzaSyBIF6s94-IuXl3accPXPQzVYWYciO5D5lg",
@@ -129,19 +123,16 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     let currentUserId = null;
 
-    // --- Функции для управления кнопками избранного (теперь сердечком) ---
-
-    // Обновленная функция для проверки состояния сердечка
     async function updateFavoriteHeartState(heartButton, songData) {
         if (!currentUserId) {
-            heartButton.textContent = '🔒'; // Замок, если не залогинен
+            heartButton.textContent = '🔒';
             heartButton.disabled = true;
             heartButton.title = 'Войдите для добавления в избранное';
             heartButton.classList.remove("is-favorite");
             return;
         }
         
-        heartButton.disabled = false; // Разрешаем кнопку, если пользователь залогинен
+        heartButton.disabled = false;
         heartButton.title = 'Добавить в избранное';
 
         const userFavoritesRef = doc(db, "favorites", currentUserId);
@@ -149,29 +140,28 @@ document.addEventListener("DOMContentLoaded", async function () {
             const docSnap = await getDoc(userFavoritesRef);
             if (docSnap.exists()) {
                 const favorites = docSnap.data().tracks || [];
-                // Улучшенная проверка на уникальность трека: по song, artist, и yandexLink
                 const isFavorite = favorites.some(fav =>
                     fav.song === songData.song &&
                     fav.artist === songData.artist &&
                     fav.yandexLink === songData.yandexLink
                 );
                 if (isFavorite) {
-                    heartButton.textContent = '❤️'; // Красное сердечко
+                    heartButton.textContent = '❤️';
                     heartButton.classList.add("is-favorite");
                     heartButton.title = 'Удалить из избранного';
                 } else {
-                    heartButton.textContent = '🤍'; // Белое сердечко
+                    heartButton.textContent = '🤍';
                     heartButton.classList.remove("is-favorite");
                     heartButton.title = 'Добавить в избранное';
                 }
             } else {
-                heartButton.textContent = '🤍'; // Белое сердечко
+                heartButton.textContent = '🤍';
                 heartButton.classList.remove("is-favorite");
                 heartButton.title = 'Добавить в избранное';
             }
         } catch (error) {
             console.error("Ошибка при проверке избранного:", error);
-            heartButton.textContent = '❓'; // Знак вопроса в случае ошибки
+            heartButton.textContent = '❓';
             heartButton.disabled = true;
             heartButton.title = 'Ошибка загрузки избранного';
         }
@@ -195,24 +185,20 @@ document.addEventListener("DOMContentLoaded", async function () {
             );
 
             if (isFavorite) {
-                // Удаляем из избранного
                 await updateDoc(userFavoritesRef, {
                     tracks: arrayRemove(songData)
                 });
                 alert(`${songData.song} удален из понравившихся.`);
             } else {
-                // Добавляем в избранное
                 if (docSnap.exists()) {
                     await updateDoc(userFavoritesRef, {
                         tracks: arrayUnion(songData)
                     });
                 } else {
-                    // Если документа пользователя нет, создаем его с первым треком
                     await setDoc(userFavoritesRef, { tracks: [songData] });
                 }
                 alert(`${songData.song} добавлен в понравившиеся!`);
             }
-            // Обновляем состояние сердечка после изменения
             await updateFavoriteHeartState(heartButton, songData);
 
         } catch (error) {
@@ -221,10 +207,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-    // --- Инициализация плееров и сердечек на главной странице ---
     const musicContainers = document.querySelectorAll('.music-container');
     musicContainers.forEach(container => {
-        initializeCustomPlayer(container); // Инициализируем плеер
+        initializeCustomPlayer(container);
 
         const favoriteHeartBtn = container.querySelector('.favorite-heart-btn');
         if (favoriteHeartBtn) {
@@ -237,30 +222,21 @@ document.addEventListener("DOMContentLoaded", async function () {
                 yandexLink: container.dataset.yandexLink,
                 audioSrc: container.dataset.audioSrc
             };
-
-            // Изначальное состояние сердечка
-            // Это будет вызвано после onAuthStateChanged, когда currentUserId будет известен
-            // Или если пользователь уже залогинен при первой загрузке.
-            // Поэтому напрямую здесь не вызываем, а ждем onAuthStateChanged.
-
-            // Добавляем слушателя событий
             favoriteHeartBtn.addEventListener('click', () => toggleFavorite(favoriteHeartBtn, songData));
         }
     });
 
-    // --- Обработчик состояния авторизации Firebase ---
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             currentUserId = user.uid;
             console.log("Пользователь вошел. UID:", currentUserId);
-            // После входа пользователя, обновить состояние всех сердечек
             musicContainers.forEach(async (container) => {
                 const favoriteHeartBtn = container.querySelector('.favorite-heart-btn');
                 if (favoriteHeartBtn) {
                     const songData = {
                         song: container.dataset.song,
                         artist: container.dataset.artist,
-                        yandexLink: container.dataset.yandexLink // Используем для проверки уникальности
+                        yandexLink: container.dataset.yandexLink
                     };
                     await updateFavoriteHeartState(favoriteHeartBtn, songData);
                 }
@@ -268,7 +244,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         } else {
             currentUserId = null;
             console.log("Пользователь не вошел.");
-            // Если пользователь вышел, сделать все сердечки заблокированными/серыми
             musicContainers.forEach(heartBtn => {
                 const favoriteHeartBtn = heartBtn.querySelector('.favorite-heart-btn');
                 if (favoriteHeartBtn) {
@@ -278,6 +253,17 @@ document.addEventListener("DOMContentLoaded", async function () {
                     favoriteHeartBtn.classList.remove("is-favorite");
                 }
             });
+        }
+    });
+
+    const mainHeader = document.getElementById('main-header');
+    const scrollThreshold = 100;
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > scrollThreshold) {
+            mainHeader.classList.add('scrolled');
+        } else {
+            mainHeader.classList.remove('scrolled');
         }
     });
 });

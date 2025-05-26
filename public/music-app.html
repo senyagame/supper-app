@@ -4,55 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music App</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Добавьте эти стили в ваш styles.css */
-        .favorite-heart-btn {
-            background: none;
-            border: none;
-            font-size: 24px; /* Размер сердечка */
-            cursor: pointer;
-            outline: none;
-            padding: 5px;
-            margin-left: 10px; /* Отступ от других элементов */
-            transition: transform 0.2s ease-in-out;
-        }
-
-        .favorite-heart-btn:hover {
-            transform: scale(1.1);
-        }
-
-        /* Цвет сердечка по умолчанию (белое или пустое) */
-        .favorite-heart-btn.is-favorite {
-            color: red; /* Красное сердечко для избранного */
-        }
-        .favorite-heart-btn:not(.is-favorite) {
-            color: #ccc; /* Светло-серое для не-избранного, имитирует пустое сердечко */
-            /* Или используйте символ пустого сердечка, если он есть в шрифте */
-        }
-
-        /* Добавьте это, если хотите, чтобы сердечко было рядом с кнопками управления */
-        .player-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px; /* Отступ между элементами управления */
-        }
-        
-        /* Убедитесь, что .nexus-player-title не перекрывает сердечко, если оно рядом */
-        .nexus-player-title {
-            margin-right: auto; /* Оттолкнет кнопку вправо, если она в том же flex-контейнере */
-        }
-
-        /* Если вы хотите, чтобы сердечко было в отдельной строке или в другом месте, отрегулируйте flex/grid контейнеры */
-
-    </style>
+    <link rel="stylesheet" href="styles/music-styles.css">
 </head>
 <body>
-    <header>
+    <header id="main-header">
         <a href="./home-page.html" class="return-link">
-            <img src="./assets/path-to-your-image.png" alt="Home" class="home-icon">
-        </a>
-        <h3 id="header-text">NEXUS 🎵 MUSIC APP</h3>
+            &#8592; </a>
+        <h3 id="header-text">
+            <span class="full-title">NEXUS 🎵 MUSIC</span>
+            <span class="minified-title">NEXUS 🎵 MUSIC</span>
+        </h3>
         <div class="header-right-actions">
             <img src="./assets/information-icon.png" alt="Information Icon" id="info-icon" onclick="openModal()">
         </div>
@@ -78,7 +39,6 @@
                 <a class="developer" href="https://github.com/senyagame">©️ Разработчик: senyagame (ссылка на GitHub)😺</a>
             </div>
         </div>
-        <p id="coming-soon">Если у вас есть вопросы, посмотрите вкладку <img src="./assets/information-icon.png" alt=""> на этой странице</p>
         <section id="search-section">
             <h2>🔍 Поиск трека</h2>
             <input type="text" id="search-bar" placeholder="Введите название трека...">
