@@ -2,7 +2,7 @@ const API_KEY = "8176cdd345a6be81bb9361a182580d03";
 
 // Функция для получения и отображения погоды
 function getWeather(lat, lon) {
-    const weatherPageBody = document.getElementById("weather-page-body"); // Получаем body
+    const weatherPageBody = document.getElementById("weather-page-body");
     const cityNameElement = document.getElementById("city-name");
     const temperatureElement = document.getElementById("temperature");
     const feelsLikeElement = document.getElementById("feels-like");
@@ -124,9 +124,9 @@ function fetchLocation() {
                 document.getElementById("weather-page-body").classList.add('weather-clouds');
             },
             {
-                enableHighAccuracy: true, // Попытаться получить более точное местоположение
-                timeout: 5000, // Таймаут в 5 секунд
-                maximumAge: 0 // Не использовать кэшированные данные о местоположении
+                enableHighAccuracy: true, 
+                timeout: 5000, 
+                maximumAge: 0 
             }
         );
     } else {

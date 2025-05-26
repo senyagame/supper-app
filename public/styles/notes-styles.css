@@ -1,0 +1,577 @@
+/* Общие стили для body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0e0a4f; /* Темный фон как у модалки music-app */
+    color: #ffffff; /* Белый текст для контраста */
+    margin: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Стили для хедера */
+#main-header { /* Используем ID, как в вашем HTML */
+    background-color: rgba(14, 10, 79, 0.9); /* Более темный и насыщенный, как фон модалки */
+    padding: 10px 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: all 0.3s ease-in-out;
+    z-index: 1000;
+    height: 55px;
+    box-sizing: border-box;
+}
+
+#main-header #header-text { /* Изменен селектор для h3 внутри header */
+    margin: 0 auto; /* Центрируем текст */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    text-align: center;
+    font-size: 1.3em; /* Сохраняем размер шрифта, как у h1 */
+    color: #fff;
+}
+
+#main-header #header-text .full-title { /* Если нужно стилизовать span отдельно */
+    /* Дополнительные стили, если нужны, например: */
+    /* font-weight: bold; */
+}
+
+
+.return-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    flex-shrink: 0;
+    margin-right: 15px;
+    font-size: 2em; /* Увеличен размер символа стрелки */
+    color: #ffffff; /* Фиолетовый акцент как в music-app */
+    transition: transform 0.2s ease-in-out, color 0.2s ease;
+}
+
+.return-link:hover {
+    transform: translateX(-3px);
+    color: #ffffff; /* Более светлый фиолетовый при наведении */
+}
+
+.header-right-actions { /* Новый контейнер для иконки */
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin-left: 15px;
+}
+
+#info-icon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, filter 0.2s ease;
+    filter: brightness(0) invert(1); /* Делаем иконку белой */
+}
+
+#info-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Отступ для основного контента */
+main {
+    padding: 20px;
+    text-align: center;
+    padding-top: 80px; /* Отступ, учитывающий высоту хедера */
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 800px; /* Ограничим ширину для лучшего вида постов */
+    margin: 0 auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+}
+
+/* Стили для информационных текстов */
+#news-text, #coming-soon {
+    color: #ccc;
+    font-size: 0.95em;
+    margin-bottom: 15px;
+    display: flex; /* Для выравнивания иконки */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#coming-soon img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-left: 5px;
+    filter: brightness(0) invert(1); /* Сделать иконку белой */
+}
+
+/* Стили для кнопки "Добавить заметку" */
+button {
+    padding: 12px 25px;
+    font-size: 1.1em;
+    background-color: #8a2be2; /* Фиолетовый акцент как в music-app */
+    color: #ffffff;
+    border: none;
+    border-radius: 8px; /* Немного скругленные углы */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+    background-color: #aa5ce2; /* Более светлый фиолетовый при наведении */
+    transform: translateY(-2px);
+}
+
+button:active {
+    background-color: #ffffff;
+    transform: translateY(0);
+}
+
+/* Контейнер для постов */
+#posts-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Расстояние между постами */
+}
+
+/* Стили для постов/заметок */
+.post {
+    margin-bottom: 0; /* Удаляем margin-top, так как есть gap */
+    padding: 25px; /* Уменьшаем padding для компактности */
+    background-color: #282845; /* Цвет фона как у .post в music-app */
+    border-radius: 8px; /* Соответствует кнопке */
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Тень как у карточки погоды */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Легкая рамка */
+    position: relative; /* Для позиционирования кнопки удаления */
+}
+
+.post .nickname {
+    margin-bottom: 15px; /* Уменьшаем отступ */
+    font-weight: bold;
+    color: #fff;
+    font-size: 1.1em;
+}
+
+.post .title {
+    margin-bottom: 15px; /* Уменьшаем отступ */
+    font-size: 1.5em; /* Увеличиваем размер для заголовка заметки */
+    color: #8a2be2; /* Фиолетовый акцент для заголовка */
+    word-wrap: break-word; /* Перенос длинных слов */
+}
+
+.post .description {
+    color: rgb(180, 180, 180);
+    margin-bottom: 15px; /* Увеличиваем отступ */
+    line-height: 1.6;
+    word-wrap: break-word; /* Перенос длинных слов */
+}
+
+/* Стиль кнопки "Удалить" внутри поста */
+.delete-btn {
+    background-color: transparent; /* Прозрачный фон по умолчанию */
+    color: #ff8288; /* Красный текст */
+    border: 1px solid #ff8288; /* Красная рамка */
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-top: 10px; /* Отступ от описания */
+    align-self: flex-end; /* Если post display: flex */
+    position: absolute; /* Позиционируем в углу */
+    bottom: 15px;
+    right: 15px;
+}
+
+.delete-btn:hover {
+    background-color: #ff8288;
+    color: white;
+}
+
+.delete-btn:active {
+    background-color: #ff000d;
+    border-color: #ff000d;
+}
+
+
+/* Стили для модальных окон (общие) */
+.modal {
+    display: none; /* Скрыто по умолчанию */
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.7);
+    padding-top: 60px; /* Отступ сверху, чтобы не перекрывался хедером */
+    box-sizing: border-box;
+}
+
+.modal-content {
+    background-color: #0e0a4f; /* Цвет как у модалки в music-app */
+    margin: 5% auto;
+    padding: 25px;
+    border: 1px solid #888;
+    width: 85%;
+    max-width: 500px;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    box-sizing: border-box;
+    color: #fff; /* Общий цвет текста внутри модалки */
+}
+
+.modal-content h3 {
+    color: #fff;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+    text-align: center; /* Центрируем заголовки в модалках */
+}
+
+.modal-content p {
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+/* Закрывающая кнопка модального окна */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+}
+
+.close:hover,
+.close:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Стили для формы добавления заметки */
+#post-form label,
+#post-form input,
+#post-form textarea,
+#post-form button {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    box-sizing: border-box; /* Важно для ширины input/textarea */
+}
+
+#post-form input,
+#post-form textarea {
+    padding: 10px;
+    border: 1px solid #888;
+    border-radius: 5px;
+    background-color: #282845; /* Цвет фона как у .post */
+    color: #ffffff;
+    font-size: 1em;
+}
+
+#post-form input:focus,
+#post-form textarea:focus {
+    outline: none;
+    border-color: #8a2be2; /* Акцентный цвет при фокусе */
+    box-shadow: 0 0 5px rgba(138, 43, 226, 0.5);
+}
+
+#post-form button {
+    padding: 12px 25px; /* Соответствует основной кнопке */
+    font-size: 1.1em;
+    background-color: #8a2be2;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#post-form button:hover {
+    background-color: #aa5ce2;
+    transform: translateY(-2px);
+}
+
+#post-form button:active {
+    background-color: #7a1be0;
+    transform: translateY(0);
+}
+
+/* Стили для иконки кота в модальном окне (cat-facenonload) */
+#modal-info #cat-facenonload {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background-color: #8a2be2; /* Фиолетовый цвет для кота */
+    border-radius: 50%;
+    margin: 0 auto 20px auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(138, 43, 226, 0.7);
+    animation: pulse 1.5s infinite alternate;
+}
+
+#modal-info #cat-facenonload .eye-left,
+#modal-info #cat-facenonload .eye-right {
+    width: 12px;
+    height: 12px;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 20px;
+    animation: blink 3s infinite;
+}
+
+#modal-info #cat-facenonload .eye-left {
+    left: 15px;
+}
+
+#modal-info #cat-facenonload .eye-right {
+    right: 15px;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.05); }
+}
+
+@keyframes blink {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.1); }
+}
+
+
+/* Стиль для текста "Будьте внимательны!" */
+.attention {
+    color: #ffa4a9; /* Красный/розовый акцент */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+/* Стили для ссылок в модальном окне информации */
+.modal-content .developer,
+.modal-content .google-form a {
+    color: #8a2be2; /* Фиолетовый акцент */
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    text-align: center; /* Центрируем ссылки */
+}
+
+.modal-content .developer:hover,
+.modal-content .google-form a:hover {
+    color: #aa5ce2;
+}
+
+.modal-content .email {
+    color: #86c8ff; /* Более светлый синий */
+    cursor: pointer;
+    text-decoration: underline;
+    text-align: center;
+}
+
+.modal-content .email:hover {
+    color: #38a9ff;
+}
+
+/* Логотип Yandex Music (если используется здесь, но скорее всего нет) */
+.modal-content .logo-Yandex_music {
+    width: 120px;
+    margin: 15px auto;
+    display: block;
+}
+
+/* Если у вас есть другие стили из music-app, которые должны быть здесь */
+/* Например, .notification, если он используется на этой странице */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    animation: fade-out 2s forwards;
+}
+
+@keyframes fade-out {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 768px) {
+    #main-header {
+        height: 50px;
+        padding: 8px 10px;
+    }
+
+    #main-header #header-text {
+        font-size: 1.1em;
+    }
+
+    .return-link {
+        font-size: 1.8em; /* Адаптируем размер стрелки */
+        margin-right: 10px;
+    }
+
+    #info-icon {
+        width: 28px;
+        height: 28px;
+        margin-left: 10px;
+    }
+
+    main {
+        padding-top: 70px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+
+    .post {
+        padding: 20px;
+    }
+
+    .post .title {
+        font-size: 1.3em;
+    }
+
+    .post .description {
+        font-size: 0.9em;
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    #main-header {
+        height: 45px;
+        padding: 6px 8px;
+    }
+
+    #main-header #header-text {
+        font-size: 1em;
+    }
+
+    .return-link {
+        font-size: 1.5em; /* Адаптируем размер стрелки */
+        margin-right: 8px;
+    }
+
+    #info-icon {
+        width: 24px;
+        height: 24px;
+        margin-left: 8px;
+    }
+
+    main {
+        padding-top: 60px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+
+    .post {
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    .post .title {
+        font-size: 1.1em;
+        margin-bottom: 10px;
+    }
+
+    .post .description {
+        font-size: 0.8em;
+        margin-bottom: 10px;
+    }
+
+    .delete-btn {
+        padding: 4px 8px;
+        font-size: 0.8em;
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .modal-content {
+        padding: 15px;
+    }
+
+    .modal-content h3 {
+        font-size: 1.2em;
+    }
+
+    .modal-content p {
+        font-size: 0.9em;
+    }
+
+    .attention {
+        font-size: 16px;
+    }
+
+    #post-form input,
+    #post-form textarea {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+
+    #post-form button {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+
+    #modal-info #cat-facenonload {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 15px;
+    }
+
+    #modal-info #cat-facenonload .eye-left,
+    #modal-info #cat-facenonload .eye-right {
+        width: 10px;
+        height: 10px;
+        top: 18px;
+    }
+}

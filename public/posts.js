@@ -18,26 +18,79 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// Получаем ссылки на модальные окна и элементы
+const postModal = document.getElementById("post-modal");
+const mainModal = document.getElementById("modal"); // Это ваше второе модальное окно
+
+// Глобальные функции для открытия/закрытия модальных окон
+// Эти функции должны быть доступны глобально, так как они вызываются из onclick в HTML
+window.openPostModal = function () {
+    if (postModal) {
+        postModal.style.display = "block";
+    }
+};
+
+window.closePostModal = function () {
+    if (postModal) {
+        postModal.style.display = "none";
+    }
+};
+
+// Функция для открытия основного модального окна (из modal-window.js, но на всякий случай продублирую)
+// Если у вас уже есть openModal/closeModal в modal-window.js,
+// убедитесь, что они тоже глобальные или вызывают их через addEventListener.
+window.openModal = function () {
+    if (mainModal) {
+        mainModal.style.display = "block";
+    }
+};
+
+window.closeModal = function () {
+    if (mainModal) {
+        mainModal.style.display = "none";
+    }
+};
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const headerText = document.getElementById("header-text");
-    const newsText = document.getElementById("news-text");
-    const comingSoonText = document.getElementById("coming-soon");
+    // const newsText = document.getElementById("news-text"); // Удален, так как его нет в новом HTML
+    // const comingSoonText = document.getElementById("coming-soon"); // Удален, так как его нет в новом HTML
     const postForm = document.getElementById("post-form");
     const postsContainer = document.getElementById("posts-container");
 
     let currentUserUid = null;
     let unsubscribe; // Слушатель изменений коллекции заметок
 
-    // Анимация заголовков
-    headerText.addEventListener("animationend", function () {
-        newsText.style.display = "block";
-        newsText.style.animationPlayState = "running";
-    });
+    // Анимации заголовков и текстов, если они есть
+    // Убедитесь, что элементы с ID "news-text" и "coming-soon" существуют в HTML
+    // Если их нет, этот код будет вызывать ошибки.
+    // Судя по последнему HTML, эти элементы были удалены.
+    // Если они нужны, добавьте их обратно в HTML.
+    // Если они больше не используются, удалите этот блок.
 
-    newsText.addEventListener("animationend", function () {
-        comingSoonText.style.display = "block";
-        comingSoonText.style.animationPlayState = "running";
-    });
+    // Пример адаптации, если newsText и comingSoonText все же нужны
+    const newsText = document.getElementById("news-text");
+    const comingSoonText = document.getElementById("coming-soon");
+
+    if (headerText) { // Проверяем, существует ли элемент, прежде чем добавлять слушателя
+        headerText.addEventListener("animationend", function () {
+            if (newsText) {
+                newsText.style.display = "block";
+                newsText.style.animationPlayState = "running";
+            }
+        });
+    }
+
+    if (newsText) { // Проверяем, существует ли элемент
+        newsText.addEventListener("animationend", function () {
+            if (comingSoonText) {
+                comingSoonText.style.display = "block";
+                comingSoonText.style.animationPlayState = "running";
+            }
+        });
+    }
+
 
     // Обработчик изменения состояния авторизации
     onAuthStateChanged(auth, (user) => {
@@ -54,19 +107,26 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Обработка формы добавления поста
-    postForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        const title = document.getElementById("title").value;
-        const description = document.getElementById("description").value;
-        if (currentUserUid) {
-            addPost({ title, description, uid: currentUserUid });
-            closePostModal();
-            document.getElementById("title").value = "";
-            document.getElementById("description").value = "";
-        } else {
-            alert("Пожалуйста, войдите в аккаунт, чтобы добавить заметку.");
-        }
-    });
+    if (postForm) { // Проверяем, существует ли форма
+        postForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            const titleInput = document.getElementById("title");
+            const descriptionInput = document.getElementById("description");
+
+            const title = titleInput.value;
+            const description = descriptionInput.value;
+
+            if (currentUserUid) {
+                addPost({ title, description, uid: currentUserUid });
+                closePostModal();
+                titleInput.value = ""; // Очищаем поля формы
+                descriptionInput.value = "";
+            } else {
+                alert("Пожалуйста, войдите в аккаунт, чтобы добавить заметку.");
+            }
+        });
+    }
+
 
     // Функция добавления поста в Firebase
     async function addPost(post) {
@@ -84,6 +144,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function displayPost(post) {
         const postElement = document.createElement("div");
         postElement.className = "post";
+        // Убедитесь, что post.nickname существует, если вы хотите его отображать.
+        // В вашем текущем HTML и JS, nickname не добавляется в пост.
+        // Если он нужен, его нужно добавить при создании поста (addPost).
         postElement.innerHTML = `
             <div class="title">${post.title}</div>
             <div class="description">${post.description}</div>
@@ -93,6 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Функция подтверждения удаления поста
+    // Эта функция также должна быть глобальной, так как вызывается из onclick
     window.confirmDelete = function (postId) {
         const confirmAction = confirm("Вы уверены, что хотите удалить эту запись? Вы не сможете её восстановить!");
         if (confirmAction) {
@@ -127,13 +191,4 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Произошла ошибка при загрузке заметок.");
         });
     }
-
-    // Открытие и закрытие модального окна
-    window.openPostModal = function () {
-        document.getElementById("post-modal").style.display = "block";
-    };
-
-    window.closePostModal = function () {
-        document.getElementById("post-modal").style.display = "none";
-    };
 });

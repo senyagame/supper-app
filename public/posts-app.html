@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notes App</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles/notes-styles.css">
 </head>
 <body>
-    <header>
+    <header id="main-header">
         <a href="./home-page.html" class="return-link">
-            <img src="./assets/path-to-your-image.png" alt="Home" class="home-icon">
-        </a>
-        <h1 id="header-text">NEXUS NOTES APP</h1>
-        <img src="./assets/information-icon.png" alt="Information Icon" id="info-icon" onclick="openModal()">
+            &#8592; </a>
+        <h3 id="header-text">
+            <span class="full-title">NEXUS NOTES</span>
+        </h3>
+        <div class="header-right-actions">
+            <img src="./assets/information-icon.png" alt="Information Icon" id="info-icon" onclick="openModal()">
+        </div>
     </header>
     <main>
-        <p id="news-text" style="display: none;">Создайте быструю заметку одной кнопкой!</p>
-        <p id="coming-soon">Если у вас есть вопросы, посмотрите вкладку <img src="./assets/information-icon.png" alt=""> на этой странице</p>
         <button onclick="openPostModal()">Добавить заметку</button>
         <div id="posts-container"></div>
     </main>
@@ -40,6 +41,7 @@
                 <div class="eye-right"></div>
             </div>
             <h3>Информация о Nexus Notes App</h3>
+            <p>Создайте быструю заметку одной кнопкой!</p>
             <p>Notes App использует нашу базу данных S-ID для хранения ваших заметок, поэтому вы имеете досуп к ним на любом устройстве.</p>
             <p>Вы можете удалить заметку и через само приложение, нажав кнопку "Удалить" и подтвердив удаление нажав на "Ок".</p>
             <p class="attention">Будтье внимательны! После удаления заметки вы не сможете её восстановить!</p>
