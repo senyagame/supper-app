@@ -234,7 +234,7 @@ body.weather-clear #background-clouds {
 }
 body.weather-clear #weather-info {
     color: #212121;
-    background: rgba(255, 255, 255, 0.8);
+    background: #c5f6ff(255, 255, 255, 0.8);
     border-color: rgba(0, 0, 0, 0.1);
 }
 body.weather-clear #weather-info p#feels-like, body.weather-clear #weather-info p#description {
@@ -245,33 +245,33 @@ body.weather-rain #background-clouds {
     background: linear-gradient(135deg, #6495ed, #b0c4de); /* Синеватый */
 }
 body.weather-rain #weather-info {
-    color: #fff;
+    color: #c5f6ff;
     background: rgba(0, 0, 0, 0.3);
     border-color: rgba(255, 255, 255, 0.3);
 }
 body.weather-rain #weather-info p#feels-like, body.weather-rain #weather-rain p#description {
-    color: #f0f8ff;
+    color: #c5f6ff;
 }
 
 
 body.weather-snow #background-clouds {
-    background: linear-gradient(135deg, #f0f8ff, #e6e6fa); /* Бело-серый */
+    background: linear-gradient(135deg, #94cfff, #7abedd); /* Бело-серый */
 }
 body.weather-snow #weather-info {
     color: #333;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgb(183, 232, 255);
     border-color: rgba(0, 0, 0, 0.1);
 }
 body.weather-snow #weather-info p#feels-like, body.weather-snow #weather-info p#description {
-    color: #546e7a;
+    color: #ace5ff;
 }
 
 body.weather-clouds #background-clouds {
-    background: linear-gradient(135deg, #d3d3d3, #f5f5f5); /* Светло-серый */
+    background: linear-gradient(135deg, #85d8ff, #747474); /* Светло-серый */
 }
 body.weather-clouds #weather-info {
     color: #333;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgb(207, 241, 255);
     border-color: rgba(0, 0, 0, 0.1);
 }
 body.weather-clouds #weather-info p#feels-like, body.weather-clouds #weather-info p#description {
@@ -282,20 +282,20 @@ body.weather-thunderstorm #background-clouds {
     background: linear-gradient(135deg, #464646, #696969); /* Темно-серый */
 }
 body.weather-thunderstorm #weather-info {
-    color: #fff;
+    color: #999999;
     background: rgba(0, 0, 0, 0.4);
-    border-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(199, 199, 199, 0.3);
 }
 body.weather-thunderstorm #weather-info p#feels-like, body.weather-thunderstorm #weather-info p#description {
-    color: #f0f8ff;
+    color: #535353;
 }
 
 body.weather-mist #background-clouds {
-    background: linear-gradient(135deg, #e0e0e0, #f8f8f8); /* Сероватый */
+    background: linear-gradient(135deg, #b9f1ff, #57757c);
 }
 body.weather-mist #weather-info {
     color: #333;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(201, 244, 255, 0.8);
     border-color: rgba(0, 0, 0, 0.1);
 }
 body.weather-mist #weather-info p#feels-like, body.weather-mist #weather-info p#description {

@@ -1,8 +1,23 @@
 const API_KEY = "8176cdd345a6be81bb9361a182580d03";
 
+// Функция для установки класса погоды на body
+function setWeatherClass(condition) {
+    const weatherPageBody = document.body; // Получаем ссылку на body напрямую
+
+    // Удаляем все предыдущие классы погоды с body
+    weatherPageBody.classList.remove(
+        'weather-clear', 'weather-rain', 'weather-snow',
+        'weather-clouds', 'weather-thunderstorm', 'weather-mist',
+        'weather-unknown' // Важно удалять и этот класс перед добавлением нового
+    );
+
+    // Добавляем новый класс в зависимости от условия
+    weatherPageBody.classList.add(`weather-${condition}`);
+}
+
+
 // Функция для получения и отображения погоды
 function getWeather(lat, lon) {
-    const weatherPageBody = document.getElementById("weather-page-body");
     const cityNameElement = document.getElementById("city-name");
     const temperatureElement = document.getElementById("temperature");
     const feelsLikeElement = document.getElementById("feels-like");
@@ -21,59 +36,48 @@ function getWeather(lat, lon) {
                 feelsLikeElement.textContent = `По ощущениям: ${Math.round(main.feels_like)}°C`;
                 descriptionElement.textContent = weather[0].description;
 
-                // Удаляем все предыдущие классы погоды с body
-                weatherPageBody.classList.remove(
-                    'weather-clear', 'weather-rain', 'weather-snow',
-                    'weather-clouds', 'weather-thunderstorm', 'weather-mist'
-                );
-
-                // Добавляем новый класс в зависимости от основной погоды
+                // Определяем класс погоды
                 const weatherCondition = weather[0].main.toLowerCase(); // Приводим к нижнему регистру для сравнения
+                let weatherTypeToAdd = 'unknown'; // По умолчанию - неизвестно
+
                 switch (weatherCondition) {
                     case 'clear':
-                        weatherPageBody.classList.add('weather-clear');
+                        weatherTypeToAdd = 'clear';
                         break;
                     case 'rain':
-                    case 'drizzle': // Добавляем Drizzle к дождю
-                        weatherPageBody.classList.add('weather-rain');
+                    case 'drizzle':
+                        weatherTypeToAdd = 'rain';
                         break;
                     case 'thunderstorm':
-                        weatherPageBody.classList.add('weather-thunderstorm');
+                        weatherTypeToAdd = 'thunderstorm';
                         break;
                     case 'snow':
-                        weatherPageBody.classList.add('weather-snow');
+                        weatherTypeToAdd = 'snow';
                         break;
                     case 'clouds':
-                        weatherPageBody.classList.add('weather-clouds');
+                        weatherTypeToAdd = 'clouds';
                         break;
                     case 'mist':
                     case 'fog':
                     case 'haze':
-                    case 'smoke': // Добавляем другие схожие условия к туману
+                    case 'smoke':
                     case 'dust':
                     case 'sand':
                     case 'ash':
                     case 'squall':
                     case 'tornado':
-                        weatherPageBody.classList.add('weather-mist');
+                        weatherTypeToAdd = 'mist';
                         break;
-                    default:
-                        // Если тип погоды неизвестен, устанавливаем класс для облачной погоды по умолчанию
-                        weatherPageBody.classList.add('weather-clouds');
-                        break;
+                    // Если сюда попадает что-то, чего нет в CSS, останется 'unknown'
                 }
+                setWeatherClass(weatherTypeToAdd);
 
             } else {
                 cityNameElement.textContent = "Ошибка";
                 temperatureElement.textContent = "";
                 feelsLikeElement.textContent = "";
                 descriptionElement.textContent = data.message || "Не удалось получить данные о погоде.";
-                // В случае ошибки, можно установить класс по умолчанию
-                weatherPageBody.classList.remove(
-                    'weather-clear', 'weather-rain', 'weather-snow',
-                    'weather-clouds', 'weather-thunderstorm', 'weather-mist'
-                );
-                weatherPageBody.classList.add('weather-clouds'); // Например, серый фон
+                setWeatherClass('unknown'); // В случае ошибки API - установить неизвестную погоду
             }
         })
         .catch((error) => {
@@ -82,12 +86,7 @@ function getWeather(lat, lon) {
             temperatureElement.textContent = "";
             feelsLikeElement.textContent = "";
             descriptionElement.textContent = "Проверьте ваше интернет-соединение.";
-            // В случае ошибки сети, можно установить класс по умолчанию
-            weatherPageBody.classList.remove(
-                'weather-clear', 'weather-rain', 'weather-snow',
-                'weather-clouds', 'weather-thunderstorm', 'weather-mist'
-            );
-            weatherPageBody.classList.add('weather-clouds'); // Например, серый фон
+            setWeatherClass('unknown'); // В случае ошибки сети - установить неизвестную погоду
         });
 }
 
@@ -98,12 +97,12 @@ function fetchLocation() {
     const feelsLikeElement = document.getElementById("feels-like");
     const descriptionElement = document.getElementById("description");
 
-
     if ("geolocation" in navigator) {
         cityNameElement.textContent = "Определение местоположения...";
         temperatureElement.textContent = "";
         feelsLikeElement.textContent = "";
         descriptionElement.textContent = "";
+        setWeatherClass('unknown'); // Устанавливаем unknown при старте определения геолокации
 
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -116,17 +115,12 @@ function fetchLocation() {
                 descriptionElement.textContent = "Разрешите доступ к местоположению для получения погоды.";
                 temperatureElement.textContent = "";
                 feelsLikeElement.textContent = "";
-                // Установить класс по умолчанию для body
-                document.getElementById("weather-page-body").classList.remove(
-                    'weather-clear', 'weather-rain', 'weather-snow',
-                    'weather-clouds', 'weather-thunderstorm', 'weather-mist'
-                );
-                document.getElementById("weather-page-body").classList.add('weather-clouds');
+                setWeatherClass('unknown'); // Если геолокация недоступна - установить неизвестную погоду
             },
             {
-                enableHighAccuracy: true, 
-                timeout: 5000, 
-                maximumAge: 0 
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
             }
         );
     } else {
@@ -134,12 +128,7 @@ function fetchLocation() {
         descriptionElement.textContent = "Геолокация не поддерживается вашим браузером.";
         temperatureElement.textContent = "";
         feelsLikeElement.textContent = "";
-        // Установить класс по умолчанию для body
-        document.getElementById("weather-page-body").classList.remove(
-            'weather-clear', 'weather-rain', 'weather-snow',
-            'weather-clouds', 'weather-thunderstorm', 'weather-mist'
-        );
-        document.getElementById("weather-page-body").classList.add('weather-clouds');
+        setWeatherClass('unknown'); // Если геолокация не поддерживается - установить неизвестную погоду
     }
 }
 
